@@ -1,0 +1,37 @@
+logging:
+  level:
+    blog: WARN
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor: TRACE
+      nodeValue: WARN
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MY_SQL_HOST}:3306/e_store?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MY_SQL_USER}
+    password: ${MY_SQL_PASS}
+  #  servlet:
+  #    multipart:
+  #      max-file-size: 15MB
+  #      max-request-size: 15MB
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+#        database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    web:
+#      resources:
+#        static-locations: classpath:/static
+#  mvc:
+#    hiddenmethod:
+#      filter:
+#        enabled: true
+
+server:
+  port: ${PORT}
