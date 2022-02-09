@@ -16,9 +16,9 @@ public class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    public BaseEntity setId(Long id) {
+    public BaseEntity setId(Integer id) {
         this.id = id;
         return this;
     }
