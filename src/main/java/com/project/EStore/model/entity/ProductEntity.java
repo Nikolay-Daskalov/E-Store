@@ -1,12 +1,12 @@
 package com.project.EStore.model.entity;
 
 import com.project.EStore.model.entity.base.BaseEntity;
+import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -19,6 +19,9 @@ public class ProductEntity extends BaseEntity {
     private String brand;
     @Column(nullable = false, length = 50)
     private String model;
+    @Column(nullable = false, length = 40)
+    @Enumerated(EnumType.STRING)
+    private ProductCategoryEnum category;
     @ManyToMany
     private Set<SizeEntity> sizes;
     @Column(nullable = false)
@@ -44,6 +47,11 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setSizes(Set<SizeEntity> sizes) {
         this.sizes = sizes;
+        return this;
+    }
+
+    public ProductEntity setCategory(ProductCategoryEnum category) {
+        this.category = category;
         return this;
     }
 }
