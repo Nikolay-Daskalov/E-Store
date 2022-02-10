@@ -22,6 +22,8 @@ public class UserEntity extends BaseEntity {
     private LocalDateTime createdOn;
     @ManyToMany
     private Set<RoleEntity> roles;
+    @OneToMany(mappedBy = "user")
+    private Set<OrderEntity> orders;
 
     @PrePersist
     private void initCreatedOn(){
@@ -37,4 +39,6 @@ public class UserEntity extends BaseEntity {
         this.password = password;
         return this;
     }
+
+
 }

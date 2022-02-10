@@ -26,7 +26,7 @@ public class ProductEntity extends BaseEntity {
     private Set<SizeEntity> sizes;
     @Column(nullable = false)
     private LocalDateTime addedOn;
-    @OneToOne(mappedBy = "product")
+    @OneToOne
     private ProductSupplyEntity supply;
     //TODO: add relation to images
 
