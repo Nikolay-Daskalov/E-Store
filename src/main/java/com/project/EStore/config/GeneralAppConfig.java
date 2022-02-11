@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class GeneralConfiguration extends GlobalMethodSecurityConfiguration implements WebMvcConfigurer{
+public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implements WebMvcConfigurer{
     //TODO: implement CORS protection
 
 

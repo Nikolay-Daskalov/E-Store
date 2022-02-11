@@ -1,29 +1,29 @@
 logging:
-  level:
-    blog: WARN
-    org:
-      hibernate:
-        SQL: debug
-        type:
-          descriptor: TRACE
-      nodeValue: WARN
+    level:
+        blog: WARN
+        org:
+            hibernate:
+                SQL: debug
+                type:
+                    descriptor: TRACE
+            nodeValue: WARN
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MY_SQL_HOST}:3306/e_store?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${MY_SQL_USER}
-    password: ${MY_SQL_PASS}
-  #  servlet:
-  #    multipart:
-  #      max-file-size: 15MB
-  #      max-request-size: 15MB
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://${MY_SQL_HOST}:3306/e_store?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+        username: ${MY_SQL_USER}
+        password: ${MY_SQL_PASS}
+    #  servlet:
+    #    multipart:
+    #      max-file-size: 15MB
+    #      max-request-size: 15MB
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+        database-platform: org.hibernate.dialect.MySQL8Dialect
 #        database-platform: org.hibernate.dialect.PostgreSQLDialect
 #    web:
 #      resources:
@@ -34,4 +34,9 @@ spring:
 #        enabled: true
 
 server:
-  port: ${PORT}
+    port: ${PORT}
+
+cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
