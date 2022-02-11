@@ -26,8 +26,9 @@ public class ProductEntity extends BaseEntity {
     private Set<SizeEntity> sizes;
     @Column(nullable = false)
     private LocalDateTime addedOn;
-    @OneToOne
+    @OneToOne(optional = false)
     private ProductSupplyEntity supply;
+    // can add relation to OrderDetailsEnity if i need bidirectional relation
     //TODO: add relation to images
 
     @PrePersist

@@ -4,11 +4,9 @@ import com.project.EStore.model.entity.base.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -20,6 +18,8 @@ public class OrderEntity extends BaseEntity {
     private UserEntity user;
     @Column(nullable = false)
     private LocalDateTime created;
+    @OneToMany(mappedBy = "orderNumber")
+    private Set<OrderDetailsEntity> orderDetails;
 
     public OrderEntity setUser(UserEntity user) {
         this.user = user;
@@ -30,4 +30,6 @@ public class OrderEntity extends BaseEntity {
         this.created = created;
         return this;
     }
+
+
 }
