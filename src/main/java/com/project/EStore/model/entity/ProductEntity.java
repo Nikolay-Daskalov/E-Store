@@ -23,7 +23,7 @@ public class ProductEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProductCategoryEnum category;
     @ManyToMany
-    private Set<SizeEntity> sizes;
+    private Set<ProductSizeEntity> sizes;
     @Column(nullable = false)
     private LocalDateTime addedOn;
     @OneToOne(optional = false)
@@ -46,7 +46,7 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
-    public ProductEntity setSizes(Set<SizeEntity> sizes) {
+    public ProductEntity setSizes(Set<ProductSizeEntity> sizes) {
         this.sizes = sizes;
         return this;
     }

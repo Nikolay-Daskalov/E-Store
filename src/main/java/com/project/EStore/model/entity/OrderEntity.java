@@ -19,7 +19,7 @@ public class OrderEntity extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime created;
     @OneToMany(mappedBy = "orderNumber")
-    private Set<OrderDetailsEntity> orderDetails;
+    private Set<OrderDetailEntity> orderDetails;
 
     public OrderEntity setUser(UserEntity user) {
         this.user = user;

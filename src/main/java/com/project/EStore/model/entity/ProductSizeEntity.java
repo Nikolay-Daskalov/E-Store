@@ -11,14 +11,14 @@ import javax.persistence.*;
 @Table(name = "sizes")
 @NoArgsConstructor
 @Getter
-public class SizeEntity extends BaseEntity {
+public class ProductSizeEntity extends BaseEntity {
 
     @Column(unique = true, nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private ProductSizeEnum size;
     //If i need a bidirectional relation with productEntity i need to implement it here
 
-    public SizeEntity setSize(ProductSizeEnum size) {
+    public ProductSizeEntity setSize(ProductSizeEnum size) {
         this.size = size;
         return this;
     }

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "orders_details")
 @NoArgsConstructor
 @Getter
-public class OrderDetailsEntity extends BaseEntity {
+public class OrderDetailEntity extends BaseEntity {
 
     @ManyToOne(optional = false)
     private ProductEntity product;
@@ -22,17 +22,17 @@ public class OrderDetailsEntity extends BaseEntity {
     @ManyToOne(optional = false)
     private OrderEntity orderNumber;
 
-    public OrderDetailsEntity setProduct(ProductEntity product) {
+    public OrderDetailEntity setProduct(ProductEntity product) {
         this.product = product;
         return this;
     }
 
-    public OrderDetailsEntity setQuantity(Short quantity) {
+    public OrderDetailEntity setQuantity(Short quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public OrderDetailsEntity setOrderNumber(OrderEntity orderNumber) {
+    public OrderDetailEntity setOrderNumber(OrderEntity orderNumber) {
         this.orderNumber = orderNumber;
         return this;
     }
