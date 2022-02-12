@@ -10,7 +10,7 @@ logging:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://${MY_SQL_HOST}:3306/e_store?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+        url: jdbc:mysql://${MY_SQL_HOST}:${MY_SQL_PORT}/${MY_SQL_DB}?${MY_SQL_QSP}
         username: ${MY_SQL_USER}
         password: ${MY_SQL_PASS}
     #  servlet:
@@ -19,7 +19,8 @@ spring:
     #      max-request-size: 15MB
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: create
+            #//TODO: change ddl-auto when ready
         properties:
             hibernate:
                 format_sql: true
