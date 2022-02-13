@@ -14,9 +14,7 @@ import java.util.Map;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class GeneralAppConfig
-        extends GlobalMethodSecurityConfiguration
-        implements WebMvcConfigurer {
+public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implements WebMvcConfigurer {
     //TODO: implement CORS protection
 
     private final CloudinaryConfig config;

@@ -1,4 +1,7 @@
 package com.project.EStore.service.domain;
 
-public interface UserService {
+import com.project.EStore.service.domain.init.Init;
+
+public interface UserService extends Init {
+
 }

@@ -31,7 +31,7 @@ public class TestController {
         multipartFile.transferTo(file);
         cloudinary.uploader().upload(file, Map.of());
 
-        System.out.println();
-        return "redirect:index";
+        file.delete();
+        return "redirect:/web";
     }
 }

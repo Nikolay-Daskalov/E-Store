@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ProductSupplyEntity extends BaseEntity {
 
-    @OneToOne(optional = false, mappedBy = "supply")
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private ProductEntity product;
     @Column(nullable = false)
     private Short quantity;

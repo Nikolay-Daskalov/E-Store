@@ -1,4 +1,5 @@
 package com.project.EStore.service.domain;
 
-public interface RoleService {
+
+public interface RoleService{
 }
