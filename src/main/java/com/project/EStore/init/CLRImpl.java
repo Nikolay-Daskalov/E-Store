@@ -1,9 +1,9 @@
 package com.project.EStore.init;
 
-import com.project.EStore.service.domain.ProductService;
-import com.project.EStore.service.domain.ProductSizeService;
-import com.project.EStore.service.domain.ProductSupplyService;
-import com.project.EStore.service.domain.UserService;
+import com.project.EStore.service.domain.product.ProductService;
+import com.project.EStore.service.domain.product.ProductSizeService;
+import com.project.EStore.service.domain.product.ProductSupplyService;
+import com.project.EStore.service.domain.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -29,13 +29,12 @@ public class CLRImpl implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         init();
-        LOGGER.info("Application up and running!");
+        LOGGER.info("Application data initialized and running!");
     }
 
     private void init(){
         this.userService.init();
         this.productSizeService.init();
-        this.productService.init();
         this.productSupplyService.init();
     }
 }

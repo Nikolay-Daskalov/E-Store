@@ -10,9 +10,9 @@ logging:
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://${MY_SQL_HOST}:${MY_SQL_PORT}/${MY_SQL_DB}?${MY_SQL_QSP}
-        username: ${MY_SQL_USER}
-        password: ${MY_SQL_PASS}
+        url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE}?${DATABASE_QSP}
+        username: ${DATABASE_ROOT_USER}
+        password: ${DATABASE_ROOT_PASS}
     #  servlet:
     #    multipart:
     #      max-file-size: 15MB
@@ -35,9 +35,13 @@ spring:
 #        enabled: true
 
 server:
-    port: ${PORT}
+    port: ${APP_PORT}
 
 cloudinary:
     cloud-name: ${CLOUDINARY_CLOUD_NAME}
     api-key: ${CLOUDINARY_API_KEY}
     api-secret: ${CLOUDINARY_API_SECRET}
+
+database:
+    admin-username: ${DATABASE_ADMIN_USER}
+    admin-password: ${DATABASE_ADMIN_PASS}
