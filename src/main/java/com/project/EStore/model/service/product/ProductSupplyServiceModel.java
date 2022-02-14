@@ -10,10 +10,16 @@ import java.time.LocalDateTime;
 @Getter
 public class ProductSupplyServiceModel {
 
+    private Integer id;
     private ProductServiceModel product;
     private Short quantity;
     private BigDecimal price;
     private LocalDateTime lastUpdatedOn;
+
+    public ProductSupplyServiceModel setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public ProductSupplyServiceModel setProduct(ProductServiceModel product) {
         this.product = product;

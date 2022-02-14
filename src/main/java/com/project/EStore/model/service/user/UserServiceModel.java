@@ -7,11 +7,18 @@ import java.util.Set;
 
 public class UserServiceModel {
 
+    private Integer id;
     private String username;
     private String password;
     private LocalDateTime createdOn;
     private Set<RoleServiceModel> roles;
     private Set<OrderServiceModel> orders;
+
+
+    public UserServiceModel setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public UserServiceModel setUsername(String username) {
         this.username = username;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "sizes")
@@ -16,10 +17,16 @@ public class ProductSizeEntity extends BaseEntity {
     @Column(unique = true, nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private ProductSizeEnum size;
-    //If i need a bidirectional relation with productEntity i need to implement it here
+    @ManyToMany(mappedBy = "sizes")
+    private Set<ProductEntity> products;
 
     public ProductSizeEntity setSize(ProductSizeEnum size) {
         this.size = size;
+        return this;
+    }
+
+    public ProductSizeEntity setProducts(Set<ProductEntity> products) {
+        this.products = products;
         return this;
     }
 }

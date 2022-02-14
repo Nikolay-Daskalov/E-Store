@@ -7,8 +7,14 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PictureServiceModel {
 
+    private Integer id;
     private String url;
     private ProductServiceModel product;
+
+    public PictureServiceModel setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public PictureServiceModel setUrl(String url) {
         this.url = url;

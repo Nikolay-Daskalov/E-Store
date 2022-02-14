@@ -35,6 +35,8 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity() {
         this.sizes = new HashSet<>();
+        this.orderDetails = new HashSet<>();
+        this.pictures = new HashSet<>();
     }
 
     @PrePersist

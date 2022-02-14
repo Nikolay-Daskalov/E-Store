@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,10 +27,10 @@ public class TestController {
     }
 
     @PostMapping("/webP")
-    public String postIndex(@RequestParam(name = "testFile") MultipartFile multipartFile) throws IOException {
+    public String postIndex(@RequestParam(name = "testFile") List<MultipartFile> multipartFile) throws IOException {
         File file = File.createTempFile("test", "test");
-        multipartFile.transferTo(file);
-        cloudinary.uploader().upload(file, Map.of());
+        //multipartFile.transferTo(file);
+        //cloudinary.uploader().upload(file, Map.of());
 
         file.delete();
         return "redirect:/web";

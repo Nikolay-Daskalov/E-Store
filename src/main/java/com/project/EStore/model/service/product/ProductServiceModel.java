@@ -12,6 +12,7 @@ import java.util.Set;
 @Getter
 public class ProductServiceModel {
 
+    private Integer id;
     private String brand;
     private String model;
     private ProductCategoryEnum category;
@@ -19,6 +20,11 @@ public class ProductServiceModel {
     private LocalDateTime addedOn;
     private ProductSupplyServiceModel supply;
     private Set<OrderDetailServiceModel> orderDetails;
+
+    public ProductServiceModel setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public ProductServiceModel setBrand(String brand) {
         this.brand = brand;

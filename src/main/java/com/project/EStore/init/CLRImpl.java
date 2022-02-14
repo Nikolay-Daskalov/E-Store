@@ -1,6 +1,6 @@
 package com.project.EStore.init;
 
-import com.project.EStore.service.domain.product.ProductService;
+import com.project.EStore.service.domain.product.PictureService;
 import com.project.EStore.service.domain.product.ProductSizeService;
 import com.project.EStore.service.domain.product.ProductSupplyService;
 import com.project.EStore.service.domain.user.UserService;
@@ -17,13 +17,13 @@ public class CLRImpl implements CommandLineRunner {
     private final UserService userService;
     private final ProductSupplyService productSupplyService;
     private final ProductSizeService productSizeService;
-    private final ProductService productService;
+    private final PictureService pictureService;
 
-    public CLRImpl(UserService userService, ProductSupplyService productSupplyService, ProductSizeService productSizeService, ProductService productService) {
+    public CLRImpl(UserService userService, ProductSupplyService productSupplyService, ProductSizeService productSizeService, PictureService pictureService) {
         this.userService = userService;
         this.productSupplyService = productSupplyService;
         this.productSizeService = productSizeService;
-        this.productService = productService;
+        this.pictureService = pictureService;
     }
 
     @Override
@@ -36,5 +36,6 @@ public class CLRImpl implements CommandLineRunner {
         this.userService.init();
         this.productSizeService.init();
         this.productSupplyService.init();
+        this.pictureService.init();
     }
 }

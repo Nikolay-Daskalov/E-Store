@@ -8,9 +8,15 @@ import lombok.NoArgsConstructor;
 @Getter
 public class OrderDetailServiceModel {
 
+    private Integer id;
     private ProductServiceModel product;
     private Short quantity;
     private OrderServiceModel orderNumber;
+
+    public OrderDetailServiceModel setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public OrderDetailServiceModel setProduct(ProductServiceModel product) {
         this.product = product;

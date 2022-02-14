@@ -12,7 +12,7 @@ import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSizeService;
 import com.project.EStore.service.domain.product.ProductSupplyService;
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -39,7 +39,10 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         }
 
         initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("20"),
-                "Corength", "ЛАСТИК TRAINING 25 КГ", ProductCategoryEnum.FITNESS);
+                "Corength", "Rubber Band TRAINING 25 КГ", ProductCategoryEnum.FITNESS);
+
+        initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
+                "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductSizeEnum.M, ProductSizeEnum.L);
     }
 
     private void initSuppliesAndProducts(BigDecimal price, Short quantity, String brand, String model,
