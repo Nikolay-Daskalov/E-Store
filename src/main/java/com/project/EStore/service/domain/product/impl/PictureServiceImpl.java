@@ -36,6 +36,7 @@ public class PictureServiceImpl implements PictureService {
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937726/EStore/Hiking/quechua-sh100-ultra-warm-2.jpg", 2);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100-1.jpg", 3);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938853/EStore/Running/kalenji-100-2.jpg", 3);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500-1.jpg", 4);
 
     }
 
