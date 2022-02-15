@@ -1,5 +1,6 @@
 package com.project.EStore.model.entity.product;
 
+import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.order.OrderDetailEntity;
 import com.project.EStore.model.entity.base.BaseEntity;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
@@ -32,6 +33,9 @@ public class ProductEntity extends BaseEntity {
     private Set<OrderDetailEntity> orderDetails;
     @OneToMany(mappedBy = "product")
     private Set<PictureEntity> pictures;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProductTypeEnum type;
 
     public ProductEntity() {
         this.sizes = new HashSet<>();
@@ -64,5 +68,8 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
-
+    public ProductEntity setType(ProductTypeEnum type) {
+        this.type = type;
+        return this;
+    }
 }

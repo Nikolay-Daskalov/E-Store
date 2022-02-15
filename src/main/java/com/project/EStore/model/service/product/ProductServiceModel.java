@@ -1,6 +1,7 @@
 package com.project.EStore.model.service.product;
 
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
+import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.service.order.OrderDetailServiceModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class ProductServiceModel {
     private LocalDateTime addedOn;
     private ProductSupplyServiceModel supply;
     private Set<OrderDetailServiceModel> orderDetails;
+    private Set<PictureServiceModel> pictures;
+    private ProductTypeEnum type;
 
     public ProductServiceModel setId(Integer id) {
         this.id = id;
@@ -58,6 +61,16 @@ public class ProductServiceModel {
 
     public ProductServiceModel setOrderDetails(Set<OrderDetailServiceModel> orderDetails) {
         this.orderDetails = orderDetails;
+        return this;
+    }
+
+    public ProductServiceModel setPictures(Set<PictureServiceModel> pictures) {
+        this.pictures = pictures;
+        return this;
+    }
+
+    public ProductServiceModel setType(ProductTypeEnum type) {
+        this.type = type;
         return this;
     }
 }

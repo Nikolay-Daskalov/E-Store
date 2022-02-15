@@ -1,5 +1,6 @@
 package com.project.EStore.service.domain.product.impl;
 
+import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.product.ProductEntity;
 import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.product.ProductSupplyEntity;
@@ -39,14 +40,17 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         }
 
         initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("20"),
-                "Corength", "Rubber Band TRAINING 25 КГ", ProductCategoryEnum.FITNESS);
+                "Corength", "Rubber Band TRAINING 25 КГ", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
-                "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductSizeEnum.M, ProductSizeEnum.L);
+                "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("22.90"), Short.valueOf("15"),
+                "Kalenji", "100", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
     }
 
     private void initSuppliesAndProducts(BigDecimal price, Short quantity, String brand, String model,
-                                         ProductCategoryEnum category, ProductSizeEnum... productSizeEnum) {
+                                         ProductCategoryEnum category, ProductTypeEnum productTypeEnum, ProductSizeEnum... productSizeEnum) {
 
         ProductSupplyEntity productSupplyEntity = new ProductSupplyEntity();
         productSupplyEntity
@@ -56,7 +60,8 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setBrand(brand)
                 .setModel(model)
-                .setCategory(category);
+                .setCategory(category)
+                .setType(productTypeEnum);
 
         if (productSizeEnum.length != 0) {
             Arrays.stream(productSizeEnum)

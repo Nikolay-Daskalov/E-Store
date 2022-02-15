@@ -32,9 +32,13 @@ public class PictureServiceImpl implements PictureService {
 
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644842693/EStore/Fitness/corength-training-25-1.jpg", 1);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644844894/EStore/Fitness/corength-training-25-2.jpg", 1);
-
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937641/EStore/Hiking/quechua-sh100-ultra-warm-1.jpg", 2);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937726/EStore/Hiking/quechua-sh100-ultra-warm-2.jpg", 2);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100-1.jpg", 3);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938853/EStore/Running/kalenji-100-2.jpg", 3);
 
     }
+
     private void initPics(String url, Integer id) {
         ProductServiceModel productById = this.productService.getProductById(id);
         ProductEntity mapped = this.modelMapper.map(productById, ProductEntity.class);
