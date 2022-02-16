@@ -1,22 +1,21 @@
 package com.project.EStore.model.entity.enums;
 
 public enum ProductSizeEnum {
-    XS,
-    S,
-    M,
-    L,
-    XL,
-    SHOE_35,
-    SHOE_36,
-    SHOE_37,
-    SHOE_38,
-    SHOE_39,
-    SHOE_40,
-    SHOE_41,
-    SHOE_42,
-    SHOE_43,
-    SHOE_44,
-    SHOE_45,
-    SHOE_46,
-    SHOE_47;
+    XXS("34"),
+    XS("36"),
+    S("38"),
+    M("40"),
+    L("42"),
+    XL("44"),
+    XXL("46");
+
+    private String shoeSize;
+
+    ProductSizeEnum(String shoeSize) {
+        this.shoeSize = shoeSize;
+    }
+
+    public String getShoeSize() {
+        return shoeSize;
+    }
 }

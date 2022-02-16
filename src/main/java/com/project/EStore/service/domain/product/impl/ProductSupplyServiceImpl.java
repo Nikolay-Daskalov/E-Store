@@ -50,6 +50,10 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("12.90"), Short.valueOf("22"),
                 "Kipsta", "KEEPDRY 500", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
+                "Domyos", "Lady leggings", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
+
     }
 
     private void initSuppliesAndProducts(BigDecimal price, Short quantity, String brand, String model,

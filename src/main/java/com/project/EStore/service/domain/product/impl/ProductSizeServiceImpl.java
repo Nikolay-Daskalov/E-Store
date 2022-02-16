@@ -25,24 +25,13 @@ public class ProductSizeServiceImpl implements ProductSizeService {
             return;
         }
 
+        addOnInit(ProductSizeEnum.XXS);
         addOnInit(ProductSizeEnum.XS);
         addOnInit(ProductSizeEnum.S);
         addOnInit(ProductSizeEnum.M);
         addOnInit(ProductSizeEnum.L);
         addOnInit(ProductSizeEnum.XL);
-        addOnInit(ProductSizeEnum.SHOE_35);
-        addOnInit(ProductSizeEnum.SHOE_36);
-        addOnInit(ProductSizeEnum.SHOE_37);
-        addOnInit(ProductSizeEnum.SHOE_38);
-        addOnInit(ProductSizeEnum.SHOE_39);
-        addOnInit(ProductSizeEnum.SHOE_40);
-        addOnInit(ProductSizeEnum.SHOE_41);
-        addOnInit(ProductSizeEnum.SHOE_42);
-        addOnInit(ProductSizeEnum.SHOE_43);
-        addOnInit(ProductSizeEnum.SHOE_44);
-        addOnInit(ProductSizeEnum.SHOE_45);
-        addOnInit(ProductSizeEnum.SHOE_46);
-        addOnInit(ProductSizeEnum.SHOE_47);
+        addOnInit(ProductSizeEnum.XXL);
     }
 
     private void addOnInit(ProductSizeEnum size) {
