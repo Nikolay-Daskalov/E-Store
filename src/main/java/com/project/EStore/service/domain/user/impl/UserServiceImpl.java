@@ -69,4 +69,9 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 
         this.userRepository.save(userEntity);
     }
+
+    @Override
+    public boolean isUsernameUnique(String username) {
+        return this.userRepository.findByUsername(username).isEmpty();
+    }
 }
