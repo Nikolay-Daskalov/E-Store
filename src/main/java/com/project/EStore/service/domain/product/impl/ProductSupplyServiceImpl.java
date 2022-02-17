@@ -39,6 +39,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
             return;
         }
 
+        //Todo: add more init products and image urls in @PictureServiceImpl init
         initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("20"),
                 "Corength", "Rubber Band TRAINING 25 КГ", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
@@ -53,6 +54,9 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
                 "Domyos", "Lady leggings", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
+
+        initSuppliesAndProducts(new BigDecimal("15.90"), Short.valueOf("18"),
+                "Quechua", "MH100 Polar", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
     }
 
