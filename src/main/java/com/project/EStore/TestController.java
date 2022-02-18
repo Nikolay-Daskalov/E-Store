@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class TestController {
@@ -23,7 +22,7 @@ public class TestController {
 
     @GetMapping("/web")
     public String index() {
-        return "index";
+        return "testCloudinary";
     }
 
     @PostMapping("/webP")
