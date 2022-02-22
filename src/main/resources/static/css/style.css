@@ -1,9 +1,23 @@
+#header-div{
+    position: relative;
+    text-align: center;
+    z-index: 1;
+}
+
+#header-h1{
+    margin-bottom: 0;
+    padding-top: 10vw;
+    font-size: xxx-large;
+}
+
 #header-img{
     display: block;
-    position: relative;
+    position: absolute;
     margin-left: auto;
     margin-right: auto;
     height: auto;
     width: 100%;
-    opacity: 0.5;
+    opacity: 1;
+    top: 0;
+    z-index: -1;
 }
