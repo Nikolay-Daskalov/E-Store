@@ -1,23 +1,50 @@
-#header-div{
+#header-div {
     position: relative;
     text-align: center;
     z-index: 1;
+
 }
 
-#header-h1{
+#header-h1 {
     margin-bottom: 0;
-    padding-top: 10vw;
     font-size: xxx-large;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-#header-img{
+#header-img {
     display: block;
-    position: absolute;
     margin-left: auto;
     margin-right: auto;
     height: auto;
     width: 100%;
-    opacity: 1;
-    top: 0;
+    opacity: 0.9;
     z-index: -1;
+}
+
+main {
+    margin-top: 40px;
+}
+
+#first-section-div {
+    text-align: center;
+    width: 80%;
+    background-color: #aee8f2;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slide-images {
+    width: 500px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (max-width: 520px) {
+    .slide-images{
+        width: 300px;
+    }
 }
