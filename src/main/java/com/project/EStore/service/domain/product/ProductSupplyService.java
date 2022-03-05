@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 
 public interface ProductSupplyService extends Init {
 
-    void addProductSupply(BigDecimal price, Short quantity, ProductServiceModel productServiceModel);
+    void addSupplyToProduct(BigDecimal price, Short quantity, ProductServiceModel productServiceModel);
 }

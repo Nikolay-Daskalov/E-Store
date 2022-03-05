@@ -24,9 +24,4 @@ public class ProductSizeEntity extends BaseEntity {
         this.size = size;
         return this;
     }
-
-    public ProductSizeEntity setProducts(Set<ProductEntity> products) {
-        this.products = products;
-        return this;
-    }
 }

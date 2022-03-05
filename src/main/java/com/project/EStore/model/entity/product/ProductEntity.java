@@ -48,6 +48,8 @@ public class ProductEntity extends BaseEntity {
         this.addedOn = LocalDateTime.now();
     }
 
+
+
     public ProductEntity setBrand(String brand) {
         this.brand = brand;
         return this;

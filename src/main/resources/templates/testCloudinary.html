@@ -9,8 +9,8 @@
 </head>
 <body>
     <h1>Test Cloudinary with official project</h1>
-    <form enctype="multipart/form-data" method="post" action="/webP">
-        <input type="file" name="testFile" multiple>
+    <form enctype="multipart/form-data" method="post" th:action="@{/webP}">
+        <input type="file" name="testFile">
         <input type="submit">
     </form>
 </body>

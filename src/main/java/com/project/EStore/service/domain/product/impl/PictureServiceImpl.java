@@ -30,15 +30,18 @@ public class PictureServiceImpl implements PictureService {
             return;
         }
 
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644842693/EStore/Fitness/corength-training-25-1.jpg", 1);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644844880/EStore/Fitness/corength-training-25-1.jpg", 1);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644844894/EStore/Fitness/corength-training-25-2.jpg", 1);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937641/EStore/Hiking/quechua-sh100-ultra-warm-1.jpg", 2);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937726/EStore/Hiking/quechua-sh100-ultra-warm-2.jpg", 2);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100-1.jpg", 3);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938853/EStore/Running/kalenji-100-2.jpg", 3);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500-1.jpg", 4);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1645019215/EStore/Running/domyos-leggings-lady-1.jpg", 5);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1646457299/EStore/Fitness/domyos-leggings-lady-1.jpg", 2);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1646456700/EStore/Fitness/corength-push-ups-handlebars-1.webp", 3);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1646457096/EStore/Fitness/corength-push-ups-handlebars-2.webp", 3);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1646496614/EStore/Fitness/weider-shaker-300-ml-1.webp", 4);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937641/EStore/Hiking/quechua-sh100-ultra-warm-1.jpg", 5);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937726/EStore/Hiking/quechua-sh100-ultra-warm-2.jpg", 5);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1645100376/EStore/Hiking/quechua-mh100-man-polar-1.jpg", 6);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100-1.jpg", 7);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938853/EStore/Running/kalenji-100-2.jpg", 7);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500-1.jpg", 8);
 
     }
 

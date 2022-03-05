@@ -41,23 +41,28 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         //Todo: add more init products and image urls in @PictureServiceImpl init
         initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("20"),
-                "Corength", "Rubber Band TRAINING 25 КГ", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+                "Corength", "TRAINING 25", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
+                "Domyos", "Lady leggings", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
+
+        initSuppliesAndProducts(new BigDecimal("10.90"),Short.valueOf("6"),
+                "Corength", "Push ups handlebars", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("5.40"),Short.valueOf("10"),
+                "Weider", "Shaker 300 ml", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
                 "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("15.90"), Short.valueOf("18"),
+                "Quechua", "MH100 Polar", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
         initSuppliesAndProducts(new BigDecimal("22.90"), Short.valueOf("15"),
                 "Kalenji", "100", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
 
         initSuppliesAndProducts(new BigDecimal("12.90"), Short.valueOf("22"),
                 "Kipsta", "KEEPDRY 500", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
-
-        initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
-                "Domyos", "Lady leggings", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
-
-        initSuppliesAndProducts(new BigDecimal("15.90"), Short.valueOf("18"),
-                "Quechua", "MH100 Polar", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
-
     }
 
     private void initSuppliesAndProducts(BigDecimal price, Short quantity, String brand, String model,
@@ -89,7 +94,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
     }
 
     @Override
-    public void addProductSupply(BigDecimal price, Short quantity, ProductServiceModel productServiceModel) {
+    public void addSupplyToProduct(BigDecimal price, Short quantity, ProductServiceModel productServiceModel) {
         ProductEntity productEntity = this.modelMapper.map(productServiceModel, ProductEntity.class);
 
         ProductSupplyEntity productSupplyEntity = new ProductSupplyEntity();
