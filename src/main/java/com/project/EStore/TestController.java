@@ -28,7 +28,7 @@ public class TestController {
     @PostMapping("/webP")
     public String postIndex(@RequestParam(name = "testFile") MultipartFile multipartFile) throws IOException {
         File file = File.createTempFile("test", "test");
-//        multipartFile.transferTo(file);
+        multipartFile.transferTo(file);
 //        Map upload = cloudinary.uploader().upload(file, Map.of());
 
         file.delete();

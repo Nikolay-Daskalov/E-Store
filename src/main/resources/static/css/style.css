@@ -28,12 +28,35 @@ main {
     margin-top: 40px;
 }
 
-#first-section-div {
+#second-section-div > p{
+    font-size: 15px;
+}
+
+#info-div-wrapper {
     text-align: center;
-    width: 80%;
-    background-color: #aee8f2;
+    width: 70%;
+    /*background-color: #85c2ff;*/
+    margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
+}
+
+#second-section-div{
+    height: fit-content;
+    width: 30%;
+    margin-left: 0;
+}
+
+#second-section-div > div{
+    font-size: 17px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bubble-container{
+    width: fit-content;
+    max-width: 80%;
+    background-color: #1495ff;
 }
 
 .slide-images {
@@ -46,5 +69,10 @@ main {
 @media only screen and (max-width: 520px) {
     .slide-images{
         width: 300px;
+    }
+}
+@media only screen and (min-width: 1600px) {
+    .slide-images{
+        width: 600px;
     }
 }

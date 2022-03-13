@@ -40,27 +40,47 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         }
 
         //Todo: add more init products and image urls in @PictureServiceImpl init
+        //1
         initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("20"),
                 "Corength", "TRAINING 25", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
+        //2
         initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
                 "Domyos", "Lady leggings", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
 
-        initSuppliesAndProducts(new BigDecimal("10.90"),Short.valueOf("6"),
+        //3
+        initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("6"),
                 "Corength", "Push ups handlebars", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
-        initSuppliesAndProducts(new BigDecimal("5.40"),Short.valueOf("10"),
+        //4
+        initSuppliesAndProducts(new BigDecimal("5.40"), Short.valueOf("10"),
                 "Weider", "Shaker 300 ml", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
+        //5
+        initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("22"),
+                "Domyos", "T-shirt Man", ProductCategoryEnum.FITNESS, ProductTypeEnum.TOP, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        //6
         initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
                 "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L);
 
+        //7
+        initSuppliesAndProducts(new BigDecimal("48.90"), Short.valueOf("8"),
+                "Forclaz", "MT500 Man", ProductCategoryEnum.HIKING, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+
+        //8
         initSuppliesAndProducts(new BigDecimal("15.90"), Short.valueOf("18"),
                 "Quechua", "MH100 Polar", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
+        //9
+        initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("5"),
+                "Quechua", "NH ARPENAZ", ProductCategoryEnum.HIKING, ProductTypeEnum.ACCESSORIES);
+
+        //10
         initSuppliesAndProducts(new BigDecimal("22.90"), Short.valueOf("15"),
                 "Kalenji", "100", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
 
+        //11
         initSuppliesAndProducts(new BigDecimal("12.90"), Short.valueOf("22"),
                 "Kipsta", "KEEPDRY 500", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
     }

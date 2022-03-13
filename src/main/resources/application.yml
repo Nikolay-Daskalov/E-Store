@@ -45,4 +45,3 @@ cloudinary:
 database:
     admin-username: ${DATABASE_ADMIN_USER}
     admin-password: ${DATABASE_ADMIN_PASS}
-
