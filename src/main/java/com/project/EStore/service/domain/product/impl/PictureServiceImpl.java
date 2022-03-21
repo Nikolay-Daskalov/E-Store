@@ -42,9 +42,11 @@ public class PictureServiceImpl implements PictureService {
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1646991505/EStore/Hiking/forclaz-mt500-man-1.webp", 7);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1645100376/EStore/Hiking/quechua-mh100-man-polar-1.jpg", 8);
         initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1647188644/EStore/Hiking/quechua-nh-arpenaz-100-20-liters-1.webp", 9);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100-1.jpg", 10);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938853/EStore/Running/kalenji-100-2.jpg", 10);
-        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500-1.jpg", 11);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1647315289/EStore/Hiking/forclaz-emergency-help-1.webp", 10);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1647315326/EStore/Hiking/forclaz-emergency-help-2.webp", 10);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100-1.jpg", 11);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938853/EStore/Running/kalenji-100-2.jpg", 11);
+        initPics("https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500-1.jpg", 12);
 
     }
 

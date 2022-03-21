@@ -77,10 +77,14 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
                 "Quechua", "NH ARPENAZ", ProductCategoryEnum.HIKING, ProductTypeEnum.ACCESSORIES);
 
         //10
+        initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("9"),
+                "Forclaz", "Emergency Help", ProductCategoryEnum.HIKING, ProductTypeEnum.ACCESSORIES);
+
+        //11
         initSuppliesAndProducts(new BigDecimal("22.90"), Short.valueOf("15"),
                 "Kalenji", "100", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
 
-        //11
+        //12
         initSuppliesAndProducts(new BigDecimal("12.90"), Short.valueOf("22"),
                 "Kipsta", "KEEPDRY 500", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
     }
