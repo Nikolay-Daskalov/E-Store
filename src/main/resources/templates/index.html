@@ -59,15 +59,16 @@
 </header>
 <main>
     <section>
-        <div id="info-div-wrapper" class="d-flex flex-column flex-xxl-row justify-content-between">
+        <div id="info-div-wrapper"
+             class="d-flex flex-column flex-md-row justify-content-between justify-content-xl-around">
             <div class="p-3 shadow rounded bg-info border border-primary info-div mb-4">
                 <p class="fst-italic fw-bold mb-0">100% High Quality Materials</p>
             </div>
+            <!--            <div class="p-3 shadow rounded bg-info border border-primary info-div mb-4">-->
+            <!--                <p class="fst-italic fw-bold mb-0">Check weather of your location by choice</p>-->
+            <!--            </div>-->
             <div class="p-3 shadow rounded bg-info border border-primary info-div mb-4">
-                <p class="fst-italic fw-bold mb-0">Check weather of your location by choice</p>
-            </div>
-            <div class="p-3 shadow rounded bg-info border border-primary info-div mb-4">
-                <p class="fst-italic fw-bold mb-0">14 days money payback guarantee</p>
+                <p class="fst-italic fw-bold mb-0">14 days money payback</p>
             </div>
         </div>
     </section>
@@ -75,10 +76,6 @@
 
     </section>
 </main>
-<footer class="bg-info">
-    <div class="text-center fw-bold fs-6">
-        Project created by Nikolay Daskalov.
-    </div>
-</footer>
+<footer th:replace="fragments/commons::footer"></footer>
 </body>
 </html>
