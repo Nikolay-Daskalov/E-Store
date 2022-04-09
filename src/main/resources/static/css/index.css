@@ -10,7 +10,7 @@ main {
     text-align: center;
     width: 70%;
     /*background-color: #85c2ff;*/
-    margin-top: 50px;
+    margin-top: 60px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -21,6 +21,14 @@ main {
     height: auto;
     margin-left: auto;
     margin-right: auto;
+}
+
+#weather-div-wrapper {
+    width: 70%;
+}
+
+footer{
+    margin-top: 70px;
 }
 
 @media only screen and (max-width: 520px) {
@@ -37,8 +45,4 @@ main {
     .slide-images {
         width: 600px;
     }
-}
-
-footer {
-    /*height: 30px;*/
 }
