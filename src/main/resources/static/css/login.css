@@ -1,0 +1,21 @@
+#form-div-wrapper {
+    width: 520px;
+}
+
+#username-wrapper, #password-wrapper, #confirm-password-wrapper {
+    width: 350px;
+}
+
+footer {
+    width: 100%;
+}
+
+@media only screen and (max-width: 556px) {
+    #form-div-wrapper {
+        width: 340px;
+    }
+
+    #username-wrapper, #password-wrapper, #confirm-password-wrapper {
+        width: 270px;
+    }
+}

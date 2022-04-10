@@ -28,7 +28,7 @@ spring:
 #        database-platform: org.hibernate.dialect.PostgreSQLDialect
 #    web:
 #      resources:
-#        static-locations: classpath:/static
+#        static-locations: classpath:/static/
 #  mvc:
 #    hiddenmethod:
 #      filter:
