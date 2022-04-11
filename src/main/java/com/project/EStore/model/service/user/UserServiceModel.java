@@ -1,10 +1,14 @@
 package com.project.EStore.model.service.user;
 
 import com.project.EStore.model.service.order.OrderServiceModel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@NoArgsConstructor
+@Getter
 public class UserServiceModel {
 
     private Integer id;

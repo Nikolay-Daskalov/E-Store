@@ -21,7 +21,7 @@ public class UserEntity extends BaseEntity {
     private String password;
     @Column(nullable = false)
     private LocalDateTime createdOn;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private Set<RoleEntity> roles;
     @OneToMany(mappedBy = "user")
     private Set<OrderEntity> orders;

@@ -1,13 +1,14 @@
-package com.project.EStore.service.validation.validator;
+package com.project.EStore.util.validation.validator;
 
 import com.project.EStore.service.domain.user.UserService;
-import com.project.EStore.service.validation.constraint.UniqueUserName;
+import com.project.EStore.util.validation.constraint.UniqueUserName;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-@Service
+@Component
 public class UniqueUserNameValidator implements ConstraintValidator<UniqueUserName, String> {
 
     private final UserService userService;

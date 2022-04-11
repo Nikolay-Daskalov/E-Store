@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends BaseRepository<UserEntity> {
 
-    Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByUsername (String username);
 }
