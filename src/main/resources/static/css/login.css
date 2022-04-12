@@ -2,7 +2,7 @@
     width: 520px;
 }
 
-#username-wrapper, #password-wrapper, #confirm-password-wrapper {
+#username-wrapper, #password-wrapper, #confirm-password-wrapper, #info-text {
     width: 350px;
 }
 
@@ -15,7 +15,7 @@ footer {
         width: 340px;
     }
 
-    #username-wrapper, #password-wrapper, #confirm-password-wrapper {
+    #username-wrapper, #password-wrapper, #confirm-password-wrapper, #info-text {
         width: 270px;
     }
 }

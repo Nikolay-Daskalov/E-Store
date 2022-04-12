@@ -4,10 +4,12 @@ import com.project.EStore.model.binding.UserBindingModel;
 import com.project.EStore.model.service.user.UserServiceModel;
 import com.project.EStore.service.domain.user.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -31,6 +33,15 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("login-error")
+    public String loginError(@ModelAttribute(name = UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY) String username, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("loginError", true);
+        redirectAttributes.addFlashAttribute("redirectedUsername", username);
+
+        return "redirect:login";
+    }
+
     @GetMapping("register")
     public String getRegistrationView(Model model) {
         if (!model.containsAttribute("userBindingModel")) {
@@ -40,11 +51,11 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public String addUser(@Valid UserBindingModel user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addUser(@Valid @ModelAttribute(name = "userBindingModel") UserBindingModel user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors() || !user.getPassword().equals(user.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("userBindingModel", user);
-            redirectAttributes.addFlashAttribute("bad_credentials", true);
+            redirectAttributes.addFlashAttribute("badCredentials", true);
             return "redirect:register";
         }
 

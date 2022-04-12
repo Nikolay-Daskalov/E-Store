@@ -5,23 +5,24 @@
 <nav th:replace="fragments/commons::nav"></nav>
 <main>
     <div id="form-div-wrapper" class="text-center ms-auto me-auto mt-5 border border-info border-3 rounded shadow">
-        <h1 class="fw-bold mb-4 mt-3">Registration Form</h1>
+        <h1 class="fw-bold mb-2 mt-3">Registration Form</h1>
         <form method="post" th:action="@{/users/register}" th:object="${userBindingModel}">
+            <p class="form-text ms-auto me-auto mb-2" id="info-text" >Input fields mustn't contain any special characters nor white spaces.</p>
             <div class="form-floating mb-3 ms-auto me-auto" id="username-wrapper">
                 <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{username}" th:errorclass="is-invalid" required minlength="3" maxlength="30">
                 <label for="username">Username</label>
-                <div class="form-text">Username must me 3-30 characters long and mustn't contain any special characters nor white spaces.</div>
+                <div class="form-text">Username must me 3-30 characters long.</div>
             </div>
             <div class="form-floating ms-auto me-auto mb-4" id="password-wrapper">
                 <input type="password" class="form-control" id="password" placeholder="Password" th:field="*{password}" th:errorclass="is-invalid" required minlength="3" maxlength="20">
                 <label for="password">Password</label>
-                <div class="form-text">Password must me 3-20 characters long and mustn't contain any special characters nor white spaces.</div>
+                <div class="form-text">Password must me 3-20 characters long.</div>
             </div>
-            <div class="form-floating ms-auto me-auto mb-4" id="confirm-password-wrapper">
+            <div class="form-floating ms-auto me-auto mb-3" id="confirm-password-wrapper">
                 <input type="password" class="form-control" id="confirm-password" placeholder="Repeat password" th:field="*{confirmPassword}" th:errorclass="is-invalid" required minlength="3" maxlength="20">
                 <label for="confirm-password">Repeat password</label>
             </div>
-            <p th:if="${bad_credentials}" class="fs-5 mb-4">Bad Credentials</p>
+            <p th:if="${badCredentials}" class="fs-5 mb-4">Bad Credentials</p>
             <p th:if="${userNameNotUnique}" class="fs-5 mb-4">Username already exists</p>
             <input type="submit" class="btn btn-primary mb-4" value="Register">
         </form>
