@@ -42,4 +42,5 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                 "api_secret", config.getApiSecret()
         ));
     }
+
 }

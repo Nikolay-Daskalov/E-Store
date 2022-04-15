@@ -103,6 +103,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         this.userRepository.save(user);
 
-        LOGGER.info(String.format("User successfully registered {%s}", user.getUsername()));
+        LOGGER.info(String.format("User successfully registered { %s }", user.getUsername()));
     }
 }

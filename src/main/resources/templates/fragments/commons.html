@@ -12,8 +12,9 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/index.css">
+    <link rel="icon" href="/icon/favicon.jpg">
 </head>
-<head th:fragment="login-head">
+<head th:fragment="login-register-head">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -25,22 +26,51 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/login.css">
+    <link rel="icon" href="/icon/favicon.jpg">
+</head>
+<head th:fragment="products-head">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EStore | Web Application | Nikolay Daskalov</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="/css/products.css">
+    <link rel="icon" href="/icon/favicon.jpg">
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0" th:fragment="nav">
+<nav th:fragment="nav" class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0">
     <div class="container-fluid">
         <a class="navbar-brand ms-4 fs-1 fw-bold fst-italic" href="/">EStore</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto me-4">
                 <li class="nav-item mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link active fs-5" href="/about">About</a>
                 </li>
-                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
-                    <a class="nav-link active fs-5" href="/products">Products</a>
+                <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Products
+                    </a>
+                    <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/products/fitness">Fitness</a></li>
+                        <li><hr class="dropdown-divider mt-1 mb-1"></li>
+                        <li><a class="dropdown-item" href="/products/hiking">Hiking</a></li>
+                        <li><hr class="dropdown-divider mt-1 mb-1"></li>
+                        <li><a class="dropdown-item" href="/products/running">Running</a></li>
+                        <li><hr class="dropdown-divider mt-1 mb-1"></li>
+                        <li><a class="dropdown-item" href="/products/football">Football</a></li>
+                    </ul>
                 </li>
+<!--                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">-->
+<!--                    <a class="nav-link active fs-5" href="/products">Products</a>-->
+<!--                </li>-->
                 <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link active fs-5" href="/weather">Weather</a>
                 </li>
@@ -64,13 +94,13 @@
         </div>
     </div>
 </nav>
-<footer th:fragment="homeFooter" class="bg-info border-top border-bottom border-1 border-dark">
+<footer th:fragment="home-footer" class="bg-info border-top border-bottom border-1 border-dark">
     <div class="text-center fw-bold fs-6">
         Project created by Nikolay Daskalov.
         <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>
     </div>
 </footer>
-<footer th:fragment="loginFooter" class="bg-info border-top border-bottom border-1 border-dark position-fixed bottom-0">
+<footer th:fragment="login-register-footer" class="bg-info border-top border-bottom border-1 border-dark position-fixed bottom-0">
     <div class="text-center fw-bold fs-6">
         Project created by Nikolay Daskalov.
         <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>
