@@ -1,10 +1,39 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/commons::products-head"></head>
+<head th:replace="fragments/commons::productsFitness-head"></head>
 <body>
 <nav th:replace="fragments/commons::nav"></nav>
-<main class="mt-5 text-center">
-    <h2 class="">Fitness Products</h2>
+<main class="mt-4 text-center">
+    <h2>Fitness Products</h2>
+    <div class="mt-4 accordion-item ms-auto me-auto">
+        <h2 class="accordion-header" id="filterHeading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                Filter
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="filterHeading">
+            <div class="accordion-body p-1">
+                <div class="list-group">
+                    <ul class="list-group list-group-item p-1">
+                        <li class="list-group-item"><h6 class="mb-0">Brand</h6></li>
+                        <li class="list-group-item p-1">
+                            <input class="form-check-input me-1" type="checkbox" id="Corength-checkbox">
+                            <label for="Corength-checkbox">Corength</label>
+                        </li>
+                    </ul>
+                    <ul class="list-group list-group-item p-1">
+                        <li class="list-group-item"><h6 class="mb-0">Type</h6></li>
+                        <li class="list-group-item p-1">
+                            <input class="form-check-input me-1" type="checkbox" id="orength-checkbox">
+                            <label for="orength-checkbox">Band</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="mt-4">
 
     </div>
