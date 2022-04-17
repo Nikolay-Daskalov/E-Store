@@ -18,16 +18,20 @@
                 <div class="list-group">
                     <ul class="list-group list-group-item p-1">
                         <li class="list-group-item"><h6 class="mb-0">Brand</h6></li>
-                        <li class="list-group-item p-1">
-                            <input class="form-check-input me-1" type="checkbox" id="Corength-checkbox">
-                            <label for="Corength-checkbox">Corength</label>
+                        <li class="list-group-item p-1 ps-2 text-start" th:each="brand : ${allBrands}">
+                            <input class="form-check-input me-1" type="checkbox"
+                                   th:id="${brand} + '-checkbox'">
+                            <label th:for="${brand} + '-checkbox'" th:text="${brand}"></label>
                         </li>
                     </ul>
                     <ul class="list-group list-group-item p-1">
                         <li class="list-group-item"><h6 class="mb-0">Type</h6></li>
-                        <li class="list-group-item p-1">
-                            <input class="form-check-input me-1" type="checkbox" id="orength-checkbox">
-                            <label for="orength-checkbox">Band</label>
+                        <li class="list-group-item p-1 ps-2 text-start"
+                            th:each="type : ${T(com.project.EStore.model.entity.enums.ProductTypeEnum).values()}">
+                            <input class="form-check-input me-1" type="checkbox"
+                                   th:id="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'">
+                            <label th:for="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'"
+                                   th:text="${#strings.capitalize(type.toString().toLowerCase())}"></label>
                         </li>
                     </ul>
                 </div>

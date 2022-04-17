@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -52,5 +53,9 @@ public class ProductServiceImpl implements ProductService {
         return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
     }
 
+    @Override
+    public List<String> getAllBrands() {
+        return this.productRepository.getAllBrands();
+    }
 
 }
