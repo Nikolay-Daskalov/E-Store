@@ -51,7 +51,7 @@ public class PictureServiceImpl implements PictureService {
     }
 
     private void initPics(String url, Integer id) {
-        ProductServiceModel productById = this.productService.getProductById(id);
+        ProductServiceModel productById = this.productService.findProductById(id);
         ProductEntity mapped = this.modelMapper.map(productById, ProductEntity.class);
 
         PictureEntity pictureEntity = new PictureEntity();

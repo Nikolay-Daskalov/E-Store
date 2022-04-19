@@ -34,12 +34,44 @@
                                    th:text="${#strings.capitalize(type.toString().toLowerCase())}"></label>
                         </li>
                     </ul>
+                    <ul class="list-group list-group-item p-1">
+                        <li class="list-group-item"><h6 class="mb-0">Price</h6></li>
+                        <li class="list-group-item p-1 ps-2 text-start">
+                            <input class="form-check-input me-1" type="checkbox" id="lowestCost-checkbox">
+                            <label for="lowestCost-checkbox">0 - 25</label>
+                        </li>
+                        <li class="list-group-item p-1 ps-2 text-start">
+                            <input class="form-check-input me-1" type="checkbox" id="mediumCost-checkbox">
+                            <label for="mediumCost-checkbox">25 - 50</label>
+                        </li>
+                        <li class="list-group-item p-1 ps-2 text-start">
+                            <input class="form-check-input me-1" type="checkbox" id="highestCost-checkbox">
+                            <label for="highestCost-checkbox">50 - over</label>
+                        </li>
+                    </ul>
+                    <input type="button" class="btn btn-primary mt-2 ms-auto me-auto w-50" value="Get">
                 </div>
             </div>
         </div>
     </div>
-    <div class="mt-4">
-
+    <div class="mt-4 ms-auto me-auto" id="content-container-wrapper">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                <div class="col" th:each="product : ${allProductCards}" th:object="${product}">
+                    <div class="card ms-auto me-auto card-wrapper-div">
+                        <img src="..." th:src="*{getImageUrl()}" class="card-img-top" alt="Product image">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="*{getBrand() + ' ' + getModel()}">Card title</h5>
+<!--                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                            <a th:href="@{products/fitness/details(id=*{getId()})}" class="btn btn-primary">Details</a>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="col">Column</div>-->
+<!--                <div class="col">Column</div>-->
+<!--                <div class="col">Column</div>-->
+            </div>
+        </div>
     </div>
 </main>
 <footer th:replace="fragments/commons::home-footer"></footer>

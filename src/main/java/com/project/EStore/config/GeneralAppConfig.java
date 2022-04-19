@@ -1,6 +1,9 @@
 package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
+import com.project.EStore.model.service.product.ProductServiceModel;
+import com.project.EStore.model.view.product.ProductCardViewModel;
+import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +33,21 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.addConverter(new AbstractConverter<ProductServiceModel, ProductCardViewModel>() {
+            @Override
+            protected ProductCardViewModel convert(ProductServiceModel source) {
+                ProductCardViewModel productCardViewModel = new ProductCardViewModel();
+                productCardViewModel
+                        .setId(source.getId())
+                        .setBrand(source.getBrand())
+                        .setModel(source.getModel())
+                        .setPrice(source.getSupply().getPrice().doubleValue())
+                        .setImageUrl(source.getPictures().stream().findFirst().get().getUrl());
+                return productCardViewModel;
+            }
+        });
+        return modelMapper;
     }
 
 
