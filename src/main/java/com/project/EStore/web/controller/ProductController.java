@@ -39,11 +39,11 @@ public class ProductController {
         return "productFitness";
     }
 
-    @GetMapping(value = "fitness/data")
+    @GetMapping("fitness/data")
     @ResponseBody
-    public ResponseEntity<Page<ProductCardViewModel>> getAllProducts() {
-        Page<ProductServiceModel> pages = this.productService.pages();
-        Page<ProductCardViewModel> map = pages.map(productServiceModel -> this.modelMapper.map(productServiceModel, ProductCardViewModel.class));
-        return ResponseEntity.ok(map);
+    public ResponseEntity<Page<ProductCardViewModel>> getAllProductsByCriteria() {
+//        Page<ProductServiceModel> pages = this.productService.findByPageable(1,2);
+//        Page<ProductCardViewModel> map = pages.map(productServiceModel -> this.modelMapper.map(productServiceModel, ProductCardViewModel.class));
+        return null;
     }
 }

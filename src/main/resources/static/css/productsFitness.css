@@ -9,3 +9,11 @@
 .card-wrapper-div {
     width: 230px;
 }
+
+.card-title {
+    height: 60px;
+}
+
+.card-body {
+    height: 150px;
+}

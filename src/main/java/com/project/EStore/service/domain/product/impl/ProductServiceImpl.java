@@ -1,11 +1,12 @@
 package com.project.EStore.service.domain.product.impl;
 
+import com.project.EStore.model.entity.base.BaseEntity;
+import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.product.PictureEntity;
 import com.project.EStore.model.entity.product.ProductEntity;
 import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
-import com.project.EStore.model.service.order.OrderDetailServiceModel;
 import com.project.EStore.model.service.product.PictureServiceModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
@@ -13,14 +14,11 @@ import com.project.EStore.repository.product.ProductRepository;
 import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSizeService;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(productEntity -> {
                     PictureEntity pictureEntity = productEntity.getPictures()
                             .stream()
-                            .sorted((a, b) -> getFirstPicture(a.getUrl(), b.getUrl()))
+                            .sorted(Comparator.comparingInt(BaseEntity::getId))
                             .findFirst().get();
 
                     ProductServiceModel mapped = this.modelMapper.map(productEntity, ProductServiceModel.class);
@@ -84,35 +82,22 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    private static int getFirstPicture(String firstUrl, String secondUrl) {
-        int firstNumberOfPicture = getPictureOrder(firstUrl);
-        int secondNumberOfPicture = getPictureOrder(secondUrl);
-
-        return Integer.compare(firstNumberOfPicture, secondNumberOfPicture);
-    }
-
-    private static int getPictureOrder(String url) {
-        int numberOfPicture = 0;
-        for (int i = url.length() - 1; i >= 0; i--) {
-            if (url.charAt(i) == '.') {
-                numberOfPicture = Integer.parseInt(
-                        Character.toString(
-                                url.charAt(i - 1)
-                        )
-                );
-                break;
-            }
-        }
-
-        return numberOfPicture;
-    }
-
-
     @Override
-    public Page<ProductServiceModel> pages() {
-        Page<ProductEntity> all = this.productRepository.findAll(PageRequest.of(0, 1));
-        Page<ProductServiceModel> map = all.map(productEntity -> this.modelMapper.map(productEntity, ProductServiceModel.class));
-        return map;
+    public Page<ProductServiceModel> findAllByBrandAndTypeAndPriceBetween(String brand, ProductTypeEnum productType,
+                                                                          BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize) {
+
+//        this.productRepository.findAllByBrandAndTypeAndSupply_PriceBetween();
+
+        return null;
+    }
+
+    public Page<ProductServiceModel> findByPageable(int page, int size, String... filterProperties) {
+
+        List<ProductEntity> all = this.productRepository.findAll(Example.of(new ProductEntity(), ExampleMatcher.matching().withIgnoreNullValues()));
+
+        Page<ProductEntity> pageable = this.productRepository.findAll(PageRequest.of(page, size));
+
+        return pageable.map(product -> this.modelMapper.map(product, ProductServiceModel.class));
     }
 
 }

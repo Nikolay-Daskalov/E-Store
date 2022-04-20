@@ -42,7 +42,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         //Todo: add more init products and image urls in @PictureServiceImpl init
         //1
         initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("20"),
-                "Corength", "TRAINING 25", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+                "Corength", "TRAINING 25 KG", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         //2
         initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
