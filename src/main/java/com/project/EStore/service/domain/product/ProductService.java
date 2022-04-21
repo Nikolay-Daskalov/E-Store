@@ -7,7 +7,9 @@ import com.project.EStore.model.service.product.ProductServiceModel;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface ProductService {
 
@@ -15,11 +17,11 @@ public interface ProductService {
 
     ProductServiceModel findProductById(Integer id);
 
-    List<String> getAllBrands();
+    Set<String> getAllBrands();
 
     List<ProductServiceModel> getAllProducts();
 
     Page<ProductServiceModel> findAllByBrandAndTypeAndPriceBetween(
-            String brand, ProductTypeEnum productType, BigDecimal lowerPrice, BigDecimal higherPrice,
+            Collection<String> brands, Collection<ProductTypeEnum> productTypes, BigDecimal lowerPrice, BigDecimal higherPrice,
             int pageNumber, int pageSize);
 }

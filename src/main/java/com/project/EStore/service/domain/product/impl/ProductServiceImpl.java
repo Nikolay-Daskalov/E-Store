@@ -15,6 +15,7 @@ import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSizeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -60,8 +61,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<String> getAllBrands() {
-        return this.productRepository.getAllBrands();
+    public Set<String> getAllBrands() {
+        return this.productRepository.findAllBrands();
     }
 
     @Override
@@ -83,21 +84,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductServiceModel> findAllByBrandAndTypeAndPriceBetween(String brand, ProductTypeEnum productType,
+    public Page<ProductServiceModel> findAllByBrandAndTypeAndPriceBetween(Collection<String> brands, Collection<ProductTypeEnum> productTypes,
                                                                           BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize) {
 
-//        this.productRepository.findAllByBrandAndTypeAndSupply_PriceBetween();
+        if (brands == null){
+            brands = getAllBrands();
+        }
 
-        return null;
+        if (productTypes == null){
+            productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toSet());
+        }
+
+        if (higherPrice == null){
+            higherPrice = new BigDecimal(Integer.MAX_VALUE);
+        }
+
+        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndSupply_PriceBetween(
+                brands, productTypes, lowerPrice, higherPrice, PageRequest.of(pageNumber, pageSize)
+        );
+
+        return pages.map(product -> this.modelMapper.map(product, ProductServiceModel.class));
     }
 
-    public Page<ProductServiceModel> findByPageable(int page, int size, String... filterProperties) {
-
-        List<ProductEntity> all = this.productRepository.findAll(Example.of(new ProductEntity(), ExampleMatcher.matching().withIgnoreNullValues()));
-
-        Page<ProductEntity> pageable = this.productRepository.findAll(PageRequest.of(page, size));
-
-        return pageable.map(product -> this.modelMapper.map(product, ProductServiceModel.class));
-    }
 
 }

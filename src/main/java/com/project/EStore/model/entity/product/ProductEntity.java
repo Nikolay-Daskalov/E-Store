@@ -43,12 +43,6 @@ public class ProductEntity extends BaseEntity {
         this.pictures = new HashSet<>();
     }
 
-    public ProductEntity(String brand, String model, ProductTypeEnum type) {
-        this.brand = brand;
-        this.model = model;
-        this.type = type;
-    }
-
     @PrePersist
     private void initAddedOn() {
         this.addedOn = LocalDateTime.now();
