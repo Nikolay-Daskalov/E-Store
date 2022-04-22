@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,7 +57,7 @@ public class ProductController {
                 brands, types, lowestPrice, highestPrice, pageNumber, 5
         ).map(product -> this.modelMapper.map(product, ProductCardViewModel.class));
 
-        return ResponseEntity.ok(pageView);
+        return pageView.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(pageView);
     }
 }
 

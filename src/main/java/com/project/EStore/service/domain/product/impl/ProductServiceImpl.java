@@ -88,6 +88,7 @@ public class ProductServiceImpl implements ProductService {
                                                                           BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize) {
 
         if (brands == null){
+            //TODO: can you use caching for better performance
             brands = getAllBrands();
         }
 
