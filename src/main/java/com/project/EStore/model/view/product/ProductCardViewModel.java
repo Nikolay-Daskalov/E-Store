@@ -10,7 +10,7 @@ public class ProductCardViewModel {
     private Integer id;
     private String brand;
     private String model;
-    private Double price;
+    private String price;
     private String imageUrl;
 
     public ProductCardViewModel setId(Integer id) {
@@ -28,7 +28,7 @@ public class ProductCardViewModel {
         return this;
     }
 
-    public ProductCardViewModel setPrice(Double price) {
+    public ProductCardViewModel setPrice(String price) {
         this.price = price;
         return this;
     }

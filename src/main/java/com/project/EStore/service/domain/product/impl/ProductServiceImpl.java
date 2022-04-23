@@ -15,7 +15,6 @@ import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSizeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -84,28 +83,38 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductServiceModel> findAllByBrandAndTypeAndPriceBetween(Collection<String> brands, Collection<ProductTypeEnum> productTypes,
-                                                                          BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize) {
+    public Page<ProductServiceModel> findAllByBrandAndTypeAndCategoryAndPriceBetween(
+            Collection<String> brands, Collection<ProductTypeEnum> productTypes, ProductCategoryEnum productCategory,
+            BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize) {
 
-        if (brands == null){
+        if (brands == null) {
             //TODO: can you use caching for better performance
             brands = getAllBrands();
         }
 
-        if (productTypes == null){
+        if (productTypes == null) {
             productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toSet());
         }
 
-        if (higherPrice == null){
+        if (higherPrice == null) {
+            //TODO: make it dynamically with cache
             higherPrice = new BigDecimal(Integer.MAX_VALUE);
         }
 
-        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndSupply_PriceBetween(
-                brands, productTypes, lowerPrice, higherPrice, PageRequest.of(pageNumber, pageSize)
+        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndSupply_PriceBetween(
+                brands, productTypes, productCategory, lowerPrice, higherPrice, PageRequest.of(pageNumber, pageSize)
         );
 
-        return pages.map(product -> this.modelMapper.map(product, ProductServiceModel.class));
+        return pages.map(productEntity -> {
+            PictureEntity pictureEntity = productEntity.getPictures()
+                    .stream()
+                    .sorted(Comparator.comparingInt(BaseEntity::getId))
+                    .findFirst().get();
+
+            ProductServiceModel mapped = this.modelMapper.map(productEntity, ProductServiceModel.class);
+            mapped.setPictures(new HashSet<>(Set.of(this.modelMapper.map(pictureEntity, PictureServiceModel.class))));
+
+            return mapped;
+        });
     }
-
-
 }

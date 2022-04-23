@@ -21,7 +21,7 @@ public interface ProductService {
 
     List<ProductServiceModel> getAllProducts();
 
-    Page<ProductServiceModel> findAllByBrandAndTypeAndPriceBetween(
-            Collection<String> brands, Collection<ProductTypeEnum> productTypes, BigDecimal lowerPrice, BigDecimal higherPrice,
-            int pageNumber, int pageSize);
+    Page<ProductServiceModel> findAllByBrandAndTypeAndCategoryAndPriceBetween(
+            Collection<String> brands, Collection<ProductTypeEnum> productTypes, ProductCategoryEnum productCategory,
+            BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize);
 }

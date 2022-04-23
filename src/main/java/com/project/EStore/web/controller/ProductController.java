@@ -1,7 +1,7 @@
 package com.project.EStore.web.controller;
 
+import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
-import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
 import com.project.EStore.service.domain.product.ProductService;
 import org.modelmapper.ModelMapper;
@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("products")
@@ -36,11 +34,14 @@ public class ProductController {
         Set<String> allBrands = this.productService.getAllBrands();
         model.addAttribute("allBrands", allBrands);
 
-        List<ProductServiceModel> allProducts = this.productService.getAllProducts();
-        model.addAttribute("allProductCards", allProducts.stream()
-                .map(product -> this.modelMapper.map(product, ProductCardViewModel.class)).collect(Collectors.toList()));
+        ResponseEntity<Page<ProductCardViewModel>> allProductsByQueryParameters =
+                getAllProductsByQueryParameters(null, null, BigDecimal.ZERO, null, 0);
 
-        return "productFitness";
+        model.addAttribute("productType", "Fitness");
+        model.addAttribute("allProductCards", allProductsByQueryParameters.getBody().getContent());
+        model.addAttribute("totalPages", allProductsByQueryParameters.getBody().getTotalPages());
+        model.addAttribute("pageNumber", allProductsByQueryParameters.getBody().getPageable().getPageNumber());
+        return "product";
     }
 
     @GetMapping("fitness/data")
@@ -53,8 +54,8 @@ public class ProductController {
             @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber
     ) {
 
-        Page<ProductCardViewModel> pageView = this.productService.findAllByBrandAndTypeAndPriceBetween(
-                brands, types, lowestPrice, highestPrice, pageNumber, 5
+        Page<ProductCardViewModel> pageView = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
+                brands, types, ProductCategoryEnum.FITNESS, lowestPrice, highestPrice, pageNumber, 8
         ).map(product -> this.modelMapper.map(product, ProductCardViewModel.class));
 
         return pageView.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(pageView);

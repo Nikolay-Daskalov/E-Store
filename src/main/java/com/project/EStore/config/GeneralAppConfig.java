@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Map;
 
 @Configuration
@@ -27,7 +29,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -42,7 +44,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setId(source.getId())
                         .setBrand(source.getBrand())
                         .setModel(source.getModel())
-                        .setPrice(source.getSupply().getPrice().doubleValue())
+                        .setPrice(source.getSupply().getPrice().setScale(2, RoundingMode.HALF_UP).toString())
                         .setImageUrl(source.getPictures().stream().findFirst().get().getUrl());
                 return productCardViewModel;
             }

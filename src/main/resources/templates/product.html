@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/commons::productsFitness-head"></head>
+<head th:replace="fragments/commons::products-head"></head>
 <body>
 <nav th:replace="fragments/commons::nav"></nav>
 <main class="mt-4 text-center">
-    <h2>Fitness Products</h2>
+    <h2 th:text="|${productType} Products|">Test Products</h2>
     <div class="mt-4 accordion-item ms-auto me-auto">
         <h2 class="accordion-header" id="filterHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -37,19 +37,21 @@
                     <ul class="list-group list-group-item p-1">
                         <li class="list-group-item"><h6 class="mb-0">Price</h6></li>
                         <li class="list-group-item p-1 ps-2 text-start">
-                            <input class="form-check-input me-1" type="checkbox" id="lowestCost-checkbox">
-                            <label for="lowestCost-checkbox">0 - 25</label>
+                            <input class="form-check-input me-1" type="checkbox" id="lowestCost[0-25]-checkbox">
+                            <label for="lowestCost[0-25]-checkbox">0 - 25</label>
                         </li>
                         <li class="list-group-item p-1 ps-2 text-start">
-                            <input class="form-check-input me-1" type="checkbox" id="mediumCost-checkbox">
-                            <label for="mediumCost-checkbox">25 - 50</label>
+                            <input class="form-check-input me-1" type="checkbox" id="mediumCost[25-50]-checkbox">
+                            <label for="mediumCost[25-50]-checkbox">25 - 50</label>
                         </li>
                         <li class="list-group-item p-1 ps-2 text-start">
-                            <input class="form-check-input me-1" type="checkbox" id="highestCost-checkbox">
-                            <label for="highestCost-checkbox">50 - over</label>
+                            <input class="form-check-input me-1" type="checkbox" id="highestCost[50-over]-checkbox">
+                            <label for="highestCost[50-over]-checkbox">50 - over</label>
                         </li>
                     </ul>
-                    <input type="button" class="btn btn-primary mt-2 ms-auto me-auto w-50" value="Get">
+                    <button class="btn btn-primary mt-2 ms-auto me-auto w-50" id="filterBtn">
+                        Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -62,30 +64,31 @@
                         <img src="..." th:src="*{getImageUrl()}" class="card-img-top" alt="Product image">
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{getBrand() + ' ' + getModel()}">Card title</h5>
-                            <!--                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                            <p class="card-text" th:text="*{getPrice() + ' BGN'}">Some text</p>
                             <a th:href="@{products/fitness/details(id=*{getId()})}" class="btn btn-primary">Details</a>
                         </div>
                     </div>
                 </div>
             </div>
+            <!--            <div class="mt-5">-->
+            <!--                <div class="spinner-border text-primary" role="status">-->
+            <!--                    <span class="visually-hidden">Loading...</span>-->
+            <!--                </div>-->
+            <!--            </div>-->
         </div>
     </div>
-    <nav aria-label="Pages">
+    <nav aria-label="Pages" id="pagination">
         <ul class="pagination pt-5 mb-5 justify-content-center">
             <li class="page-item">
-                <a class="page-link" href="#">Previous</a>
+                <a class="page-link page-button" href="javascript:void(0)">Previous</a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(0, totalPages - 1)}"
+                th:class="${page.equals(pageNumber)}? 'page-item active': 'page-item'">
+                <a class="page-link" href="javascript:void(0)" th:data-page-number="${page + 1}"
+                   th:text="${page + 1}">1</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link page-button" href="javascript:void(0)">Next</a>
             </li>
         </ul>
     </nav>
