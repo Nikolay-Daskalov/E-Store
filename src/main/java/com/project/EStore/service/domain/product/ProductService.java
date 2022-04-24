@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 public interface ProductService {
@@ -17,9 +16,7 @@ public interface ProductService {
 
     ProductServiceModel findProductById(Integer id);
 
-    Set<String> getAllBrands();
-
-    List<ProductServiceModel> getAllProducts();
+    Set<String> getAllBrandsByCategory(ProductCategoryEnum productCategory);
 
     Page<ProductServiceModel> findAllByBrandAndTypeAndCategoryAndPriceBetween(
             Collection<String> brands, Collection<ProductTypeEnum> productTypes, ProductCategoryEnum productCategory,

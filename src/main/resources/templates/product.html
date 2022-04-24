@@ -4,7 +4,7 @@
 <body>
 <nav th:replace="fragments/commons::nav"></nav>
 <main class="mt-4 text-center">
-    <h2 th:text="|${productType} Products|">Test Products</h2>
+    <h2 th:text="|${#strings.capitalize(productType)} Products|">Test Products</h2>
     <div class="mt-4 accordion-item ms-auto me-auto">
         <h2 class="accordion-header" id="filterHeading">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -16,42 +16,38 @@
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="filterHeading">
             <div class="accordion-body p-1">
                 <div class="list-group">
-                    <ul class="list-group list-group-item p-1">
-                        <li class="list-group-item"><h6 class="mb-0">Brand</h6></li>
-                        <li class="list-group-item p-1 ps-2 text-start" th:each="brand : ${allBrands}">
-                            <input class="form-check-input me-1" type="checkbox"
-                                   th:id="${brand} + '-checkbox'">
-                            <label th:for="${brand} + '-checkbox'" th:text="${brand}"></label>
-                        </li>
-                    </ul>
-                    <ul class="list-group list-group-item p-1">
-                        <li class="list-group-item"><h6 class="mb-0">Type</h6></li>
-                        <li class="list-group-item p-1 ps-2 text-start"
-                            th:each="type : ${T(com.project.EStore.model.entity.enums.ProductTypeEnum).values()}">
-                            <input class="form-check-input me-1" type="checkbox"
-                                   th:id="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'">
-                            <label th:for="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'"
-                                   th:text="${#strings.capitalize(type.toString().toLowerCase())}"></label>
-                        </li>
-                    </ul>
-                    <ul class="list-group list-group-item p-1">
-                        <li class="list-group-item"><h6 class="mb-0">Price</h6></li>
-                        <li class="list-group-item p-1 ps-2 text-start">
-                            <input class="form-check-input me-1" type="checkbox" id="lowestCost[0-25]-checkbox">
-                            <label for="lowestCost[0-25]-checkbox">0 - 25</label>
-                        </li>
-                        <li class="list-group-item p-1 ps-2 text-start">
-                            <input class="form-check-input me-1" type="checkbox" id="mediumCost[25-50]-checkbox">
-                            <label for="mediumCost[25-50]-checkbox">25 - 50</label>
-                        </li>
-                        <li class="list-group-item p-1 ps-2 text-start">
-                            <input class="form-check-input me-1" type="checkbox" id="highestCost[50-over]-checkbox">
-                            <label for="highestCost[50-over]-checkbox">50 - over</label>
-                        </li>
-                    </ul>
-                    <button class="btn btn-primary mt-2 ms-auto me-auto w-50" id="filterBtn">
-                        Search
-                    </button>
+                    <form method="get" th:action="@{/products/fitness}">
+                        <ul class="list-group list-group-item p-1">
+                            <li class="list-group-item"><h6 class="mb-0">Brand</h6></li>
+                            <li class="list-group-item p-1 ps-2 text-start" th:each="brand : ${allBrands}">
+                                <input class="form-check-input me-1" type="checkbox" th:value="${brand}" name="brands"
+                                       th:id="${brand} + '-checkbox'">
+                                <label th:for="${brand} + '-checkbox'" th:text="${brand}"></label>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-item p-1">
+                            <li class="list-group-item"><h6 class="mb-0">Type</h6></li>
+                            <li class="list-group-item p-1 ps-2 text-start"
+                                th:each="type : ${T(com.project.EStore.model.entity.enums.ProductTypeEnum).values()}">
+                                <input class="form-check-input me-1" type="checkbox" th:value="${type}" name="types"
+                                       th:id="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'">
+                                <label th:for="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'"
+                                       th:text="${#strings.capitalize(type.toString().toLowerCase())}"></label>
+                            </li>
+                        </ul>
+                        <ul class="list-group list-group-item p-1">
+                            <li class="list-group-item"><h6 class="mb-0">Price</h6></li>
+                            <li class="list-group-item p-1 ps-2">
+                                <label for="lowestCostRange" class="form-label">Lowest price: 0</label>
+                                <input type="range" class="form-range" min="0" max="100" step="5" id="lowestCostRange" name="lowestPrice" value="0">
+                            </li>
+                            <li class="list-group-item p-1 ps-2">
+                                <label for="highestCostRange" class="form-label">Highest price: 100</label>
+                                <input type="range" class="form-range" min="0" max="100" step="5" id="highestCostRange" name="highestPrice" value="100">
+                            </li>
+                        </ul>
+                        <input type="submit" class="btn btn-primary mt-2 ms-auto me-auto w-50" id="filterBtn" value="Search">
+                    </form>
                 </div>
             </div>
         </div>
@@ -65,16 +61,11 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{getBrand() + ' ' + getModel()}">Card title</h5>
                             <p class="card-text" th:text="*{getPrice() + ' BGN'}">Some text</p>
-                            <a th:href="@{products/fitness/details(id=*{getId()})}" class="btn btn-primary">Details</a>
+                            <a th:href="@{products/${productType}/details(id=*{getId()})}" class="btn btn-primary">Details</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--            <div class="mt-5">-->
-            <!--                <div class="spinner-border text-primary" role="status">-->
-            <!--                    <span class="visually-hidden">Loading...</span>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </div>
     </div>
     <nav aria-label="Pages" id="pagination">

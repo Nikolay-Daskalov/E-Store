@@ -60,26 +60,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Set<String> getAllBrands() {
-        return this.productRepository.findAllBrands();
-    }
-
-    @Override
-    public List<ProductServiceModel> getAllProducts() {
-        return this.productRepository.findAll()
-                .stream()
-                .map(productEntity -> {
-                    PictureEntity pictureEntity = productEntity.getPictures()
-                            .stream()
-                            .sorted(Comparator.comparingInt(BaseEntity::getId))
-                            .findFirst().get();
-
-                    ProductServiceModel mapped = this.modelMapper.map(productEntity, ProductServiceModel.class);
-                    mapped.setPictures(new HashSet<>(Set.of(this.modelMapper.map(pictureEntity, PictureServiceModel.class))));
-
-                    return mapped;
-                })
-                .collect(Collectors.toList());
+    public Set<String> getAllBrandsByCategory(ProductCategoryEnum productCategory) {
+        return this.productRepository.findAllBrandsByProductCategory(productCategory);
     }
 
     @Override
@@ -89,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (brands == null) {
             //TODO: can you use caching for better performance
-            brands = getAllBrands();
+            brands = getAllBrandsByCategory(productCategory);
         }
 
         if (productTypes == null) {

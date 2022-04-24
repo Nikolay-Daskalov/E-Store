@@ -21,6 +21,8 @@ import java.util.Set;
 @RequestMapping("products")
 public class ProductController {
 
+    private static final int PAGE_SIZE = 8;
+
     private final ProductService productService;
     private final ModelMapper modelMapper;
 
@@ -30,35 +32,37 @@ public class ProductController {
     }
 
     @GetMapping("fitness")
-    public String getFitnessView(Model model) {
-        Set<String> allBrands = this.productService.getAllBrands();
-        model.addAttribute("allBrands", allBrands);
-
-        ResponseEntity<Page<ProductCardViewModel>> allProductsByQueryParameters =
-                getAllProductsByQueryParameters(null, null, BigDecimal.ZERO, null, 0);
-
-        model.addAttribute("productType", "Fitness");
-        model.addAttribute("allProductCards", allProductsByQueryParameters.getBody().getContent());
-        model.addAttribute("totalPages", allProductsByQueryParameters.getBody().getTotalPages());
-        model.addAttribute("pageNumber", allProductsByQueryParameters.getBody().getPageable().getPageNumber());
-        return "product";
-    }
-
-    @GetMapping("fitness/data")
-    @ResponseBody
-    public ResponseEntity<Page<ProductCardViewModel>> getAllProductsByQueryParameters(
+    public String getFitnessView(
             @RequestParam(name = "brands", required = false) Set<String> brands,
             @RequestParam(name = "types", required = false) Set<ProductTypeEnum> types,
             @RequestParam(name = "lowestPrice", defaultValue = "0") BigDecimal lowestPrice,
             @RequestParam(name = "highestPrice", required = false) BigDecimal highestPrice,
-            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber
-    ) {
+            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            Model model) {
 
-        Page<ProductCardViewModel> pageView = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
-                brands, types, ProductCategoryEnum.FITNESS, lowestPrice, highestPrice, pageNumber, 8
+        findAllProductsByCriteria(
+                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE, ProductCategoryEnum.FITNESS, model
+        );
+
+        return "product";
+    }
+
+    private void findAllProductsByCriteria(
+            Set<String> brands, Set<ProductTypeEnum> types,
+            BigDecimal lowestPrice, BigDecimal highestPrice, int pageNumber, int pageSize,
+            ProductCategoryEnum productCategory, Model model) {
+
+        Set<String> allBrands = this.productService.getAllBrandsByCategory(productCategory);
+        model.addAttribute("allBrands", allBrands);
+
+        Page<ProductCardViewModel> productCardView = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
+                brands, types, productCategory, lowestPrice, highestPrice, pageNumber, pageSize
         ).map(product -> this.modelMapper.map(product, ProductCardViewModel.class));
 
-        return pageView.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(pageView);
+        model.addAttribute("productType", productCategory.toString().toLowerCase());
+        model.addAttribute("allProductCards", productCardView.getContent());
+        model.addAttribute("totalPages", productCardView.getTotalPages());
+        model.addAttribute("pageNumber", productCardView.getPageable().getPageNumber());
     }
 }
 
