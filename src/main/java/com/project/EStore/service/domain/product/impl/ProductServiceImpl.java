@@ -1,5 +1,6 @@
 package com.project.EStore.service.domain.product.impl;
 
+import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.model.entity.base.BaseEntity;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.product.PictureEntity;
@@ -67,10 +68,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductServiceModel> findAllByBrandAndTypeAndCategoryAndPriceBetween(
             Collection<String> brands, Collection<ProductTypeEnum> productTypes, ProductCategoryEnum productCategory,
-            BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize) {
+            Integer lowerPrice, Integer higherPrice, int pageNumber, int pageSize) {
 
         if (brands == null) {
-            //TODO: can you use caching for better performance
             brands = getAllBrandsByCategory(productCategory);
         }
 
@@ -78,13 +78,12 @@ public class ProductServiceImpl implements ProductService {
             productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toSet());
         }
 
-        if (higherPrice == null) {
-            //TODO: make it dynamically with cache
-            higherPrice = new BigDecimal(Integer.MAX_VALUE);
+        if (higherPrice > HIGHEST_PRICE || higherPrice < 0 || higherPrice % 5 != 0) {
+            throw new ProductCriteriaException("Highest price limit exceeded");
         }
 
-        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndSupply_PriceBetween(
-                brands, productTypes, productCategory, lowerPrice, higherPrice, PageRequest.of(pageNumber, pageSize)
+        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+                brands, productTypes, productCategory, new BigDecimal(lowerPrice), new BigDecimal(higherPrice), PageRequest.of(pageNumber, pageSize)
         );
 
         return pages.map(productEntity -> {

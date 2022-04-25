@@ -1,4 +1,4 @@
-package com.project.EStore.util.validation.validator;
+package com.project.EStore.util.validation.constraint.validator;
 
 import com.project.EStore.util.validation.constraint.NoSpecialCharacters;
 import org.springframework.stereotype.Component;

@@ -6,11 +6,12 @@ import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import org.springframework.data.domain.Page;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Set;
 
 public interface ProductService {
+
+    Integer HIGHEST_PRICE = 100;
 
     Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes);
 
@@ -20,5 +21,6 @@ public interface ProductService {
 
     Page<ProductServiceModel> findAllByBrandAndTypeAndCategoryAndPriceBetween(
             Collection<String> brands, Collection<ProductTypeEnum> productTypes, ProductCategoryEnum productCategory,
-            BigDecimal lowerPrice, BigDecimal higherPrice, int pageNumber, int pageSize);
+            Integer lowerPrice, Integer higherPrice, int pageNumber, int pageSize);
+
 }

@@ -1,9 +1,8 @@
-package com.project.EStore.util.validation.validator;
+package com.project.EStore.util.validation.constraint.validator;
 
 import com.project.EStore.service.domain.user.UserService;
 import com.project.EStore.util.validation.constraint.UniqueUserName;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

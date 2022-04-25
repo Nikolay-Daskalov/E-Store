@@ -1,6 +1,6 @@
 package com.project.EStore.util.validation.constraint;
 
-import com.project.EStore.util.validation.validator.NoSpecialCharactersValidator;
+import com.project.EStore.util.validation.constraint.validator.NoSpecialCharactersValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

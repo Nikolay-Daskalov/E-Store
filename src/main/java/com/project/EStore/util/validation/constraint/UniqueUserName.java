@@ -1,6 +1,6 @@
 package com.project.EStore.util.validation.constraint;
 
-import com.project.EStore.util.validation.validator.UniqueUserNameValidator;
+import com.project.EStore.util.validation.constraint.validator.UniqueUserNameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -21,7 +21,8 @@
                             <li class="list-group-item"><h6 class="mb-0">Brand</h6></li>
                             <li class="list-group-item p-1 ps-2 text-start" th:each="brand : ${allBrands}">
                                 <input class="form-check-input me-1" type="checkbox" th:value="${brand}" name="brands"
-                                       th:id="${brand} + '-checkbox'">
+                                       th:id="${brand} + '-checkbox'"
+                                       th:checked="${brandCheckboxesToCheck.contains(brand)}">
                                 <label th:for="${brand} + '-checkbox'" th:text="${brand}"></label>
                             </li>
                         </ul>
@@ -30,7 +31,8 @@
                             <li class="list-group-item p-1 ps-2 text-start"
                                 th:each="type : ${T(com.project.EStore.model.entity.enums.ProductTypeEnum).values()}">
                                 <input class="form-check-input me-1" type="checkbox" th:value="${type}" name="types"
-                                       th:id="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'">
+                                       th:id="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'"
+                                       th:checked="${typeCheckboxesToCheck.contains(type.toString())}">
                                 <label th:for="${#strings.capitalize(type.toString().toLowerCase())} + '-checkbox'"
                                        th:text="${#strings.capitalize(type.toString().toLowerCase())}"></label>
                             </li>
@@ -38,15 +40,20 @@
                         <ul class="list-group list-group-item p-1">
                             <li class="list-group-item"><h6 class="mb-0">Price</h6></li>
                             <li class="list-group-item p-1 ps-2">
-                                <label for="lowestCostRange" class="form-label">Lowest price: 0</label>
-                                <input type="range" class="form-range" min="0" max="100" step="5" id="lowestCostRange" name="lowestPrice" value="0">
+                                <label for="lowestCostRange" class="form-label" th:text="|Lowest price: ${lowerPrice}|">Lowest
+                                    price: 0</label>
+                                <input type="range" class="form-range" min="0" max="100" th:value="${lowerPrice}"
+                                       step="5" id="lowestCostRange" name="lowestPrice">
                             </li>
                             <li class="list-group-item p-1 ps-2">
-                                <label for="highestCostRange" class="form-label">Highest price: 100</label>
-                                <input type="range" class="form-range" min="0" max="100" step="5" id="highestCostRange" name="highestPrice" value="100">
+                                <label for="highestCostRange" class="form-label"
+                                       th:text="|Highest price: ${higherPrice}|">Highest price: 100</label>
+                                <input type="range" class="form-range" min="0" max="100" th:value="${higherPrice}"
+                                       step="5" id="highestCostRange" name="highestPrice">
                             </li>
                         </ul>
-                        <input type="submit" class="btn btn-primary mt-2 ms-auto me-auto w-50" id="filterBtn" value="Search">
+                        <input type="submit" class="btn btn-primary mt-2 ms-auto me-auto w-50" id="filterBtn"
+                               value="Search">
                     </form>
                 </div>
             </div>
@@ -65,18 +72,21 @@
                         </div>
                     </div>
                 </div>
+                <div th:if="${allProductCards.size() == 0}" class="ms-auto me-auto mt-4">
+                    <h2>No products found</h2>
+                </div>
             </div>
         </div>
     </div>
-    <nav aria-label="Pages" id="pagination">
+    <nav aria-label="Pages" id="pagination" th:if="${totalPages > 0}">
         <ul class="pagination pt-5 mb-5 justify-content-center">
             <li class="page-item">
-                <a class="page-link page-button" href="javascript:void(0)">Previous</a>
+                <a class="page-link page-button" href="javascript:void(0)">Prev</a>
             </li>
-            <li th:each="page : ${#numbers.sequence(0, totalPages - 1)}"
-                th:class="${page.equals(pageNumber)}? 'page-item active': 'page-item'">
-                <a class="page-link" href="javascript:void(0)" th:data-page-number="${page + 1}"
-                   th:text="${page + 1}">1</a>
+            <li th:each="page : ${#numbers.sequence(1, totalPages)}"
+                th:class="${page.equals(pageNumber + 1)}? 'page-item active': 'page-item'">
+                <a class="page-link" href="javascript:void(0)" th:data-page-number="${page}"
+                   th:text="${page}">1</a>
             </li>
             <li class="page-item">
                 <a class="page-link page-button" href="javascript:void(0)">Next</a>
