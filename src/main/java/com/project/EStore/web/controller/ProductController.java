@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,16 +42,19 @@ public class ProductController {
             @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
             Model model) {
 
-        if (lowestPrice < 0 || lowestPrice > ProductService.HIGHEST_PRICE || lowestPrice % 5 != 0){
+        LinkedHashMap<String, String> queryStringPagination = new LinkedHashMap<>();
+
+        if (lowestPrice < 0 || lowestPrice > ProductService.HIGHEST_PRICE || lowestPrice % 5 != 0) {
             throw new ProductCriteriaException("Lowest price limit exceeded");
         }
 
-        if (pageNumber < 0){
+        if (pageNumber < 0) {
             throw new ProductCriteriaException("Page number limit exceeded");
         }
 
         findAllProductsByCriteria(
-                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE, ProductCategoryEnum.FITNESS, model
+                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
+                ProductCategoryEnum.FITNESS, model, queryStringPagination
         );
 
         return "product";
@@ -60,16 +63,28 @@ public class ProductController {
     private void findAllProductsByCriteria(
             Set<String> brands, Set<ProductTypeEnum> types,
             Integer lowestPrice, Integer highestPrice, int pageNumber, int pageSize,
-            ProductCategoryEnum productCategory, Model model) {
+            ProductCategoryEnum productCategory, Model model, LinkedHashMap<String, String> queryStringPagination) {
 
         Set<String> brandCheckboxesToCheck = new HashSet<>();
         if (brands != null) {
-            brandCheckboxesToCheck.addAll(brands);
+            if (brands.isEmpty()) {
+                brands = null;
+            } else {
+                brandCheckboxesToCheck.addAll(brands);
+                queryStringPagination.put("brands", String.join(",", brands));
+                model.addAttribute("brands", String.join(",", brands));
+            }
         }
 
         Set<String> typeCheckboxesToCheck = new HashSet<>();
         if (types != null) {
-            typeCheckboxesToCheck.addAll(types.stream().map(Enum::toString).collect(Collectors.toSet()));
+            if (types.isEmpty()) {
+                types = null;
+            } else {
+                typeCheckboxesToCheck.addAll(types.stream().map(Enum::toString).collect(Collectors.toSet()));
+                queryStringPagination.put("types", types.stream().map(Enum::toString).collect(Collectors.joining(",")));
+                model.addAttribute("types", types.stream().map(Enum::toString).collect(Collectors.joining(",")));
+            }
         }
 
         Page<ProductServiceModel> page = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(

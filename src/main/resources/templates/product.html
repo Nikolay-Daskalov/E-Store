@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div class="mt-4 ms-auto me-auto" id="content-container-wrapper">
+    <div class="mt-5 ms-auto me-auto" id="content-container-wrapper">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
                 <div class="col mb-3" th:each="product : ${allProductCards}" th:object="${product}">
@@ -68,7 +68,8 @@
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{getBrand() + ' ' + getModel()}">Card title</h5>
                             <p class="card-text" th:text="*{getPrice() + ' BGN'}">Some text</p>
-                            <a th:href="@{products/${productType}/details(id=*{getId()})}" class="btn btn-primary">Details</a>
+                            <a th:href="@{/products/{productType}/details/{id}(id=*{getId()},productType=${productType})}"
+                               class="btn btn-primary">Details</a>
                         </div>
                     </div>
                 </div>
@@ -80,15 +81,17 @@
     </div>
     <nav aria-label="Pages" id="pagination" th:if="${totalPages > 0}">
         <ul class="pagination pt-5 mb-5 justify-content-center">
-            <li class="page-item">
+            <li class="page-item nav-btn">
                 <a class="page-link page-button" href="javascript:void(0)">Prev</a>
             </li>
             <li th:each="page : ${#numbers.sequence(1, totalPages)}"
                 th:class="${page.equals(pageNumber + 1)}? 'page-item active': 'page-item'">
-                <a class="page-link" href="javascript:void(0)" th:data-page-number="${page}"
+                <a class="page-link"
+                   th:href="@{/products/{productType}(productType=${productType},brands=${brands},types=${types},lowestPrice=${lowerPrice},highestPrice=${higherPrice},pageNumber=${page - 1})}"
+                   th:data-page-number="${page}"
                    th:text="${page}">1</a>
             </li>
-            <li class="page-item">
+            <li class="page-item nav-btns">
                 <a class="page-link page-button" href="javascript:void(0)">Next</a>
             </li>
         </ul>
