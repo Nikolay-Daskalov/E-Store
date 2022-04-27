@@ -16,7 +16,7 @@
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="filterHeading">
             <div class="accordion-body p-1">
                 <div class="list-group">
-                    <form method="get" th:action="@{/products/fitness}">
+                    <form method="get" th:action="@{/products/{productType}(productType=${productType})}">
                         <ul class="list-group list-group-item p-1">
                             <li class="list-group-item"><h6 class="mb-0">Brand</h6></li>
                             <li class="list-group-item p-1 ps-2 text-start" th:each="brand : ${allBrands}">

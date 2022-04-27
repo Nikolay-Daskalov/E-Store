@@ -37,24 +37,14 @@ public class ProductController {
     public String getFitnessView(
             @RequestParam(name = "brands", required = false) Set<String> brands,
             @RequestParam(name = "types", required = false) Set<ProductTypeEnum> types,
-            @RequestParam(name = "lowestPrice", defaultValue = "0") Integer lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "100") Integer highestPrice,
-            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
+            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
-
-        LinkedHashMap<String, String> queryStringPagination = new LinkedHashMap<>();
-
-        if (lowestPrice < 0 || lowestPrice > ProductService.HIGHEST_PRICE || lowestPrice % 5 != 0) {
-            throw new ProductCriteriaException("Lowest price limit exceeded");
-        }
-
-        if (pageNumber < 0) {
-            throw new ProductCriteriaException("Page number limit exceeded");
-        }
 
         findAllProductsByCriteria(
                 brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
-                ProductCategoryEnum.FITNESS, model, queryStringPagination
+                ProductCategoryEnum.FITNESS, model
         );
 
         return "product";
@@ -62,8 +52,28 @@ public class ProductController {
 
     private void findAllProductsByCriteria(
             Set<String> brands, Set<ProductTypeEnum> types,
-            Integer lowestPrice, Integer highestPrice, int pageNumber, int pageSize,
-            ProductCategoryEnum productCategory, Model model, LinkedHashMap<String, String> queryStringPagination) {
+            String lowestPrice, String highestPrice, String pageNumber, int pageSize,
+            ProductCategoryEnum productCategory, Model model) {
+
+        Integer lowestPriceConverted;
+        Integer highestPriceConverted;
+        Integer pageNumberConverted;
+
+        try {
+            lowestPriceConverted = Integer.parseInt(lowestPrice);
+            highestPriceConverted = Integer.parseInt(highestPrice);
+            pageNumberConverted = Integer.parseInt(pageNumber);
+        } catch (NumberFormatException e) {
+            throw new ProductCriteriaException("Request type not valid");
+        }
+
+        if (lowestPriceConverted < 0 || lowestPriceConverted > ProductService.HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
+            throw new ProductCriteriaException("Lowest price limit exceeded");
+        }
+
+        if (pageNumberConverted < 0) {
+            throw new ProductCriteriaException("Page number limit exceeded");
+        }
 
         Set<String> brandCheckboxesToCheck = new HashSet<>();
         if (brands != null) {
@@ -71,7 +81,6 @@ public class ProductController {
                 brands = null;
             } else {
                 brandCheckboxesToCheck.addAll(brands);
-                queryStringPagination.put("brands", String.join(",", brands));
                 model.addAttribute("brands", String.join(",", brands));
             }
         }
@@ -82,23 +91,40 @@ public class ProductController {
                 types = null;
             } else {
                 typeCheckboxesToCheck.addAll(types.stream().map(Enum::toString).collect(Collectors.toSet()));
-                queryStringPagination.put("types", types.stream().map(Enum::toString).collect(Collectors.joining(",")));
                 model.addAttribute("types", types.stream().map(Enum::toString).collect(Collectors.joining(",")));
             }
         }
 
         Page<ProductServiceModel> page = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
-                brands, types, productCategory, lowestPrice, highestPrice, pageNumber, pageSize
+                brands, types, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize
         );
-        model.addAttribute("allBrands", this.productService.getAllBrandsByCategory(ProductCategoryEnum.FITNESS));
+        model.addAttribute("allBrands", this.productService.getAllBrandsByCategory(productCategory));
         model.addAttribute("brandCheckboxesToCheck", brandCheckboxesToCheck);
         model.addAttribute("typeCheckboxesToCheck", typeCheckboxesToCheck);
-        model.addAttribute("lowerPrice", lowestPrice);
-        model.addAttribute("higherPrice", highestPrice);
+        model.addAttribute("lowerPrice", lowestPriceConverted);
+        model.addAttribute("higherPrice", highestPriceConverted);
         model.addAttribute("productType", productCategory.toString().toLowerCase());
         model.addAttribute("allProductCards", page.map(product -> this.modelMapper.map(product, ProductCardViewModel.class)).getContent());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("pageNumber", page.getPageable().getPageNumber());
+    }
+
+
+    @GetMapping("hiking")
+    public String getHikingView(
+            @RequestParam(name = "brands", required = false) Set<String> brands,
+            @RequestParam(name = "types", required = false) Set<ProductTypeEnum> types,
+            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
+            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
+            Model model) {
+
+        findAllProductsByCriteria(
+                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
+                ProductCategoryEnum.HIKING, model
+        );
+
+        return "product";
     }
 }
 
