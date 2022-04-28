@@ -40,7 +40,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/products.css">
-    <script src="/js/productEvents.js" defer></script>
+    <script src="/js/productEvents.js"></script>
     <link rel="icon" href="/icon/favicon.jpg">
 </head>
 <body>
@@ -52,9 +52,9 @@
         </button>
         <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto me-4">
-                <li class="nav-item mb-sm-1 mb-md-0 ms-auto me-auto">
-                    <a class="nav-link active fs-5" href="/about">About</a>
-                </li>
+<!--                <li class="nav-item mb-sm-1 mb-md-0 ms-auto me-auto">-->
+<!--                    <a class="nav-link active fs-5" href="/about">About</a>-->
+<!--                </li>-->
                 <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Products
@@ -71,6 +71,9 @@
                 </li>
                 <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link active fs-5" href="/weather">Weather</a>
+                </li>
+                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <a class="nav-link active fs-5" href="/users/register">Cart</a>
                 </li>
                 <th:block sec:authorize="isAnonymous()">
                     <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">

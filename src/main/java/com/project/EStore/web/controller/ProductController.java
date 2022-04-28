@@ -11,11 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,7 +36,7 @@ public class ProductController {
     @GetMapping("fitness")
     public String getFitnessView(
             @RequestParam(name = "brands", required = false) Set<String> brands,
-            @RequestParam(name = "types", required = false) Set<ProductTypeEnum> types,
+            @RequestParam(name = "types", required = false) Set<String> types,
             @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
             @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
@@ -50,8 +50,65 @@ public class ProductController {
         return "product";
     }
 
+    @GetMapping("fitness/details/{id}")
+    public String getFitnessDetailsView(@PathVariable("id") String productId) {
+        return "productDetails";
+    }
+
+
+    @GetMapping("hiking")
+    public String getHikingView(
+            @RequestParam(name = "brands", required = false) Set<String> brands,
+            @RequestParam(name = "types", required = false) Set<String> types,
+            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
+            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
+            Model model) {
+
+        findAllProductsByCriteria(
+                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
+                ProductCategoryEnum.HIKING, model
+        );
+
+        return "product";
+    }
+
+    @GetMapping("running")
+    public String getRunningView(
+            @RequestParam(name = "brands", required = false) Set<String> brands,
+            @RequestParam(name = "types", required = false) Set<String> types,
+            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
+            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
+            Model model) {
+
+        findAllProductsByCriteria(
+                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
+                ProductCategoryEnum.RUNNING, model
+        );
+
+        return "product";
+    }
+
+    @GetMapping("football")
+    public String getFootballView(
+            @RequestParam(name = "brands", required = false) Set<String> brands,
+            @RequestParam(name = "types", required = false) Set<String> types,
+            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
+            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
+            Model model) {
+
+        findAllProductsByCriteria(
+                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
+                ProductCategoryEnum.FOOTBALL, model
+        );
+
+        return "product";
+    }
+
     private void findAllProductsByCriteria(
-            Set<String> brands, Set<ProductTypeEnum> types,
+            Set<String> brands, Set<String> types,
             String lowestPrice, String highestPrice, String pageNumber, int pageSize,
             ProductCategoryEnum productCategory, Model model) {
 
@@ -64,7 +121,7 @@ public class ProductController {
             highestPriceConverted = Integer.parseInt(highestPrice);
             pageNumberConverted = Integer.parseInt(pageNumber);
         } catch (NumberFormatException e) {
-            throw new ProductCriteriaException("Request type not valid");
+            throw new ProductCriteriaException("Price and page number not valid");
         }
 
         if (lowestPriceConverted < 0 || lowestPriceConverted > ProductService.HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
@@ -85,19 +142,24 @@ public class ProductController {
             }
         }
 
+        Set<ProductTypeEnum> typesConverted = null;
         Set<String> typeCheckboxesToCheck = new HashSet<>();
         if (types != null) {
-            if (types.isEmpty()) {
-                types = null;
-            } else {
-                typeCheckboxesToCheck.addAll(types.stream().map(Enum::toString).collect(Collectors.toSet()));
-                model.addAttribute("types", types.stream().map(Enum::toString).collect(Collectors.joining(",")));
+            if (!types.isEmpty()) {
+                try {
+                    typesConverted = types.stream().map(ProductTypeEnum::valueOf)
+                            .peek(productEnum -> typeCheckboxesToCheck.add(productEnum.toString())).collect(Collectors.toSet());
+                    model.addAttribute("types", String.join(",", types));
+                } catch (IllegalArgumentException e) {
+                    throw new ProductCriteriaException("Type not valid");
+                }
             }
         }
 
         Page<ProductServiceModel> page = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
-                brands, types, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize
+                brands, typesConverted, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize
         );
+
         model.addAttribute("allBrands", this.productService.getAllBrandsByCategory(productCategory));
         model.addAttribute("brandCheckboxesToCheck", brandCheckboxesToCheck);
         model.addAttribute("typeCheckboxesToCheck", typeCheckboxesToCheck);
@@ -107,24 +169,6 @@ public class ProductController {
         model.addAttribute("allProductCards", page.map(product -> this.modelMapper.map(product, ProductCardViewModel.class)).getContent());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("pageNumber", page.getPageable().getPageNumber());
-    }
-
-
-    @GetMapping("hiking")
-    public String getHikingView(
-            @RequestParam(name = "brands", required = false) Set<String> brands,
-            @RequestParam(name = "types", required = false) Set<ProductTypeEnum> types,
-            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
-            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
-            Model model) {
-
-        findAllProductsByCriteria(
-                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
-                ProductCategoryEnum.HIKING, model
-        );
-
-        return "product";
     }
 }
 
