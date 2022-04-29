@@ -54,6 +54,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductServiceModel findProductById(Integer id, ProductTypeEnum productType) {
+        ProductEntity product = this.productRepository.findByIdAndType(id, productType);
+        return this.mapProductEntityWithPicturesSorted(product, false);
+    }
+
+    @Override
     public ProductServiceModel findProductById(Integer id) {
         ProductEntity productEntity = this.productRepository.findById(id).orElse(null);
 
@@ -78,24 +84,30 @@ public class ProductServiceImpl implements ProductService {
             productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toSet());
         }
 
-        if (higherPrice > HIGHEST_PRICE || higherPrice < 0 || higherPrice % 5 != 0) {
-            throw new ProductCriteriaException("Highest price limit exceeded");
-        }
-
         Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
                 brands, productTypes, productCategory, new BigDecimal(lowerPrice), new BigDecimal(higherPrice), PageRequest.of(pageNumber, pageSize)
         );
 
-        return pages.map(productEntity -> {
-            PictureEntity pictureEntity = productEntity.getPictures()
-                    .stream()
-                    .sorted(Comparator.comparingInt(BaseEntity::getId))
-                    .findFirst().get();
+        return pages.map(productEntity -> this.mapProductEntityWithPicturesSorted(productEntity, true));
+    }
 
-            ProductServiceModel mapped = this.modelMapper.map(productEntity, ProductServiceModel.class);
-            mapped.setPictures(new HashSet<>(Set.of(this.modelMapper.map(pictureEntity, PictureServiceModel.class))));
+    private ProductServiceModel mapProductEntityWithPicturesSorted(ProductEntity productEntity, boolean onlyFirst) {
+        ProductServiceModel mapped = this.modelMapper.map(productEntity, ProductServiceModel.class);
+        LinkedHashSet<PictureServiceModel> pictureServiceModels = new LinkedHashSet<>();
 
-            return mapped;
-        });
+        if (onlyFirst) {
+            PictureEntity pictureEntity = productEntity.getPictures().stream().sorted(Comparator.comparingInt(BaseEntity::getId)).findFirst().get();
+            pictureServiceModels.add(this.modelMapper.map(pictureEntity, PictureServiceModel.class));
+        } else {
+            LinkedHashSet<PictureServiceModel> allPicturesSorted = productEntity.getPictures().stream()
+                    .sorted(Comparator.comparingInt(BaseEntity::getId)).map(picture -> this.modelMapper.map(picture, PictureServiceModel.class))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+
+            pictureServiceModels.addAll(allPicturesSorted);
+        }
+
+        mapped.setPictures(pictureServiceModels);
+
+        return mapped;
     }
 }

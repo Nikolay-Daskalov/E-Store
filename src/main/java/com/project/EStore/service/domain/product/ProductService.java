@@ -15,6 +15,7 @@ public interface ProductService {
 
     Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes);
 
+    ProductServiceModel findProductById(Integer id, ProductTypeEnum productType);
     ProductServiceModel findProductById(Integer id);
 
     Set<String> getAllBrandsByCategory(ProductCategoryEnum productCategory);

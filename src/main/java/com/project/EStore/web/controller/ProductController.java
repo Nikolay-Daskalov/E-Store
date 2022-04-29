@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.project.EStore.service.domain.product.ProductService.HIGHEST_PRICE;
+
 @Controller
 @RequestMapping("products")
 public class ProductController {
@@ -52,6 +54,9 @@ public class ProductController {
 
     @GetMapping("fitness/details/{id}")
     public String getFitnessDetailsView(@PathVariable("id") String productId) {
+
+
+
         return "productDetails";
     }
 
@@ -124,8 +129,12 @@ public class ProductController {
             throw new ProductCriteriaException("Price and page number not valid");
         }
 
-        if (lowestPriceConverted < 0 || lowestPriceConverted > ProductService.HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
+        if (lowestPriceConverted < 0 || lowestPriceConverted > HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
             throw new ProductCriteriaException("Lowest price limit exceeded");
+        }
+
+        if (highestPriceConverted > HIGHEST_PRICE || highestPriceConverted < 0 || highestPriceConverted % 5 != 0) {
+            throw new ProductCriteriaException("Highest price limit exceeded");
         }
 
         if (pageNumberConverted < 0) {

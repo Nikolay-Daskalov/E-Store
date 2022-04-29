@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class ProductServiceModel {
     private LocalDateTime addedOn;
     private ProductSupplyServiceModel supply;
     private Set<OrderDetailServiceModel> orderDetails;
-    private Set<PictureServiceModel> pictures;
+    private LinkedHashSet<PictureServiceModel> pictures;
     private ProductTypeEnum type;
 
     public ProductServiceModel setId(Integer id) {
@@ -64,7 +65,7 @@ public class ProductServiceModel {
         return this;
     }
 
-    public ProductServiceModel setPictures(Set<PictureServiceModel> pictures) {
+    public ProductServiceModel setPictures(LinkedHashSet<PictureServiceModel> pictures) {
         this.pictures = pictures;
         return this;
     }
