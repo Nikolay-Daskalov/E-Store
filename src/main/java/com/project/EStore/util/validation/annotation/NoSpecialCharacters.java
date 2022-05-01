@@ -1,6 +1,6 @@
-package com.project.EStore.util.validation.constraint;
+package com.project.EStore.util.validation.annotation;
 
-import com.project.EStore.util.validation.constraint.validator.UniqueUserNameValidator;
+import com.project.EStore.util.validation.annotation.validator.NoSpecialCharactersValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,12 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UniqueUserNameValidator.class)
+@Constraint(validatedBy = NoSpecialCharactersValidator.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueUserName {
-
-    String message() default "Username is taken.";
+public @interface NoSpecialCharacters {
+    String message() default "Special characters nor whitespaces allowed.";
 
     Class<?>[] groups() default {};
 

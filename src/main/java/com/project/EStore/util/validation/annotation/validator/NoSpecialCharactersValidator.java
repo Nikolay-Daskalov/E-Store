@@ -1,6 +1,6 @@
-package com.project.EStore.util.validation.constraint.validator;
+package com.project.EStore.util.validation.annotation.validator;
 
-import com.project.EStore.util.validation.constraint.NoSpecialCharacters;
+import com.project.EStore.util.validation.annotation.NoSpecialCharacters;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
@@ -16,12 +16,6 @@ public class NoSpecialCharactersValidator implements ConstraintValidator<NoSpeci
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value.chars().mapToObj(i -> (char) i).noneMatch(character -> {
-            if (Character.isWhitespace(character) || specialCharacters.contains(character)) {
-                return true;
-            }
-
-            return false;
-        });
+        return value.chars().mapToObj(i -> (char) i).noneMatch(character -> Character.isWhitespace(character) || specialCharacters.contains(character));
     }
 }

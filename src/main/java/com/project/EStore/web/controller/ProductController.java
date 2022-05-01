@@ -5,7 +5,9 @@ import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
+import com.project.EStore.model.view.product.ProductDetailsViewModel;
 import com.project.EStore.service.domain.product.ProductService;
+import com.project.EStore.util.validation.ProductIdTypeValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -53,9 +55,22 @@ public class ProductController {
     }
 
     @GetMapping("fitness/details/{id}")
-    public String getFitnessDetailsView(@PathVariable("id") String productId) {
+    public String getFitnessDetailsView(@PathVariable("id") String productId, Model model) {
+        boolean isValid = ProductIdTypeValidator.isValid(productId);
 
+        if (!isValid) {
+            throw new ProductCriteriaException("Id is not valid type");
+        }
 
+        ProductServiceModel productById = this.productService.findProductById(Integer.parseInt(productId));
+
+        if (productById == null) {
+            throw new ProductCriteriaException("Product not found");
+        }
+
+        ProductDetailsViewModel detailsViewModel = this.modelMapper.map(productById, ProductDetailsViewModel.class);
+
+        model.addAttribute("product", detailsViewModel);
 
         return "productDetails";
     }

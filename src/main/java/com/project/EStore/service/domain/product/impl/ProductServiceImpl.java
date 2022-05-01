@@ -1,6 +1,5 @@
 package com.project.EStore.service.domain.product.impl;
 
-import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.model.entity.base.BaseEntity;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.product.PictureEntity;
@@ -54,16 +53,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductServiceModel findProductById(Integer id, ProductTypeEnum productType) {
-        ProductEntity product = this.productRepository.findByIdAndType(id, productType);
-        return this.mapProductEntityWithPicturesSorted(product, false);
-    }
-
-    @Override
     public ProductServiceModel findProductById(Integer id) {
         ProductEntity productEntity = this.productRepository.findById(id).orElse(null);
 
-        return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
+        return productEntity == null ? null : this.mapProductEntityWithPicturesSorted(productEntity, false);
     }
 
     @Override

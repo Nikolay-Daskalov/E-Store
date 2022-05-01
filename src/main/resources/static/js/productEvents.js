@@ -2,11 +2,11 @@ window.addEventListener("load", (e) => {
     const currenTarget = e.currentTarget;
     const footerElement = document.getElementsByTagName('footer')[0];
     const bodyElement = document.getElementsByTagName('body')[0];
-    if (currenTarget.outerHeight > bodyElement.clientHeight) {
+    if (currenTarget.innerHeight > bodyElement.clientHeight) {
         footerElement.classList.add('position-fixed', 'w-100', 'bottom-0');
     }
     currenTarget.addEventListener('resize', (e) => {
-        if (currenTarget.outerHeight > bodyElement.clientHeight) {
+        if (currenTarget.innerHeight > bodyElement.clientHeight) {
             footerElement.classList.add('position-fixed', 'w-100', 'bottom-0');
         } else {
             footerElement.classList.remove('position-fixed', 'w-100', 'bottom-0');
@@ -32,12 +32,11 @@ window.addEventListener("load", (e) => {
     const accordionButton = document.getElementsByClassName('accordion-button')[0];
     accordionButton.addEventListener('click', (e) => {
         setTimeout(() => {
-            if (currenTarget.outerHeight > bodyElement.clientHeight) {
+            if (currenTarget.innerHeight > bodyElement.clientHeight) {
                 footerElement.classList.add('position-fixed', 'w-100', 'bottom-0');
             } else {
                 footerElement.classList.remove('position-fixed', 'w-100', 'bottom-0');
             }
-        }, 250);
-
+        }, 280);
     });
 });
