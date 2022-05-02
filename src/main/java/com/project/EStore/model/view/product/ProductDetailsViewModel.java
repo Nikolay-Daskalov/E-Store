@@ -1,13 +1,11 @@
 package com.project.EStore.model.view.product;
 
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
-import com.project.EStore.model.service.product.PictureServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -18,7 +16,7 @@ public class ProductDetailsViewModel {
     private String model;
     private Set<ProductSizeServiceModel> sizes;
     private ProductSupplyServiceModel supply;
-    private LinkedHashSet<PictureServiceModel> pictures;
+    private String imageUrl;
     private ProductTypeEnum type;
 
     public ProductDetailsViewModel setBrand(String brand) {
@@ -41,8 +39,8 @@ public class ProductDetailsViewModel {
         return this;
     }
 
-    public ProductDetailsViewModel setPictures(LinkedHashSet<PictureServiceModel> pictures) {
-        this.pictures = pictures;
+    public ProductDetailsViewModel setPictures(String pictures) {
+        this.imageUrl = imageUrl;
         return this;
     }
 

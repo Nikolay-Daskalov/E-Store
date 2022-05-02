@@ -22,7 +22,7 @@ public class ProductServiceModel {
     private LocalDateTime addedOn;
     private ProductSupplyServiceModel supply;
     private Set<OrderDetailServiceModel> orderDetails;
-    private LinkedHashSet<PictureServiceModel> pictures;
+    private String imageUrl;
     private ProductTypeEnum type;
 
     public ProductServiceModel setId(Integer id) {
@@ -65,8 +65,8 @@ public class ProductServiceModel {
         return this;
     }
 
-    public ProductServiceModel setPictures(LinkedHashSet<PictureServiceModel> pictures) {
-        this.pictures = pictures;
+    public ProductServiceModel setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 

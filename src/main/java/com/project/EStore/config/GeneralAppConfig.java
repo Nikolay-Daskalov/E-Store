@@ -45,7 +45,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setBrand(source.getBrand())
                         .setModel(source.getModel())
                         .setPrice(source.getSupply().getPrice().setScale(2, RoundingMode.HALF_UP).toString())
-                        .setImageUrl(source.getPictures().stream().findFirst().get().getUrl());
+                        .setImageUrl(source.getImageUrl());
                 return productCardViewModel;
             }
         });

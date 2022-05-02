@@ -31,8 +31,8 @@ public class ProductEntity extends BaseEntity {
     private ProductSupplyEntity supply;
     @OneToMany(mappedBy = "product")
     private Set<OrderDetailEntity> orderDetails;
-    @OneToMany(mappedBy = "product")
-    private Set<PictureEntity> pictures;
+    @Column(nullable = false)
+    private String imageUrl;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductTypeEnum type;
@@ -40,7 +40,6 @@ public class ProductEntity extends BaseEntity {
     public ProductEntity() {
         this.sizes = new HashSet<>();
         this.orderDetails = new HashSet<>();
-        this.pictures = new HashSet<>();
     }
 
     @PrePersist
@@ -71,6 +70,11 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setType(ProductTypeEnum type) {
         this.type = type;
+        return this;
+    }
+
+    public ProductEntity setPictureUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 }
