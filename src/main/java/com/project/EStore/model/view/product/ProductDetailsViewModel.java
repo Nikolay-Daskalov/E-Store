@@ -1,8 +1,5 @@
 package com.project.EStore.model.view.product;
 
-import com.project.EStore.model.entity.enums.ProductTypeEnum;
-import com.project.EStore.model.service.product.ProductSizeServiceModel;
-import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,10 +11,10 @@ public class ProductDetailsViewModel {
 
     private String brand;
     private String model;
-    private Set<ProductSizeServiceModel> sizes;
-    private ProductSupplyServiceModel supply;
+    private Set<String> sizes;
+    private ProductSupplyViewModel supply;
     private String imageUrl;
-    private ProductTypeEnum type;
+    private String type;
 
     public ProductDetailsViewModel setBrand(String brand) {
         this.brand = brand;
@@ -29,22 +26,22 @@ public class ProductDetailsViewModel {
         return this;
     }
 
-    public ProductDetailsViewModel setSizes(Set<ProductSizeServiceModel> sizes) {
+    public ProductDetailsViewModel setSizes(Set<String> sizes) {
         this.sizes = sizes;
         return this;
     }
 
-    public ProductDetailsViewModel setSupply(ProductSupplyServiceModel supply) {
+    public ProductDetailsViewModel setSupply(ProductSupplyViewModel supply) {
         this.supply = supply;
         return this;
     }
 
-    public ProductDetailsViewModel setPictures(String pictures) {
+    public ProductDetailsViewModel setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }
 
-    public ProductDetailsViewModel setType(ProductTypeEnum type) {
+    public ProductDetailsViewModel setType(String type) {
         this.type = type;
         return this;
     }
