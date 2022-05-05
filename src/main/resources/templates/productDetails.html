@@ -21,10 +21,16 @@
     <h2>Product Details</h2>
     <div class="row row-cols-1 row-cols-lg-2 mt-5 ms-auto me-auto w-75">
         <div class="col mw-50 mb-4">
-            <img th:src="*{getImageUrl()}" alt="afa" class="rounded shadow-sm border">
+            <img th:src="*{getImageUrl()}" th:alt="*{getBrand() + ' ' + getModel() + ' image'}" class="rounded shadow-sm border">
         </div>
         <div class="col mw-50">
-
+            <h4 th:text="*{getBrand() + ' ' + getModel()}">Text</h4>
+            <div class="text-start w-50 ms-auto me-auto">
+                <select class="form-select mt-4 ms-auto me-auto" aria-label="Default select example" th:if="*{!getSizes().isEmpty()}">
+                    <option selected>Choose Size</option>
+                    <option th:each="size : *{getSizes()}" th:value="${size}" th:text="${#strings.capitalize(size.toLowerCase())}">Size option</option>
+                </select>
+            </div>
         </div>
     </div>
 </main>
