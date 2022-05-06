@@ -1,8 +1,17 @@
 img {
     height: auto;
     width: 300px;
+    max-width: 100%;
 }
 
 select {
     width: 200px !important;
+}
+
+input[type="number"]{
+    width: 200px;
+}
+
+.details-container {
+    min-height: 280px;
 }
