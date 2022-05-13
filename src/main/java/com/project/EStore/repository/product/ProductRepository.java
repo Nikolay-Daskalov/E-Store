@@ -19,7 +19,7 @@ import java.util.Set;
 @Repository
 public interface ProductRepository extends BaseRepository<ProductEntity> {
 
-    Optional<ProductEntity> findByIdAndType(Integer id, ProductTypeEnum type);
+    Optional<ProductEntity> findByIdAndCategory(Integer id, ProductCategoryEnum category);
 
     @Query(value = "SELECT DISTINCT p.brand FROM ProductEntity AS p WHERE p.category = :category")
     Set<String> findAllBrandsByProductCategory(@Param("category") ProductCategoryEnum categoryEnum);

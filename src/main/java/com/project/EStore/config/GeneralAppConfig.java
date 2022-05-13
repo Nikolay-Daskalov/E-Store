@@ -57,6 +57,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
             protected ProductDetailsViewModel convert(ProductServiceModel source) {
                 ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel();
                 productDetailsViewModel
+                        .setId(source.getId())
                         .setBrand(source.getBrand())
                         .setModel(source.getModel())
                         .setSizes(source.getSizes().stream().map(size -> size.getSize().toString()).collect(Collectors.toSet()))

@@ -57,6 +57,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductServiceModel findProductByIdAndType(Integer id, ProductCategoryEnum productCategory) {
+        ProductEntity productEntity = this.productRepository.findByIdAndCategory(id, productCategory).orElse(null);
+
+        return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
+    }
+
+    @Override
     public Set<String> getAllBrandsByCategory(ProductCategoryEnum productCategory) {
         return this.productRepository.findAllBrandsByProductCategory(productCategory);
     }

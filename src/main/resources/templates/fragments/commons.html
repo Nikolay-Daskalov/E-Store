@@ -13,6 +13,7 @@
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="icon" href="/icon/favicon.jpg">
+    <script src="/js/loadCartItems.js" type="module"></script>
 </head>
 <head th:fragment="login-register-head">
     <meta charset="UTF-8">
@@ -27,6 +28,7 @@
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/login.css">
     <link rel="icon" href="/icon/favicon.jpg">
+    <script src="/js/loadCartItems.js" type="module"></script>
 </head>
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0">
@@ -37,20 +39,29 @@
         </button>
         <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto me-4">
-<!--                <li class="nav-item mb-sm-1 mb-md-0 ms-auto me-auto">-->
-<!--                    <a class="nav-link active fs-5" href="/about">About</a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item mb-sm-1 mb-md-0 ms-auto me-auto">-->
+                <!--                    <a class="nav-link active fs-5" href="/about">About</a>-->
+                <!--                </li>-->
                 <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
-                    <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
                         Products
                     </a>
                     <ul class="dropdown-menu text-center p-1" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="/products/fitness">Fitness</a></li>
-                        <li><hr class="dropdown-divider mt-1 mb-1"></li>
+                        <li>
+                            <hr class="dropdown-divider mt-1 mb-1">
+                        </li>
                         <li><a class="dropdown-item" href="/products/hiking">Hiking</a></li>
-                        <li><hr class="dropdown-divider mt-1 mb-1"></li>
-                        <li><a class="dropdown-item" href="/products/running">Running</a></li>
-                        <li><hr class="dropdown-divider mt-1 mb-1"></li>
+                        <li>
+                            <hr class="dropdown-divider mt-1 mb-1">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/products/running">Running</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider mt-1 mb-1">
+                        </li>
                         <li><a class="dropdown-item" href="/products/football">Football</a></li>
                     </ul>
                 </li>
@@ -58,7 +69,10 @@
                     <a class="nav-link active fs-5" href="/weather">Weather</a>
                 </li>
                 <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
-                    <a class="nav-link active fs-5" href="/users/register">Cart</a>
+                    <a class="nav-link active fs-5 position-relative" href="/users/register" id="cartLink">
+                        Cart
+<!--                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">0</span>-->
+                    </a>
                 </li>
                 <th:block sec:authorize="isAnonymous()">
                     <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
@@ -86,7 +100,8 @@
         <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>
     </div>
 </footer>
-<footer th:fragment="login-register-footer" class="bg-info border-top border-bottom border-1 border-dark position-fixed bottom-0">
+<footer th:fragment="login-register-footer"
+        class="bg-info border-top border-bottom border-1 border-dark position-fixed bottom-0">
     <div class="text-center fw-bold fs-6">
         Project created by Nikolay Daskalov.
         <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>

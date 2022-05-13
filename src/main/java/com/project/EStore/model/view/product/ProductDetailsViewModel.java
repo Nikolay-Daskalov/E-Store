@@ -9,12 +9,18 @@ import java.util.Set;
 @Getter
 public class ProductDetailsViewModel {
 
+    private Integer id;
     private String brand;
     private String model;
     private Set<String> sizes;
     private ProductSupplyViewModel supply;
     private String imageUrl;
     private String type;
+
+    public ProductDetailsViewModel setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public ProductDetailsViewModel setBrand(String brand) {
         this.brand = brand;

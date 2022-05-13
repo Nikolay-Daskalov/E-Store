@@ -1,6 +1,7 @@
 package com.project.EStore.web.controller;
 
-import com.project.EStore.exception.ProductCriteriaException;
+import com.project.EStore.exception.ProductNotFoundException;
+import com.project.EStore.exception.ProductQueryCriteriaException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
@@ -10,12 +11,11 @@ import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.util.validation.ProductIdTypeValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +51,7 @@ public class ProductController {
                 ProductCategoryEnum.FITNESS, model
         );
 
-        return "product";
+        return "products";
     }
 
     @GetMapping("fitness/details/{id}")
@@ -59,16 +59,15 @@ public class ProductController {
         boolean isValid = ProductIdTypeValidator.isValid(productId);
 
         if (!isValid) {
-            throw new ProductCriteriaException("Id is not valid type");
+            throw new ProductQueryCriteriaException("Id is not valid type");
+        }
+        ProductServiceModel productByIdAndType = this.productService.findProductByIdAndType(Integer.parseInt(productId), ProductCategoryEnum.FITNESS);
+
+        if (productByIdAndType == null) {
+            throw new ProductNotFoundException("Product not found");
         }
 
-        ProductServiceModel productById = this.productService.findProductById(Integer.parseInt(productId));
-
-        if (productById == null) {
-            throw new ProductCriteriaException("Product not found");
-        }
-
-        ProductDetailsViewModel detailsViewModel = this.modelMapper.map(productById, ProductDetailsViewModel.class);
+        ProductDetailsViewModel detailsViewModel = this.modelMapper.map(productByIdAndType, ProductDetailsViewModel.class);
 
         model.addAttribute("product", detailsViewModel);
 
@@ -90,7 +89,7 @@ public class ProductController {
                 ProductCategoryEnum.HIKING, model
         );
 
-        return "product";
+        return "products";
     }
 
     @GetMapping("running")
@@ -107,7 +106,7 @@ public class ProductController {
                 ProductCategoryEnum.RUNNING, model
         );
 
-        return "product";
+        return "products";
     }
 
     @GetMapping("football")
@@ -124,7 +123,7 @@ public class ProductController {
                 ProductCategoryEnum.FOOTBALL, model
         );
 
-        return "product";
+        return "products";
     }
 
     private void findAllProductsByCriteria(
@@ -141,19 +140,19 @@ public class ProductController {
             highestPriceConverted = Integer.parseInt(highestPrice);
             pageNumberConverted = Integer.parseInt(pageNumber);
         } catch (NumberFormatException e) {
-            throw new ProductCriteriaException("Price and page number not valid");
+            throw new ProductQueryCriteriaException("Price and page number not valid");
         }
 
         if (lowestPriceConverted < 0 || lowestPriceConverted > HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
-            throw new ProductCriteriaException("Lowest price limit exceeded");
+            throw new ProductQueryCriteriaException("Lowest price limit exceeded");
         }
 
         if (highestPriceConverted > HIGHEST_PRICE || highestPriceConverted < 0 || highestPriceConverted % 5 != 0) {
-            throw new ProductCriteriaException("Highest price limit exceeded");
+            throw new ProductQueryCriteriaException("Highest price limit exceeded");
         }
 
         if (pageNumberConverted < 0) {
-            throw new ProductCriteriaException("Page number limit exceeded");
+            throw new ProductQueryCriteriaException("Page number limit exceeded");
         }
 
         Set<String> brandCheckboxesToCheck = new HashSet<>();
@@ -175,7 +174,7 @@ public class ProductController {
                             .peek(productEnum -> typeCheckboxesToCheck.add(productEnum.toString())).collect(Collectors.toSet());
                     model.addAttribute("types", String.join(",", types));
                 } catch (IllegalArgumentException e) {
-                    throw new ProductCriteriaException("Type not valid");
+                    throw new ProductQueryCriteriaException("Type not valid");
                 }
             }
         }
