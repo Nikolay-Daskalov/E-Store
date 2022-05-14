@@ -8,20 +8,15 @@ import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
 import com.project.EStore.model.view.product.ProductDetailsViewModel;
 import com.project.EStore.service.domain.product.ProductService;
-import com.project.EStore.util.validation.ProductIdTypeValidator;
+import com.project.EStore.util.validation.ProductValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import static com.project.EStore.service.domain.product.ProductService.HIGHEST_PRICE;
 
 @Controller
 @RequestMapping("products")
@@ -37,8 +32,9 @@ public class ProductController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("fitness")
+    @GetMapping("{productCategory}")
     public String getFitnessView(
+            @PathVariable(name = "productCategory") String productCategory,
             @RequestParam(name = "brands", required = false) Set<String> brands,
             @RequestParam(name = "types", required = false) Set<String> types,
             @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
@@ -46,9 +42,14 @@ public class ProductController {
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
 
+        if (!productCategory.equals(productCategory.toLowerCase()) ||
+                !ProductValidator.isValidCategory(productCategory.toUpperCase())) {
+            throw new ProductQueryCriteriaException("Product category is not valid");
+        }
+
         findAllProductsByCriteria(
                 brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
-                ProductCategoryEnum.FITNESS, model
+                ProductCategoryEnum.valueOf(productCategory.toUpperCase()), model
         );
 
         return "products";
@@ -56,7 +57,7 @@ public class ProductController {
 
     @GetMapping("fitness/details/{id}")
     public String getFitnessDetailsView(@PathVariable("id") String productId, Model model) {
-        boolean isValid = ProductIdTypeValidator.isValid(productId);
+        boolean isValid = ProductValidator.isValidId(productId);
 
         if (!isValid) {
             throw new ProductQueryCriteriaException("Id is not valid type");
@@ -74,113 +75,26 @@ public class ProductController {
         return "productDetails";
     }
 
-
-    @GetMapping("hiking")
-    public String getHikingView(
-            @RequestParam(name = "brands", required = false) Set<String> brands,
-            @RequestParam(name = "types", required = false) Set<String> types,
-            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
-            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
-            Model model) {
-
-        findAllProductsByCriteria(
-                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
-                ProductCategoryEnum.HIKING, model
-        );
-
-        return "products";
-    }
-
-    @GetMapping("running")
-    public String getRunningView(
-            @RequestParam(name = "brands", required = false) Set<String> brands,
-            @RequestParam(name = "types", required = false) Set<String> types,
-            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
-            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
-            Model model) {
-
-        findAllProductsByCriteria(
-                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
-                ProductCategoryEnum.RUNNING, model
-        );
-
-        return "products";
-    }
-
-    @GetMapping("football")
-    public String getFootballView(
-            @RequestParam(name = "brands", required = false) Set<String> brands,
-            @RequestParam(name = "types", required = false) Set<String> types,
-            @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
-            @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
-            Model model) {
-
-        findAllProductsByCriteria(
-                brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
-                ProductCategoryEnum.FOOTBALL, model
-        );
-
-        return "products";
-    }
-
     private void findAllProductsByCriteria(
             Set<String> brands, Set<String> types,
             String lowestPrice, String highestPrice, String pageNumber, int pageSize,
             ProductCategoryEnum productCategory, Model model) {
 
-        Integer lowestPriceConverted;
-        Integer highestPriceConverted;
-        Integer pageNumberConverted;
+        ProductValidator.isValidPriceOrPage(lowestPrice, highestPrice, pageNumber);
 
-        try {
-            lowestPriceConverted = Integer.parseInt(lowestPrice);
-            highestPriceConverted = Integer.parseInt(highestPrice);
-            pageNumberConverted = Integer.parseInt(pageNumber);
-        } catch (NumberFormatException e) {
-            throw new ProductQueryCriteriaException("Price and page number not valid");
-        }
+        Integer lowestPriceConverted = Integer.parseInt(lowestPrice);
+        Integer highestPriceConverted = Integer.parseInt(highestPrice);
+        Integer pageNumberConverted = Integer.parseInt(pageNumber);
 
-        if (lowestPriceConverted < 0 || lowestPriceConverted > HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
-            throw new ProductQueryCriteriaException("Lowest price limit exceeded");
-        }
-
-        if (highestPriceConverted > HIGHEST_PRICE || highestPriceConverted < 0 || highestPriceConverted % 5 != 0) {
-            throw new ProductQueryCriteriaException("Highest price limit exceeded");
-        }
-
-        if (pageNumberConverted < 0) {
-            throw new ProductQueryCriteriaException("Page number limit exceeded");
-        }
 
         Set<String> brandCheckboxesToCheck = new HashSet<>();
-        if (brands != null) {
-            if (brands.isEmpty()) {
-                brands = null;
-            } else {
-                brandCheckboxesToCheck.addAll(brands);
-                model.addAttribute("brands", String.join(",", brands));
-            }
-        }
+        Set<String> brandsConverted = ProductValidator.addBrandsToCheck(brands, brandCheckboxesToCheck, model);
 
-        Set<ProductTypeEnum> typesConverted = null;
         Set<String> typeCheckboxesToCheck = new HashSet<>();
-        if (types != null) {
-            if (!types.isEmpty()) {
-                try {
-                    typesConverted = types.stream().map(ProductTypeEnum::valueOf)
-                            .peek(productEnum -> typeCheckboxesToCheck.add(productEnum.toString())).collect(Collectors.toSet());
-                    model.addAttribute("types", String.join(",", types));
-                } catch (IllegalArgumentException e) {
-                    throw new ProductQueryCriteriaException("Type not valid");
-                }
-            }
-        }
+        Set<ProductTypeEnum> typesConverted = ProductValidator.areValidTypes(types, typeCheckboxesToCheck, model);
 
         Page<ProductServiceModel> page = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
-                brands, typesConverted, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize
+                brandsConverted, typesConverted, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize
         );
 
         model.addAttribute("allBrands", this.productService.getAllBrandsByCategory(productCategory));

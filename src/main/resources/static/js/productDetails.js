@@ -1,4 +1,4 @@
-import {footerResizer, loadCartItems} from './util.js';
+import {footerResizer, addItemToCart} from './util.js';
 
 const currentTarget = window;
 const footerElement = document.getElementsByTagName('footer')[0];
@@ -7,7 +7,6 @@ footerResizer(currentTarget, footerElement, bodyElement);
 
 const addToCardBtn = document.getElementById('addToCard');
 addToCardBtn.addEventListener('click', (e) => {
-    const productId = e.currentTarget.getAttribute('data-productId');
-    const cartItems = getCartItemsCookie();
-    cartItems.push(productId);
+    const productId = e.currentTarget.getAttribute('data-productid');
+    addItemToCart(Number(productId));
 });

@@ -12,6 +12,7 @@ export function footerResizer(currentTarget, footerElement, bodyElement) {
 }
 
 const cartKeyCookie = 'cartItems';
+const cart = document.getElementById('cartLink');
 
 function setCartItemsCookie(cartItems) {
     if (Array.isArray(cartItems)) {
@@ -19,8 +20,13 @@ function setCartItemsCookie(cartItems) {
     }
 }
 
-function addItemToCart(item) {
-
+export function addItemToCart(item) {
+    const cartItems = getCartItemsCookie();
+    if (!cartItems.includes(item)) {
+        cartItems.push(item);
+        setCartItemsCookie(cartItems);
+        renderCartItems(cart, cartItems.length);
+    }
 }
 
 function getCartCookieValue(cookieData) {
@@ -52,9 +58,8 @@ function renderCartItems(cart, numberOfItems) {
     cart.appendChild(numberOfItemsSpanElement);
 }
 
-export function loadCartItems(){
+export function loadCartItems() {
     const cartItems = getCartItemsCookie();
-    const cart = document.getElementById('cartLink');
     if (cartItems === null) {
         setCartItemsCookie([]);
         renderCartItems(cart, 0);
