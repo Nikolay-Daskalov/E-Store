@@ -34,7 +34,7 @@ public class ProductController {
 
     @GetMapping("{productCategory}")
     public String getFitnessView(
-            @PathVariable(name = "productCategory") String productCategory,
+            @PathVariable String productCategory,
             @RequestParam(name = "brands", required = false) Set<String> brands,
             @RequestParam(name = "types", required = false) Set<String> types,
             @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
@@ -42,10 +42,7 @@ public class ProductController {
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
 
-        if (!productCategory.equals(productCategory.toLowerCase()) ||
-                !ProductValidator.isValidCategory(productCategory.toUpperCase())) {
-            throw new ProductQueryCriteriaException("Product category is not valid");
-        }
+        this.isCategoryValid(productCategory);
 
         findAllProductsByCriteria(
                 brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
@@ -55,14 +52,19 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("fitness/details/{id}")
-    public String getFitnessDetailsView(@PathVariable("id") String productId, Model model) {
-        boolean isValid = ProductValidator.isValidId(productId);
+    @GetMapping("{productCategory}/details/{id}")
+    public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable("id") String productId, Model model) {
+
+        this.isCategoryValid(productCategory);
+
+        boolean isValid = ProductValidator.isIdValid(productId);
 
         if (!isValid) {
             throw new ProductQueryCriteriaException("Id is not valid type");
         }
-        ProductServiceModel productByIdAndType = this.productService.findProductByIdAndType(Integer.parseInt(productId), ProductCategoryEnum.FITNESS);
+
+        ProductServiceModel productByIdAndType = this.productService
+                .findProductByIdAndType(Integer.parseInt(productId), ProductCategoryEnum.valueOf(productCategory.toUpperCase()));
 
         if (productByIdAndType == null) {
             throw new ProductNotFoundException("Product not found");
@@ -75,23 +77,29 @@ public class ProductController {
         return "productDetails";
     }
 
+    private void isCategoryValid(String productCategory) {
+        if (!productCategory.equals(productCategory.toLowerCase()) ||
+                !ProductValidator.isCategoryValid(productCategory.toUpperCase())) {
+            throw new ProductQueryCriteriaException("Product category is not valid");
+        }
+    }
+
     private void findAllProductsByCriteria(
             Set<String> brands, Set<String> types,
             String lowestPrice, String highestPrice, String pageNumber, int pageSize,
             ProductCategoryEnum productCategory, Model model) {
 
-        ProductValidator.isValidPriceOrPage(lowestPrice, highestPrice, pageNumber);
+        ProductValidator.isPriceOrPageValid(lowestPrice, highestPrice, pageNumber);
 
         Integer lowestPriceConverted = Integer.parseInt(lowestPrice);
         Integer highestPriceConverted = Integer.parseInt(highestPrice);
         Integer pageNumberConverted = Integer.parseInt(pageNumber);
 
-
         Set<String> brandCheckboxesToCheck = new HashSet<>();
         Set<String> brandsConverted = ProductValidator.addBrandsToCheck(brands, brandCheckboxesToCheck, model);
 
         Set<String> typeCheckboxesToCheck = new HashSet<>();
-        Set<ProductTypeEnum> typesConverted = ProductValidator.areValidTypes(types, typeCheckboxesToCheck, model);
+        Set<ProductTypeEnum> typesConverted = ProductValidator.addTypesToCheck(types, typeCheckboxesToCheck, model);
 
         Page<ProductServiceModel> page = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
                 brandsConverted, typesConverted, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize

@@ -13,7 +13,7 @@ import static com.project.EStore.service.domain.product.ProductService.HIGHEST_P
 
 public class ProductValidator {
 
-    public static boolean isValidId(String id) {
+    public static boolean isIdValid(String id) {
         try {
             Integer.parseInt(id);
             return true;
@@ -22,7 +22,7 @@ public class ProductValidator {
         }
     }
 
-    public static boolean isValidCategory(String category) {
+    public static boolean isCategoryValid(String category) {
         try {
             ProductCategoryEnum.valueOf(category);
             return true;
@@ -31,7 +31,7 @@ public class ProductValidator {
         }
     }
 
-    public static void isValidPriceOrPage(String lowestPrice, String highestPrice, String pageNumber) {
+    public static void isPriceOrPageValid(String lowestPrice, String highestPrice, String pageNumber) {
         try {
             int lowestPriceConverted = Integer.parseInt(lowestPrice);
             int highestPriceConverted = Integer.parseInt(highestPrice);
@@ -67,7 +67,7 @@ public class ProductValidator {
         return null;
     }
 
-    public static Set<ProductTypeEnum> areValidTypes(Set<String> types, Set<String> typeCheckboxesToCheck, Model model) {
+    public static Set<ProductTypeEnum> addTypesToCheck(Set<String> types, Set<String> typeCheckboxesToCheck, Model model) {
         Set<ProductTypeEnum> typesConverted = null;
         if (types != null) {
             if (types.isEmpty()) {

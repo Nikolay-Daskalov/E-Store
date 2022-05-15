@@ -18,16 +18,16 @@
 </head>
 <body>
 <nav th:replace="fragments/commons::nav"></nav>
-<main class="mt-5 text-center" th:object="${product}">
+<main class="mt-5 text-center mb-5" th:object="${product}">
     <h2>Product Details</h2>
-    <div class="row row-cols-1 row-cols-lg-2 mt-5 ms-auto me-auto w-75">
+    <div class="row row-cols-1 row-cols-lg-2 mt-5 ms-auto me-auto w-75" id="parent-container">
         <div class="col mb-4 details-container">
             <img th:src="*{getImageUrl()}" th:alt="*{getBrand() + ' ' + getModel() + ' image'}" class="rounded shadow-sm border">
         </div>
         <div class="col position-relative mb-4 details-container border border-info shadow">
             <h4 th:text="*{getBrand() + ' ' + getModel()}" class="mt-3">Text</h4>
             <div class="text-start ms-auto me-auto">
-                <select class="form-select mt-4 ms-auto me-auto" aria-label="Default select example" th:if="*{!getSizes().isEmpty()}">
+                <select class="form-select mt-4 ms-auto me-auto" aria-label="Default select example" th:if="*{!getSizes().isEmpty()}" id="size-select">
                     <option selected>Choose Size</option>
                     <option th:each="size : *{getSizes()}" th:value="${size}" th:text="${#strings.capitalize(size.toLowerCase())}">Size option</option>
                 </select>
@@ -37,7 +37,7 @@
                 <input id="products-count" type="number" class="form-control ms-auto me-auto" min="1" max="20" value="1">
             </div>
             <div class="position-absolute bottom-0 start-50 translate-middle">
-                <button class="btn btn-outline-primary" id="addToCard" th:data-productid="*{getId()}">Add to Cart</button>
+                <button class="btn btn-outline-primary" id="addToCard" th:data-product-id="*{getId()}">Add to Cart</button>
             </div>
         </div>
     </div>

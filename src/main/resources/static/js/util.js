@@ -20,12 +20,59 @@ function setCartItemsCookie(cartItems) {
     }
 }
 
-export function addItemToCart(item) {
+export function addItemToCart(itemId, quantity, sizeSelect) {
     const cartItems = getCartItemsCookie();
-    if (!cartItems.includes(item)) {
-        cartItems.push(item);
+
+    const doesItemExist = cartItems.some(cartItem => {
+        if (cartItem.id === itemId) {
+            return true;
+        }
+    });
+
+    const cartItem = {
+        id: itemId,
+        quantity
+    };
+
+    if (sizeSelect !== null) {
+        if (sizeSelect.selectedIndex === 0) {
+            buildAlert('Select size', 'warning')
+            return;
+        }
+        cartItem.size = sizeSelect.value;
+    }
+
+    if (!doesItemExist) {
+        cartItems.push(cartItem);
         setCartItemsCookie(cartItems);
         renderCartItems(cart, cartItems.length);
+        buildAlert('Product added to cart', 'success');
+    } else {
+        buildAlert('Product already in cart', 'warning');
+    }
+}
+
+export function buildAlert(text, type) {
+    const closeBtnAlert = document.createElement('button');
+    closeBtnAlert.setAttribute('type', 'button');
+    closeBtnAlert.setAttribute('data-bs-dismiss', 'alert');
+    closeBtnAlert.setAttribute('aria-label', 'Close');
+    closeBtnAlert.classList.add('btn-close');
+
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert', `alert-${type}`, 'alert-dismissible', 'fade', 'show', 'ms-auto', 'me-auto');
+    alertDiv.setAttribute('role', 'alert');
+    alertDiv.textContent = text;
+    alertDiv.id = 'alert-div';
+    alertDiv.appendChild(closeBtnAlert);
+
+    const parentContainer = document.getElementById('parent-container');
+
+    if (parentContainer.childElementCount === 2) {
+        parentContainer.appendChild(alertDiv);
+    } else {
+        parentContainer.lastElementChild.remove();
+        parentContainer.appendChild(alertDiv);
     }
 }
 
