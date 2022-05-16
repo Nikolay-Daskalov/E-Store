@@ -2,6 +2,7 @@ package com.project.EStore.exception.handler;
 
 import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.exception.ProductQueryCriteriaException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,14 +12,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductQueryCriteriaException.class)
     public ModelAndView productQueryCriteriaHandler() {
-        //TODO: add handling and view
-
-        return new ModelAndView();
+        return this.buildModelAndView("error", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ModelAndView productNotFoundHandler() {
+        return this.buildModelAndView("error", HttpStatus.NOT_FOUND);
+    }
 
-        return new ModelAndView();
+    private ModelAndView buildModelAndView(String viewName, HttpStatus httpStatus) {
+        ModelAndView response = new ModelAndView(viewName, httpStatus);
+        response.addObject("statusInfo", httpStatus.value() + " " + httpStatus.getReasonPhrase());
+
+        return response;
     }
 }

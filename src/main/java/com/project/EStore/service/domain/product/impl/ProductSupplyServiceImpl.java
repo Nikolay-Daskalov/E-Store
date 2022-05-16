@@ -45,19 +45,39 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646457299/EStore/Fitness/domyos-leggings-lady.jpg",
-                "Domyos", "Lady leggings", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
+                "Domyos", "Leggings Lady", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
 
         initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("6"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646456700/EStore/Fitness/corength-push-ups-handlebars.webp",
                 "Corength", "Push ups handlebars", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("5.40"), Short.valueOf("10"),
-                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646496614/EStore/Fitness/weider-shaker-300-ml.webp",
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646496614/EStore/Fitness/weider-shaker-300ml.webp",
                 "Weider", "Shaker 300 ml", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("22"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646497610/EStore/Fitness/domyos-t-shirt-man.webp",
                 "Domyos", "T-shirt Man", ProductCategoryEnum.FITNESS, ProductTypeEnum.TOP, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("5"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652693081/EStore/Fitness/corength-ab-wheel.avif",
+                "Corength", "AB Wheel", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("9.40"), Short.valueOf("8"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652693448/EStore/Fitness/domyos-fitness-bag.avif",
+                "Domyos", "Bag", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("109"), Short.valueOf("3"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652693695/EStore/Fitness/corength-dumbbell-20kg.avif",
+                "Corength", "Dumbbell 20 KG", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("14"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652694038/EStore/Fitness/nyamba-lady-t-shirt-slim-white.avif",
+                "Nyamba", "T-shirt Lady Slim", ProductCategoryEnum.FITNESS, ProductTypeEnum.TOP, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("7.40"), Short.valueOf("4"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652705504/EStore/Fitness/domyos-jr-100-jumping-rope.avif",
+                "Domyos", "JR 100 Jumping rope", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937641/EStore/Hiking/quechua-sh100-ultra-warm.jpg",

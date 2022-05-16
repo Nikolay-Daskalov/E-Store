@@ -57,13 +57,13 @@
                             <li class="list-group-item p-1 ps-2">
                                 <label for="lowestCostRange" class="form-label" th:text="|Lowest price: ${lowerPrice}|">Lowest
                                     price: 0</label>
-                                <input type="range" class="form-range" min="0" max="100" th:value="${lowerPrice}"
+                                <input type="range" class="form-range" min="0" max="150" th:value="${lowerPrice}"
                                        step="5" id="lowestCostRange" name="lowestPrice">
                             </li>
                             <li class="list-group-item p-1 ps-2">
                                 <label for="highestCostRange" class="form-label"
                                        th:text="|Highest price: ${higherPrice}|">Highest price: 100</label>
-                                <input type="range" class="form-range" min="0" max="100" th:value="${higherPrice}"
+                                <input type="range" class="form-range" min="0" max="150" th:value="${higherPrice}"
                                        step="5" id="highestCostRange" name="highestPrice">
                             </li>
                         </ul>

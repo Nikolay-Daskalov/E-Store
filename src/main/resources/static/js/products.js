@@ -46,13 +46,22 @@ if (pages.length === 1) {
 } else {
     for (let i = 0; i < pages.length; i++) {
         const currentPage = pages[i];
+
+        if (currentPage.classList.contains('active') && i > 0 && i < pages.length) {
+            prevPage.firstElementChild.href = pages[i - 1].firstElementChild.href;
+        }
+
+        if (currentPage.classList.contains('active') && i >= 0 && i < pages.length - 1) {
+            nextPage.firstElementChild.href = pages[i + 1].firstElementChild.href;
+        }
+
         if (currentPage.classList.contains('active') && i === 0) {
-            currentPage.classList.add(disableClass);
+            prevPage.classList.add(disableClass);
             break;
         }
 
         if (currentPage.classList.contains('active') && i === pages.length - 1) {
-            currentPage.classList.add(disableClass);
+            nextPage.classList.add(disableClass);
             break;
         }
     }

@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implements WebMvcConfigurer {
-    //TODO: implement CORS protection
 
     private final CloudinaryConfig config;
 

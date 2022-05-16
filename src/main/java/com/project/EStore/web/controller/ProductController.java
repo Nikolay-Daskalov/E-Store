@@ -38,7 +38,7 @@ public class ProductController {
             @RequestParam(name = "brands", required = false) Set<String> brands,
             @RequestParam(name = "types", required = false) Set<String> types,
             @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "100") String highestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "150") String highestPrice,
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
 
@@ -116,18 +116,4 @@ public class ProductController {
         model.addAttribute("pageNumber", page.getPageable().getPageNumber());
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
