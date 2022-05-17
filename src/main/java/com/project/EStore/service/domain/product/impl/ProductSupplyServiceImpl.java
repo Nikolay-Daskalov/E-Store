@@ -79,9 +79,25 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652705504/EStore/Fitness/domyos-jr-100-jumping-rope.avif",
                 "Domyos", "JR 100 Jumping rope", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
+        initSuppliesAndProducts(new BigDecimal("79.90"), Short.valueOf("7"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652798687/EStore/Hiking/quechua-mh-100.avif",
+                "Quechua", "MH 100", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+
+        initSuppliesAndProducts(new BigDecimal("149.00"), Short.valueOf("3"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652798990/EStore/Hiking/forclaz-mw-900.avif",
+                "Forclaz", "MW 900 Multiwatch", ProductCategoryEnum.HIKING, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("29.90"), Short.valueOf("8"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652799174/EStore/Hiking/quechua-mh-120.avif",
+                "Quechua", "MH 120", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M);
+
         initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937641/EStore/Hiking/quechua-sh100-ultra-warm.jpg",
                 "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("45.90"), Short.valueOf("5"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652799325/EStore/Hiking/forclaz-travel-100.avif",
+                "Forclaz", "TRAVEL 100", ProductCategoryEnum.HIKING, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
         initSuppliesAndProducts(new BigDecimal("48.90"), Short.valueOf("8"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646991505/EStore/Hiking/forclaz-mt500-man.webp",
@@ -98,6 +114,10 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("9"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1647315289/EStore/Hiking/forclaz-emergency-help.webp",
                 "Forclaz", "Emergency Help", ProductCategoryEnum.HIKING, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("36.90"), Short.valueOf("20"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652799682/EStore/Hiking/quechua-mh-140.avif",
+                "Quechua", "MH 140", ProductCategoryEnum.HIKING, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("22.90"), Short.valueOf("15"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100.jpg",
