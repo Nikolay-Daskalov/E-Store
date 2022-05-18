@@ -45,7 +45,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("30.90"), Short.valueOf("30"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646457299/EStore/Fitness/domyos-leggings-lady.jpg",
-                "Domyos", "Leggings Lady", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
+                "Domyos", "Leggings Woman", ProductCategoryEnum.FITNESS, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.XS);
 
         initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("6"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646456700/EStore/Fitness/corength-push-ups-handlebars.webp",
@@ -81,7 +81,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("79.90"), Short.valueOf("7"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652798687/EStore/Hiking/quechua-mh-100.avif",
-                "Quechua", "MH 100", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+                "Quechua", "MH 100 Man", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
         initSuppliesAndProducts(new BigDecimal("149.00"), Short.valueOf("3"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652798990/EStore/Hiking/forclaz-mw-900.avif",
@@ -89,15 +89,15 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("29.90"), Short.valueOf("8"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652799174/EStore/Hiking/quechua-mh-120.avif",
-                "Quechua", "MH 120", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M);
+                "Quechua", "MH 120 Woman", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M);
 
         initSuppliesAndProducts(new BigDecimal("55.40"), Short.valueOf("25"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644937641/EStore/Hiking/quechua-sh100-ultra-warm.jpg",
-                "Quechua", "SH100 ultra-warm", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L);
+                "Quechua", "SH100 Ultra-Warm Man", ProductCategoryEnum.HIKING, ProductTypeEnum.SHOE, ProductSizeEnum.M, ProductSizeEnum.L);
 
         initSuppliesAndProducts(new BigDecimal("45.90"), Short.valueOf("5"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652799325/EStore/Hiking/forclaz-travel-100.avif",
-                "Forclaz", "TRAVEL 100", ProductCategoryEnum.HIKING, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+                "Forclaz", "TRAVEL 100 Man", ProductCategoryEnum.HIKING, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
         initSuppliesAndProducts(new BigDecimal("48.90"), Short.valueOf("8"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646991505/EStore/Hiking/forclaz-mt500-man.webp",
@@ -105,7 +105,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("15.90"), Short.valueOf("18"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1645100376/EStore/Hiking/quechua-mh100-man-polar.jpg",
-                "Quechua", "MH100 Polar", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+                "Quechua", "MH100 Polar Man", ProductCategoryEnum.HIKING, ProductTypeEnum.TOP, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
 
         initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("5"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1647188644/EStore/Hiking/quechua-nh-arpenaz-100-20-liters.webp",
@@ -121,7 +121,43 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("22.90"), Short.valueOf("15"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644938838/EStore/Running/kalenji-100.jpg",
-                "Kalenji", "100", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+                "Kalenji", "100 Man", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("149.00"), Short.valueOf("4"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652868712/EStore/Running/evadict-mt-2-man.avif",
+                "Evadict", "MT 2 Man", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE);
+
+        initSuppliesAndProducts(new BigDecimal("27.90"), Short.valueOf("14"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652875332/EStore/Running/kalenji-dry-man.avif",
+                "Kalenji", "Dry Man", ProductCategoryEnum.RUNNING, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+
+        initSuppliesAndProducts(new BigDecimal("139.00"), Short.valueOf("6"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652873008/EStore/Running/asics-gel-windhawk-woman.avif",
+                "Asics", "Gel Winhawk Woman", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M);
+
+        initSuppliesAndProducts(new BigDecimal("21.90"), Short.valueOf("22"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652876044/EStore/Running/kalenji-soft-bottle.avif",
+                "Kalenji", "Soft water battle", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("45.90"), Short.valueOf("5"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652878800/EStore/Running/evadict-belt-light.avif",
+                "Evadict", "Belt", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("45.90"), Short.valueOf("11"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652893172/EStore/Running/kiprun-run-900.avif",
+                "Kiprun", "Run 900", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+
+        initSuppliesAndProducts(new BigDecimal("54.90"), Short.valueOf("10"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652893383/EStore/Running/kalenji-onstart-710.avif",
+                "Kalenji", "Onstart 710", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("7"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652893520/EStore/Running/kalenji-cap-run.avif",
+                "Kalenji", "Cap Rainproof", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("14.90"), Short.valueOf("6"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652893746/EStore/Running/kalenji-waist-bag-smartphone.avif",
+                "Kalenji", "Waist Bag Smartphone", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("12.90"), Short.valueOf("22"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500.jpg",

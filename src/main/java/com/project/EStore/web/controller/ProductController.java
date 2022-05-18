@@ -53,7 +53,8 @@ public class ProductController {
     }
 
     @GetMapping("{productCategory}/details/{id}")
-    public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable("id") String productId, Model model) {
+    public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable("id") String productId,
+                                        Model model) {
 
         this.isCategoryValid(productCategory);
 

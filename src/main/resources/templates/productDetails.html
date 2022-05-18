@@ -29,7 +29,7 @@
             <div class="text-start ms-auto me-auto">
                 <select class="form-select mt-4 ms-auto me-auto" aria-label="Default select example" th:if="*{!getSizes().isEmpty()}" id="size-select">
                     <option selected>Choose Size</option>
-                    <option th:each="size : *{getSizes()}" th:value="${size}" th:text="${#strings.capitalize(size.toLowerCase())}">Size option</option>
+                    <option th:each="size : *{getSizes()}" th:value="${size}" th:text="${size}">Size option</option>
                 </select>
             </div>
             <div class="mt-4">
