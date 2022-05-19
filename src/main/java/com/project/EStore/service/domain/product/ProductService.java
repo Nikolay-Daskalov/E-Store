@@ -11,7 +11,7 @@ import java.util.Set;
 
 public interface ProductService {
 
-    Integer HIGHEST_PRICE = 150;
+    Integer HIGHEST_PRICE = 200;
 
     Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes);
 

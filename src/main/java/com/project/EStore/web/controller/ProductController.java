@@ -38,7 +38,7 @@ public class ProductController {
             @RequestParam(name = "brands", required = false) Set<String> brands,
             @RequestParam(name = "types", required = false) Set<String> types,
             @RequestParam(name = "lowestPrice", defaultValue = "0") String lowestPrice,
-            @RequestParam(name = "highestPrice", defaultValue = "150") String highestPrice,
+            @RequestParam(name = "highestPrice", defaultValue = "200") String highestPrice,
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
 
@@ -52,8 +52,8 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("{productCategory}/details/{id}")
-    public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable("id") String productId,
+    @GetMapping("{productCategory}/details/{productId}")
+    public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable String productId,
                                         Model model) {
 
         this.isCategoryValid(productCategory);

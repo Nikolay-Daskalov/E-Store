@@ -162,6 +162,42 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         initSuppliesAndProducts(new BigDecimal("12.90"), Short.valueOf("22"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1644946260/EStore/Football/kipsta-keepdry-500.jpg",
                 "Kipsta", "KEEPDRY 500", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("19.90"), Short.valueOf("16"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652962476/EStore/Football/kipsta-f500-hybride.avif",
+                "Kipsta", "F500 Hybride", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("184.00"), Short.valueOf("5"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652962647/EStore/Football/adidas-mundial-team-tf.avif",
+                "Adidas", "Mundial Team Tf", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
+
+        initSuppliesAndProducts(new BigDecimal("11.40"), Short.valueOf("9"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652962816/EStore/Football/kipsta-essential-backpack.avif",
+                "Kipsta", "Essential BackPack", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("34.90"), Short.valueOf("7"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652962946/EStore/Football/kipsta-jacket-t100.avif",
+                "Kipsta", "T100 Rainproof", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.TOP, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("9.40"), Short.valueOf("8"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652963233/EStore/Football/kipsta-f100.avif",
+                "Kipsta", "F100", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.BOTTOM, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+
+        initSuppliesAndProducts(new BigDecimal("64.90"), Short.valueOf("7"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652963381/EStore/Football/adidas-champions-league-ball.avif",
+                "Adidas", "Champions League 2022", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("43.90"), Short.valueOf("6"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652963887/EStore/Football/kipsta-agility-500-sg.avif",
+                "Kipsta", "Agility 500 SG", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.SHOE);
+
+        initSuppliesAndProducts(new BigDecimal("23.90"), Short.valueOf("3"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652964460/EStore/Football/tarmak-prevent-500.avif",
+                "Tarmak", "Prevent 500", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.ACCESSORIES);
+
+        initSuppliesAndProducts(new BigDecimal("18.40"), Short.valueOf("9"),
+                "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652980363/EStore/Football/kipsta-f500-man.avif",
+                "Kipsta", "F500 Man", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.TOP, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L, ProductSizeEnum.XL);
     }
 
     private void initSuppliesAndProducts(BigDecimal price, Short quantity, String imageUrl, String brand, String model,
