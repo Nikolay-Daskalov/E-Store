@@ -26,10 +26,12 @@ public class ProductController {
 
     private final ProductService productService;
     private final ModelMapper modelMapper;
+    private final ProductValidator productValidator;
 
-    public ProductController(ProductService productService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, ModelMapper modelMapper, ProductValidator productValidator) {
         this.productService = productService;
         this.modelMapper = modelMapper;
+        this.productValidator = productValidator;
     }
 
     @GetMapping("{productCategory}")
@@ -42,7 +44,11 @@ public class ProductController {
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
 
-        this.isCategoryValid(productCategory);
+        boolean isCategoryValid = this.productValidator.isCategoryValid(productCategory);
+
+        if (!isCategoryValid) {
+            throw new ProductQueryCriteriaException("Product category is not valid");
+        }
 
         findAllProductsByCriteria(
                 brands, types, lowestPrice, highestPrice, pageNumber, PAGE_SIZE,
@@ -56,9 +62,13 @@ public class ProductController {
     public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable String productId,
                                         Model model) {
 
-        this.isCategoryValid(productCategory);
+        boolean isCategoryValid = this.productValidator.isCategoryValid(productCategory);
 
-        boolean isValid = ProductValidator.isIdValid(productId);
+        if (!isCategoryValid) {
+            throw new ProductQueryCriteriaException("Product category is not valid");
+        }
+
+        boolean isValid = this.productValidator.isIdValid(productId);
 
         if (!isValid) {
             throw new ProductQueryCriteriaException("Id is not valid type");
@@ -74,15 +84,9 @@ public class ProductController {
         ProductDetailsViewModel detailsViewModel = this.modelMapper.map(productByIdAndType, ProductDetailsViewModel.class);
 
         model.addAttribute("product", detailsViewModel);
+        model.addAttribute("quantity", productByIdAndType.getSupply().getQuantity());
 
         return "productDetails";
-    }
-
-    private void isCategoryValid(String productCategory) {
-        if (!productCategory.equals(productCategory.toLowerCase()) ||
-                !ProductValidator.isCategoryValid(productCategory.toUpperCase())) {
-            throw new ProductQueryCriteriaException("Product category is not valid");
-        }
     }
 
     private void findAllProductsByCriteria(
@@ -90,17 +94,17 @@ public class ProductController {
             String lowestPrice, String highestPrice, String pageNumber, int pageSize,
             ProductCategoryEnum productCategory, Model model) {
 
-        ProductValidator.isPriceOrPageValid(lowestPrice, highestPrice, pageNumber);
+        this.productValidator.isPriceOrPageValid(lowestPrice, highestPrice, pageNumber);
 
         Integer lowestPriceConverted = Integer.parseInt(lowestPrice);
         Integer highestPriceConverted = Integer.parseInt(highestPrice);
         Integer pageNumberConverted = Integer.parseInt(pageNumber);
 
         Set<String> brandCheckboxesToCheck = new HashSet<>();
-        Set<String> brandsConverted = ProductValidator.addBrandsToCheck(brands, brandCheckboxesToCheck, model);
+        Set<String> brandsConverted = this.productValidator.addBrandsToCheck(brands, brandCheckboxesToCheck, model);
 
         Set<String> typeCheckboxesToCheck = new HashSet<>();
-        Set<ProductTypeEnum> typesConverted = ProductValidator.addTypesToCheck(types, typeCheckboxesToCheck, model);
+        Set<ProductTypeEnum> typesConverted = this.productValidator.addTypesToCheck(types, typeCheckboxesToCheck, model);
 
         Page<ProductServiceModel> page = this.productService.findAllByBrandAndTypeAndCategoryAndPriceBetween(
                 brandsConverted, typesConverted, productCategory, lowestPriceConverted, highestPriceConverted, pageNumberConverted, pageSize

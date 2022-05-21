@@ -3,6 +3,8 @@ package com.project.EStore.util.validation;
 import com.project.EStore.exception.ProductQueryCriteriaException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
+import com.project.EStore.util.validation.annotation.validator.NoSpecialCharactersValidator;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import java.util.LinkedHashSet;
@@ -11,9 +13,16 @@ import java.util.stream.Collectors;
 
 import static com.project.EStore.service.domain.product.ProductService.HIGHEST_PRICE;
 
+@Component
 public class ProductValidator {
 
-    public static boolean isIdValid(String id) {
+    private final NoSpecialCharactersValidator noSpecialCharactersValidator;
+
+    public ProductValidator(NoSpecialCharactersValidator noSpecialCharactersValidator) {
+        this.noSpecialCharactersValidator = noSpecialCharactersValidator;
+    }
+
+    public boolean isIdValid(String id) {
         try {
             Integer.parseInt(id);
             return true;
@@ -22,16 +31,19 @@ public class ProductValidator {
         }
     }
 
-    public static boolean isCategoryValid(String category) {
+    public boolean isCategoryValid(String category) {
         try {
-            ProductCategoryEnum.valueOf(category);
-            return true;
+            if (category.equals(category.toLowerCase())) {
+                ProductCategoryEnum.valueOf(category.toUpperCase());
+                return true;
+            }
+            return false;
         } catch (IllegalArgumentException e) {
             return false;
         }
     }
 
-    public static void isPriceOrPageValid(String lowestPrice, String highestPrice, String pageNumber) {
+    public void isPriceOrPageValid(String lowestPrice, String highestPrice, String pageNumber) {
         try {
             int lowestPriceConverted = Integer.parseInt(lowestPrice);
             int highestPriceConverted = Integer.parseInt(highestPrice);
@@ -53,11 +65,15 @@ public class ProductValidator {
         }
     }
 
-    public static Set<String> addBrandsToCheck(Set<String> brands, Set<String> brandCheckboxesToCheck, Model model) {
+    public Set<String> addBrandsToCheck(Set<String> brands, Set<String> brandCheckboxesToCheck, Model model) {
         if (brands != null) {
             if (brands.isEmpty()) {
                 return null;
             } else {
+                boolean isValid = brands.stream().allMatch(brand -> this.noSpecialCharactersValidator.isValid(brand, null));
+                if (!isValid) {
+                    throw new ProductQueryCriteriaException("Brands contain special characters");
+                }
                 brandCheckboxesToCheck.addAll(brands);
                 model.addAttribute("brands", String.join(",", brands));
                 return new LinkedHashSet<>(brands);
@@ -67,7 +83,7 @@ public class ProductValidator {
         return null;
     }
 
-    public static Set<ProductTypeEnum> addTypesToCheck(Set<String> types, Set<String> typeCheckboxesToCheck, Model model) {
+    public Set<ProductTypeEnum> addTypesToCheck(Set<String> types, Set<String> typeCheckboxesToCheck, Model model) {
         Set<ProductTypeEnum> typesConverted = null;
         if (types != null) {
             if (types.isEmpty()) {

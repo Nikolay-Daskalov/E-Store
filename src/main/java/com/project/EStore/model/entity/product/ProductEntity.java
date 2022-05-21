@@ -16,11 +16,11 @@ import java.util.Set;
 @Getter
 public class ProductEntity extends BaseEntity {
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 35)
     private String brand;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 35)
     private String model;
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductCategoryEnum category;
     @ManyToMany

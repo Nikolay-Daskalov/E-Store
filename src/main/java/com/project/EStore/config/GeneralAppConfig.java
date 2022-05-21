@@ -2,7 +2,9 @@ package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
 import com.project.EStore.model.service.product.ProductServiceModel;
+import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
+import com.project.EStore.model.view.product.ProductCartViewModel;
 import com.project.EStore.model.view.product.ProductDetailsViewModel;
 import com.project.EStore.model.view.product.ProductSupplyViewModel;
 import org.modelmapper.AbstractConverter;
@@ -15,7 +17,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,10 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
         return new BCryptPasswordEncoder();
     }
 
+    private static String convertPrice(BigDecimal price) {
+        return price.setScale(2, RoundingMode.HALF_UP).toString();
+    }
+
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
@@ -45,7 +54,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setId(source.getId())
                         .setBrand(source.getBrand())
                         .setModel(source.getModel())
-                        .setPrice(source.getSupply().getPrice().setScale(2, RoundingMode.HALF_UP).toString())
+                        .setPrice(convertPrice(source.getSupply().getPrice()))
                         .setImageUrl(source.getImageUrl());
 
                 return productCardViewModel;
@@ -59,14 +68,32 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setId(source.getId())
                         .setBrand(source.getBrand())
                         .setModel(source.getModel())
-                        .setSizes(source.getSizes().stream().map(size -> size.getSize().toString()).collect(Collectors.toSet()))
+                        .setSizes(source.getSizes().stream()
+                                .sorted(Comparator.comparingInt(a -> a.getSize().ordinal()))
+                                .map(size -> size.getSize().toString())
+                                .collect(Collectors.toCollection(LinkedHashSet::new)))
                         .setSupply(new ProductSupplyViewModel()
-                                .setPrice(source.getSupply().getPrice().setScale(2, RoundingMode.HALF_UP).toString())
+                                .setPrice(convertPrice(source.getSupply().getPrice()))
                                 .setQuantity(source.getSupply().getQuantity()))
                         .setImageUrl(source.getImageUrl())
                         .setType(source.getType().toString());
 
                 return productDetailsViewModel;
+            }
+        });
+        modelMapper.addConverter(new AbstractConverter<ProductServiceModel, ProductCartViewModel>() {
+            @Override
+            protected ProductCartViewModel convert(ProductServiceModel source) {
+                ProductCartViewModel productCartViewModel = new ProductCartViewModel();
+                productCartViewModel
+                        .setProductPage(String.format("/products/%s/details/%s",
+                                source.getCategory().toString().toLowerCase(), source.getId()))
+                        .setBrand(source.getBrand())
+                        .setModel(source.getModel())
+                        .setPrice(convertPrice(source.getSupply().getPrice()))
+                        .setImageUrl(source.getImageUrl());
+
+                return productCartViewModel;
             }
         });
         return modelMapper;

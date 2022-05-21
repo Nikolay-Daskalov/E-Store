@@ -31,4 +31,6 @@ public interface ProductRepository extends BaseRepository<ProductEntity> {
     @Query(value = "SELECT ps.price FROM ProductEntity AS p JOIN ProductSupplyEntity AS ps ON ps.product = p " +
             "WHERE p.category = :category ORDER BY ps.price DESC")
     List<BigDecimal> getPricesDescByCategory(@Param("category") ProductCategoryEnum productCategory);
+
+    List<ProductEntity> findAllByIdIn(Collection<Integer> id);
 }

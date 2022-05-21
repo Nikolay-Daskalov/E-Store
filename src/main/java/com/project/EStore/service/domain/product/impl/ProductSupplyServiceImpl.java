@@ -125,7 +125,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("149.00"), Short.valueOf("4"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652868712/EStore/Running/evadict-mt-2-man.avif",
-                "Evadict", "MT 2 Man", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE);
+                "Evadict", "MT 2 Man", ProductCategoryEnum.RUNNING, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
 
         initSuppliesAndProducts(new BigDecimal("27.90"), Short.valueOf("14"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652875332/EStore/Running/kalenji-dry-man.avif",
@@ -189,7 +189,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("43.90"), Short.valueOf("6"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652963887/EStore/Football/kipsta-agility-500-sg.avif",
-                "Kipsta", "Agility 500 SG", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.SHOE);
+                "Kipsta", "Agility 500 SG", ProductCategoryEnum.FOOTBALL, ProductTypeEnum.SHOE, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
 
         initSuppliesAndProducts(new BigDecimal("23.90"), Short.valueOf("3"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652964460/EStore/Football/tarmak-prevent-500.avif",
@@ -240,5 +240,10 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
                 .setProduct(productEntity);
 
         this.productSupplyRepository.save(productSupplyEntity);
+    }
+
+    @Override
+    public Short getAvailableQuantity(Integer productId) {
+        return this.productSupplyRepository.findQuantityByProduct_Id(productId);
     }
 }

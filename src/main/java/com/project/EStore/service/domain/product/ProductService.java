@@ -7,15 +7,21 @@ import com.project.EStore.model.service.product.ProductServiceModel;
 import org.springframework.data.domain.Page;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public interface ProductService {
 
     Integer HIGHEST_PRICE = 200;
 
+    Boolean doesExistById(Integer id);
+
     Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes);
 
     ProductServiceModel findProductById(Integer id);
+
+    List<ProductServiceModel> findAllProductsByIds(Collection<Integer> ids);
+
     ProductServiceModel findProductByIdAndType(Integer id, ProductCategoryEnum productCategory);
 
     Set<String> getAllBrandsByCategory(ProductCategoryEnum productCategory);
@@ -23,5 +29,4 @@ public interface ProductService {
     Page<ProductServiceModel> findAllByBrandAndTypeAndCategoryAndPriceBetween(
             Collection<String> brands, Collection<ProductTypeEnum> productTypes, ProductCategoryEnum productCategory,
             Integer lowerPrice, Integer higherPrice, int pageNumber, int pageSize);
-
 }

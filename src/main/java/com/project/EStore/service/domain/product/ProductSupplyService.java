@@ -8,4 +8,6 @@ import java.math.BigDecimal;
 public interface ProductSupplyService extends Init {
 
     void addSupplyToProduct(BigDecimal price, Short quantity, ProductServiceModel productServiceModel);
+
+    Short getAvailableQuantity(Integer productId);
 }

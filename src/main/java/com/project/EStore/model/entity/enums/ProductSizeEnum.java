@@ -9,7 +9,7 @@ public enum ProductSizeEnum {
     XL("44"),
     XXL("46");
 
-    private String shoeSize;
+    private final String shoeSize;
 
     ProductSizeEnum(String shoeSize) {
         this.shoeSize = shoeSize;

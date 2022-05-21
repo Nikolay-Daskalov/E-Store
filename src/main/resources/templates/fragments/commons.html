@@ -39,9 +39,6 @@
         </button>
         <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto me-4">
-                <!--                <li class="nav-item mb-sm-1 mb-md-0 ms-auto me-auto">-->
-                <!--                    <a class="nav-link active fs-5" href="/about">About</a>-->
-                <!--                </li>-->
                 <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,10 +66,7 @@
                     <a class="nav-link active fs-5" href="/weather">Weather</a>
                 </li>
                 <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
-                    <a class="nav-link active fs-5 position-relative" href="/users/register" id="cartLink">
-                        Cart
-<!--                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">0</span>-->
-                    </a>
+                    <a class="nav-link active fs-5 position-relative" href="/cart" id="cartLink">Cart</a>
                 </li>
                 <th:block sec:authorize="isAnonymous()">
                     <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">

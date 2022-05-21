@@ -3,7 +3,7 @@ package com.project.EStore.model.view.product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 @NoArgsConstructor
 @Getter
@@ -12,7 +12,7 @@ public class ProductDetailsViewModel {
     private Integer id;
     private String brand;
     private String model;
-    private Set<String> sizes;
+    private LinkedHashSet<String> sizes;
     private ProductSupplyViewModel supply;
     private String imageUrl;
     private String type;
@@ -32,7 +32,7 @@ public class ProductDetailsViewModel {
         return this;
     }
 
-    public ProductDetailsViewModel setSizes(Set<String> sizes) {
+    public ProductDetailsViewModel setSizes(LinkedHashSet<String> sizes) {
         this.sizes = sizes;
         return this;
     }

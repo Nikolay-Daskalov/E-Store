@@ -15,9 +15,10 @@ addToCardBtn.addEventListener('click', (e) => {
     }
 
     const quantityInputValue = Number(quantityInput.value);
+    const maxQuantity = Number(quantityInput.getAttribute('data-max-products'));
 
-    if (quantityInputValue < 1 || quantityInputValue > 20) {
-        buildAlert('Invalid quantity must be between 1 and 20', 'danger');
+    if (quantityInputValue < 1 || quantityInputValue > maxQuantity) {
+        buildAlert(`Invalid quantity must be between 1 and ${maxQuantity}`, 'danger');
         return;
     }
 

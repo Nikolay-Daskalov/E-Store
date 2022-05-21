@@ -32,6 +32,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Boolean doesExistById(Integer id) {
+        return this.productRepository.existsById(id);
+    }
+
+    @Override
     public Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes) {
         ProductEntity productEntity = new ProductEntity();
         if (sizes.length != 0) {
@@ -54,6 +59,12 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = this.productRepository.findById(id).orElse(null);
 
         return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
+    }
+
+    @Override
+    public List<ProductServiceModel> findAllProductsByIds(Collection<Integer> ids) {
+        List<ProductEntity> products = this.productRepository.findAllByIdIn(ids);
+        return products.stream().map(product -> this.modelMapper.map(product, ProductServiceModel.class)).collect(Collectors.toList());
     }
 
     @Override
