@@ -9,7 +9,7 @@ import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.service.domain.product.ProductService;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @Component
 public class ProductCookieValidator {
@@ -23,13 +23,14 @@ public class ProductCookieValidator {
     public void validateProductsFromCookie(ProductCookieHolderBindingModel productCookieHolderBindingModel) {
         ArrayList<ProductCookieBindingModel> products = productCookieHolderBindingModel.getProducts();
 
+        Set<Integer> ids = new HashSet<>();
         for (ProductCookieBindingModel product : products) {
             try {
                 Integer id = Integer.parseInt(product.getId());
                 Short quantity = Short.parseShort(product.getQuantity());
 
-                if (id < 0 || quantity < 1 || quantity > 20) {
-                    throw new CartCookieException("Invalid id and quantity values");
+                if (id < 0) {
+                    throw new IllegalArgumentException();
                 }
 
                 ProductSizeEnum size = null;
@@ -47,6 +48,10 @@ public class ProductCookieValidator {
                     throw new IllegalArgumentException();
                 }
 
+                if (quantity < 1 || quantity > productById.getSupply().getQuantity()) {
+                    throw new IllegalArgumentException();
+                }
+
                 Boolean isSizeValid = false;
                 for (ProductSizeServiceModel productSize : productById.getSizes()) {
                     if (productSize.getSize().equals(size)) {
@@ -60,10 +65,15 @@ public class ProductCookieValidator {
                     throw new IllegalArgumentException();
                 }
 
+                if (ids.contains(id)){
+                    throw new IllegalArgumentException();
+                } else {
+                    ids.add(id);
+                }
+
             } catch (IllegalArgumentException e) {
                 throw new CartCookieException("Cookie data is not valid");
             }
-
         }
     }
 }

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -50,14 +52,17 @@ public class CartController {
 
         this.productCookieValidator.validateProductsFromCookie(productCookieHolderBindingModel);
 
+        Map<String, String> productQuantity = new HashMap<>();
         List<ProductServiceModel> allProductsByIds = this.productService.findAllProductsByIds(productCookieHolderBindingModel
                 .getProducts()
                 .stream()
+                .peek(productCookieBindingModel -> productQuantity.put(productCookieBindingModel.getId(), productCookieBindingModel.getQuantity()))
                 .map(productCookieBindingModel -> Integer.parseInt(productCookieBindingModel.getId()))
                 .collect(Collectors.toList()));
 
         model.addAttribute("products", allProductsByIds.stream()
-                .map(productServiceModel -> this.modelMapper.map(productServiceModel, ProductCartViewModel.class))
+                .map(productServiceModel ->
+                        this.modelMapper.map(productServiceModel, ProductCartViewModel.class).setQuantity(productQuantity.get(productServiceModel.getId().toString())))
                 .collect(Collectors.toList()));
 
 

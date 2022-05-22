@@ -7,12 +7,18 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductCartViewModel {
 
+    private String id;
     private String productPage;
     private String brand;
     private String model;
     private String price;
     private String imageUrl;
     private String quantity;
+
+    public ProductCartViewModel setId(String id) {
+        this.id = id;
+        return this;
+    }
 
     public ProductCartViewModel setProductPage(String productPage) {
         this.productPage = productPage;

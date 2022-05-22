@@ -1,0 +1,9 @@
+li {
+    width: 100%;
+    max-width: 525px;
+}
+
+img {
+    width: auto;
+    height: 90px;
+}

@@ -50,6 +50,14 @@ export function addItemToCart(itemId, quantity, sizeSelect) {
     }
 }
 
+export function removeItemFromCart(id) {
+    const cartItems = getCartItemsCookie();
+
+    cartItems.products.findIndex(item => {
+        
+    });
+}
+
 export function buildAlert(text, type) {
     const closeBtnAlert = document.createElement('button');
     closeBtnAlert.setAttribute('type', 'button');

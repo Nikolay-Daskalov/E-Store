@@ -86,6 +86,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
             protected ProductCartViewModel convert(ProductServiceModel source) {
                 ProductCartViewModel productCartViewModel = new ProductCartViewModel();
                 productCartViewModel
+                        .setId(source.getId().toString())
                         .setProductPage(String.format("/products/%s/details/%s",
                                 source.getCategory().toString().toLowerCase(), source.getId()))
                         .setBrand(source.getBrand())
