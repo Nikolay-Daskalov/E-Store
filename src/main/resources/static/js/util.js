@@ -52,10 +52,10 @@ export function addItemToCart(itemId, quantity, sizeSelect) {
 
 export function removeItemFromCart(id) {
     const cartItems = getCartItemsCookie();
-
-    cartItems.products.findIndex(item => {
-        
-    });
+    const itemIndex = cartItems.products.findIndex(item => item.id === id);
+    cartItems.products.splice(itemIndex, 1);
+    setCartItemsCookie(cartItems);
+    renderCartItems(cart, cartItems.products.length);
 }
 
 export function buildAlert(text, type) {

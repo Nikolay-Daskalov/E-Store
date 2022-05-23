@@ -12,7 +12,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous" defer></script>
     <script src="/js/loadCartItems.js" type="module"></script>
-    <script src="/js/removeCart.js" defer></script>
+    <script src="/js/cart.js" type="module"></script>
     <link rel="icon" href="/icon/favicon.jpg">
     <link rel="stylesheet" href="/css/cart.css">
 </head>
@@ -22,22 +22,31 @@
 </header>
 <main class="text-center">
     <h1 class="mt-5">Cart</h1>
-    <ul class="list-group w-75 ms-auto me-auto">
-        <li class="list-group-item ms-auto me-auto"
-            th:each="product : ${products}" th:object="${product}">
-            <div class="alert alert-light text-center mb-0 border" role="alert">
-                <a th:href="*{getProductPage()}">
-                    <img th:src="*{getImageUrl()}" th:alt="*{getBrand() + ' ' + getModel() + ' image'}"
-                         class="shadow-sm mb-3">
-                </a>
-                <h5 th:text="*{getBrand() + ' ' + getModel()}" class="d-block ms-3">Title</h5>
-                <div class="d-block fw-bold" th:text="'Quantity: ' + *{getQuantity()}">Product Quantity</div>
-                <div class="d-block">
-                    <a href="javascript:void(0)" class="link-dark remove-btn" th:data-product-id="*{getId()}">Remove</a>
+    <div th:if="${!products.isEmpty()}">
+        <ul class="list-group w-75 ms-auto me-auto" id="list-group">
+            <li class="list-group-item ms-auto me-auto"
+                th:each="product : ${products}" th:object="${product}">
+                <div class="alert alert-light text-center mb-0 border" role="alert">
+                    <a th:href="*{getProductPage()}">
+                        <img th:src="*{getImageUrl()}" th:alt="*{getBrand() + ' ' + getModel() + ' image'}"
+                             class="shadow-sm mb-3">
+                    </a>
+                    <h5 th:text="*{getBrand() + ' ' + getModel()}" class="d-block ms-3">Title</h5>
+                    <div class="d-block fw-bold" th:text="'Quantity: ' + *{getQuantity()}">Product Quantity</div>
+                    <div class="d-block fw-bold" th:text="*{getPrice() + ' BGN'}">Product Price</div>
+                    <div class="d-block">
+                        <a href="javascript:void(0)" class="link-dark remove-btn"
+                           th:data-product-id="*{getId()}">Remove</a>
+                    </div>
                 </div>
-            </div>
-        </li>
-    </ul>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-outline-primary mt-4 mb-4">Purchase</button>
+    </div>
+    <div th:if="${products.isEmpty()}" class="mt-5">
+        <h3>No Products</h3>
+    </div>
 </main>
+<footer th:replace="fragments/commons::home-footer"></footer>
 </body>
 </html>
