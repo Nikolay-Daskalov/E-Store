@@ -1,5 +1,7 @@
 package com.project.EStore.util.validation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.EStore.exception.CartCookieException;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.binding.ProductCookieBindingModel;
@@ -7,6 +9,7 @@ import com.project.EStore.model.binding.ProductCookieHolderBindingModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.service.domain.product.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -22,6 +25,10 @@ public class ProductCookieValidator {
 
     public void validateProductsFromCookie(ProductCookieHolderBindingModel productCookieHolderBindingModel) {
         ArrayList<ProductCookieBindingModel> products = productCookieHolderBindingModel.getProducts();
+
+        if (products == null){
+            throw new CartCookieException("Cookie data is not valid");
+        }
 
         Set<Integer> ids = new HashSet<>();
         for (ProductCookieBindingModel product : products) {
@@ -65,7 +72,7 @@ public class ProductCookieValidator {
                     throw new IllegalArgumentException();
                 }
 
-                if (ids.contains(id)){
+                if (ids.contains(id)) {
                     throw new IllegalArgumentException();
                 } else {
                     ids.add(id);
@@ -74,6 +81,20 @@ public class ProductCookieValidator {
             } catch (IllegalArgumentException e) {
                 throw new CartCookieException("Cookie data is not valid");
             }
+        }
+    }
+
+    public void isCartCookieValid(String cartItemsCookie) {
+        if (cartItemsCookie == null) {
+            throw new CartCookieException("Cookie is null");
+        }
+    }
+
+    public ProductCookieHolderBindingModel mapCookieToPOJO(String cartItemsCookie, ObjectMapper objectMapper) {
+        try {
+            return objectMapper.readValue(cartItemsCookie, ProductCookieHolderBindingModel.class);
+        } catch (JsonProcessingException e) {
+            throw new CartCookieException("Cookie is not valid");
         }
     }
 }

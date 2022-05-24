@@ -2,18 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/commons::login-register-head"></head>
 <body>
-<nav th:replace="fragments/commons::nav"></nav>
+<header>
+    <nav th:replace="fragments/commons::nav"></nav>
+</header>
 <main>
     <div id="form-div-wrapper" class="text-center ms-auto me-auto mt-5 border border-info border-3 rounded shadow">
         <h1 class="fw-bold mb-4 mt-3">Login Form</h1>
         <form method="post" th:action="@{/users/login}">
             <div class="form-floating mb-3 ms-auto me-auto" id="username-wrapper">
-                <input th:value="${redirectedUsername}" type="text" class="form-control" id="username" placeholder="Username" name="username" required minlength="3" maxlength="30">
+                <input th:value="${redirectedUsername}" type="text" class="form-control" id="username"
+                       placeholder="Username" name="username" required minlength="3" maxlength="30">
                 <label for="username">Username</label>
                 <div class="form-text">Username must me 3-30 characters long.</div>
             </div>
             <div class="form-floating ms-auto me-auto mb-3" id="password-wrapper">
-                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required minlength="3" maxlength="20">
+                <input type="password" class="form-control" id="password" placeholder="Password" name="password"
+                       required minlength="3" maxlength="20">
                 <label for="password">Password</label>
                 <div class="form-text">Password must me 3-20 characters long.</div>
             </div>

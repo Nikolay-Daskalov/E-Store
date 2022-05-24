@@ -1,8 +1,6 @@
 package com.project.EStore.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.EStore.exception.CartCookieException;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCartViewModel;
 import com.project.EStore.service.domain.product.ProductService;
@@ -19,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 
 @Controller
 @RequestMapping("cart")
@@ -39,16 +36,9 @@ public class CartController {
     public String getCartView(@CookieValue(name = "cartProducts", required = false) String cartItemsCookie,
                               ObjectMapper objectMapper, Model model) {
 
-        if (cartItemsCookie == null) {
-            throw new CartCookieException("Cookie is null");
-        }
+        this.productCookieValidator.isCartCookieValid(cartItemsCookie);
 
-        ProductCookieHolderBindingModel productCookieHolderBindingModel;
-        try {
-            productCookieHolderBindingModel = objectMapper.readValue(cartItemsCookie, ProductCookieHolderBindingModel.class);
-        } catch (JsonProcessingException e) {
-            throw new CartCookieException("Cookie is not valid");
-        }
+        ProductCookieHolderBindingModel productCookieHolderBindingModel = this.productCookieValidator.mapCookieToPOJO(cartItemsCookie, objectMapper);
 
         this.productCookieValidator.validateProductsFromCookie(productCookieHolderBindingModel);
 
@@ -69,9 +59,3 @@ public class CartController {
         return "cart";
     }
 }
-
-
-
-
-
-

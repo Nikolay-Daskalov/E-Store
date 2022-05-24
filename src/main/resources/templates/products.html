@@ -17,7 +17,9 @@
     <link rel="icon" href="/icon/favicon.jpg">
 </head>
 <body>
-<nav th:replace="fragments/commons::nav"></nav>
+<header>
+    <nav th:replace="fragments/commons::nav"></nav>
+</header>
 <main class="mt-4 text-center">
     <h2 th:text="|${#strings.capitalize(productType)} Products|">Test Products</h2>
     <div class="mt-4 accordion-item ms-auto me-auto">
