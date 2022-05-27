@@ -15,8 +15,10 @@ import com.project.EStore.service.domain.product.ProductSupplyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Map;
 
 @Service
 public class ProductSupplyServiceImpl implements ProductSupplyService {
@@ -245,5 +247,13 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
     @Override
     public Short getAvailableQuantity(Integer productId) {
         return this.productSupplyRepository.findQuantityByProduct_Id(productId);
+    }
+
+    @Override
+    @Transactional
+    public void buyByIds(Map<String, String> productsByIdAndCount) {
+        for (Map.Entry<String, String> entry : productsByIdAndCount.entrySet()) {
+            this.productSupplyRepository.decrementQuantityById(Short.valueOf(entry.getValue()), Integer.parseInt(entry.getKey()));
+        }
     }
 }

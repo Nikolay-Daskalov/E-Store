@@ -23,6 +23,7 @@
 <main class="text-center">
     <h1 class="mt-5">Cart</h1>
     <div th:if="${!products.isEmpty()}">
+        <h5 class="mt-1 mb-2" th:text="|Total: ${totalPrice} BGN|">Total: -1 BGN</h5>
         <ul class="list-group w-75 ms-auto me-auto" id="list-group">
             <li class="list-group-item ms-auto me-auto"
                 th:each="product : ${products}" th:object="${product}">
@@ -41,7 +42,9 @@
                 </div>
             </li>
         </ul>
-        <a href="/products/purchase" class="btn btn-outline-primary mt-4 mb-4">Purchase</a>
+        <form method="post" th:action="@{/products/purchase}">
+            <input type="submit" value="Purchase" class="btn btn-outline-primary mt-4 mb-5">
+        </form>
     </div>
     <div th:if="${products.isEmpty()}" class="mt-5">
         <h3>No Products</h3>

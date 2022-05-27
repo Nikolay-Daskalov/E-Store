@@ -1,6 +1,7 @@
 package com.project.EStore.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.EStore.model.binding.ProductCookieBindingModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCartViewModel;
 import com.project.EStore.service.domain.product.ProductService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +39,7 @@ public class CartController {
     public String getCartView(@CookieValue(name = "cartProducts", required = false) String cartItemsCookie,
                               ObjectMapper objectMapper, Model model) {
 
-        this.productCookieValidator.isCartCookieValid(cartItemsCookie);
+        this.productCookieValidator.isCartCookiePresent(cartItemsCookie);
 
         ProductCookieHolderBindingModel productCookieHolderBindingModel = this.productCookieValidator.mapCookieToPOJO(cartItemsCookie, objectMapper);
 
@@ -55,6 +58,9 @@ public class CartController {
                         this.modelMapper.map(productServiceModel, ProductCartViewModel.class).setQuantity(productQuantity.get(productServiceModel.getId().toString())))
                 .collect(Collectors.toList()));
 
+        model.addAttribute("totalPrice", allProductsByIds.stream()
+                .map(product -> product.getSupply().getPrice().multiply(new BigDecimal(productQuantity.get(product.getId().toString()))))
+                .reduce(new BigDecimal("0"), BigDecimal::add).setScale(2, RoundingMode.HALF_UP).toString());
 
         return "cart";
     }

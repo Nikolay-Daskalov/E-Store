@@ -105,4 +105,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         LOGGER.info(String.format("User successfully registered { %s }", user.getUsername()));
     }
+
+    @Override
+    public UserServiceModel findUserByUsername(String username) {
+        UserEntity userEntity = this.userRepository.findByUsername(username).orElse(null);
+
+        return userEntity == null ? null : this.modelMapper.map(userEntity, UserServiceModel.class);
+    }
 }

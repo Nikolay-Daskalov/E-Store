@@ -7,6 +7,7 @@ public interface UserService extends Init {
 
     boolean isUsernameUnique(String username);
 
-    //TODO: add boolean and exception
     void add(UserServiceModel userServiceModel);
+
+    UserServiceModel findUserByUsername(String username);
 }

@@ -9,7 +9,6 @@ import com.project.EStore.model.binding.ProductCookieHolderBindingModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.service.domain.product.ProductService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -84,7 +83,7 @@ public class ProductCookieValidator {
         }
     }
 
-    public void isCartCookieValid(String cartItemsCookie) {
+    public void isCartCookiePresent(String cartItemsCookie) {
         if (cartItemsCookie == null) {
             throw new CartCookieException("Cookie is null");
         }
