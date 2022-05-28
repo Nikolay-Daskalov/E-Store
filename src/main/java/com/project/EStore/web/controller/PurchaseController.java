@@ -7,6 +7,7 @@ import com.project.EStore.service.domain.order.OrderService;
 import com.project.EStore.util.validation.ProductCookieValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +27,7 @@ public class PurchaseController {
     }
 
     @PostMapping
-    public String getPurchaseView(@CookieValue(name = "cartProducts", required = false) String cartItemsCookie,
+    public String postPurchase(@CookieValue(name = "cartProducts", required = false) String cartItemsCookie,
                                   ObjectMapper objectMapper, Principal principal) {
 
         this.productCookieValidator.isCartCookiePresent(cartItemsCookie);
@@ -40,4 +41,21 @@ public class PurchaseController {
 
         return "redirect:/products/purchase/successful";
     }
+
+    @GetMapping("successful")
+    public String getPurchaseView(){
+        return "purchaseSuccessful";
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

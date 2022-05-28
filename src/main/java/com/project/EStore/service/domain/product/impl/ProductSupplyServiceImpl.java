@@ -251,7 +251,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
     @Override
     @Transactional
-    public void buyByIds(Map<String, String> productsByIdAndCount) {
+    public void decrementQuantity(Map<String, String> productsByIdAndCount) {
         for (Map.Entry<String, String> entry : productsByIdAndCount.entrySet()) {
             this.productSupplyRepository.decrementQuantityById(Short.valueOf(entry.getValue()), Integer.parseInt(entry.getKey()));
         }

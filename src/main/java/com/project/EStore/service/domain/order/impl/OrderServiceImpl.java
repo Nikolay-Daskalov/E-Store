@@ -37,6 +37,6 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity newOrder = this.orderRepository.save(new OrderEntity().setUser(this.modelMapper.map(user, UserEntity.class)));
 
         this.orderDetailService.placeOrderWithDetails(productsByIdAndCount, this.modelMapper.map(newOrder, OrderServiceModel.class));
-        this.productSupplyService.buyByIds(productsByIdAndCount);
+        this.productSupplyService.decrementQuantity(productsByIdAndCount);
     }
 }

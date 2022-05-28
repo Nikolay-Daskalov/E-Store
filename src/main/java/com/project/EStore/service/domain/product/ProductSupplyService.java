@@ -12,5 +12,5 @@ public interface ProductSupplyService extends Init {
 
     Short getAvailableQuantity(Integer productId);
 
-    void buyByIds(Map<String, String> productsByIdAndCount);
+    void decrementQuantity(Map<String, String> productsByIdAndCount);
 }
