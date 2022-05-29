@@ -121,3 +121,23 @@ export function loadCartItems() {
         renderCartItems(cart, numberOfItems);
     }
 }
+
+export function buildSpinner(HTMLElement) {
+    const divElementId = 'spinnerElement';
+    if (HTMLElement.firstElementChild !== null && HTMLElement.firstElementChild.id === divElementId) {
+        return;
+    }
+
+    const spanElement = document.createElement('span');
+    spanElement.classList.add('visually-hidden');
+    spanElement.textContent = 'Loading...';
+
+    const divElement = document.createElement('div');
+    divElement.classList.add('text-primary', 'spinner-border');
+    divElement.setAttribute('role', 'status');
+    divElement.id = divElementId;
+    divElement.appendChild(spanElement);
+
+    HTMLElement.innerHTML = '';
+    HTMLElement.appendChild(divElement);
+}
