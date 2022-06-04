@@ -2,7 +2,6 @@ package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
 import com.project.EStore.model.service.product.ProductServiceModel;
-import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
 import com.project.EStore.model.view.product.ProductCartViewModel;
 import com.project.EStore.model.view.product.ProductDetailsViewModel;

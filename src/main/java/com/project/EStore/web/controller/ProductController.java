@@ -94,7 +94,7 @@ public class ProductController {
             String lowestPrice, String highestPrice, String pageNumber, int pageSize,
             ProductCategoryEnum productCategory, Model model) {
 
-        this.productValidator.isPriceOrPageValid(lowestPrice, highestPrice, pageNumber);
+        this.productValidator.isPriceAndPageValid(lowestPrice, highestPrice, pageNumber);
 
         Integer lowestPriceConverted = Integer.parseInt(lowestPrice);
         Integer highestPriceConverted = Integer.parseInt(highestPrice);

@@ -43,7 +43,7 @@ public class ProductValidator {
         }
     }
 
-    public void isPriceOrPageValid(String lowestPrice, String highestPrice, String pageNumber) {
+    public void isPriceAndPageValid(String lowestPrice, String highestPrice, String pageNumber) {
         try {
             int lowestPriceConverted = Integer.parseInt(lowestPrice);
             int highestPriceConverted = Integer.parseInt(highestPrice);
