@@ -34,7 +34,7 @@
 <nav th:fragment="nav" class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0">
     <div class="container-fluid">
         <a class="navbar-brand ms-4 fs-1 fw-bold fst-italic" href="/">EStore</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" id="mobile-nav-button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse text-center" id="navbarNav">
@@ -82,7 +82,7 @@
                     </li>
                     <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                         <form th:action="@{/users/logout}" method="post">
-                            <input type="submit" value="Logout" class="nav-link active fs-5"
+                            <input type="submit" value="Logout" class="nav-link active fs-5 ms-auto me-auto"
                                    style="border: none;background-color: transparent">
                         </form>
                     </li>

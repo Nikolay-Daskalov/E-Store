@@ -1,11 +1,12 @@
 import {footerResizer} from './util.js';
 
 const accordionButton = document.getElementsByClassName('accordion-button')[0];
+const mobileNavBtn = document.querySelector('#mobile-nav-button > span');
 
 const currentTarget = window;
 const footerElement = document.getElementsByTagName('footer')[0];
 const bodyElement = document.getElementsByTagName('body')[0];
-footerResizer(currentTarget, footerElement, bodyElement);
+footerResizer(currentTarget, footerElement, bodyElement, [accordionButton, mobileNavBtn]);
 
 function changeRangeLabelText(currentTarget, pes, text) {
     pes.textContent = text + currentTarget.value;
@@ -21,16 +22,6 @@ const highestCostRangeInputElement = document.getElementById('highestCostRange')
 highestCostRangeInputElement.addEventListener('input', (e) => {
     changeRangeLabelText(e.currentTarget, e.currentTarget.previousElementSibling,
         'Highest price: ');
-});
-
-accordionButton.addEventListener('click', () => {
-    setTimeout(() => {
-        if (currentTarget.innerHeight > bodyElement.clientHeight) {
-            footerElement.classList.add('position-fixed', 'w-100', 'bottom-0');
-        } else {
-            footerElement.classList.remove('position-fixed', 'w-100', 'bottom-0');
-        }
-    }, 250);
 });
 
 const pagination = document.querySelector('#pagination > *');
@@ -66,4 +57,3 @@ if (pages.length === 1) {
         }
     }
 }
-

@@ -1,9 +1,11 @@
 import {footerResizer, removeItemFromCart} from './util.js';
 
+const mobileNavBtn = document.querySelector('#mobile-nav-button > span');
+
 const currentTarget = window;
 const footerElement = document.getElementsByTagName('footer')[0];
 const bodyElement = document.getElementsByTagName('body')[0];
-footerResizer(currentTarget, footerElement, bodyElement);
+footerResizer(currentTarget, footerElement, bodyElement, [mobileNavBtn]);
 
 const ulElement = document.getElementById('list-group');
 
@@ -16,7 +18,7 @@ removeBtns.forEach(btn => {
         removeItemFromCart(productId);
         e.currentTarget.parentElement.parentElement.parentElement.remove();
         footerResizer(currentTarget, footerElement, bodyElement);
-        if (ulElement.childElementCount === 0){
+        if (ulElement.childElementCount === 0) {
             const mainElement = ulElement.parentElement.parentElement;
             ulElement.parentElement.remove();
 

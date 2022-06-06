@@ -1,4 +1,4 @@
-export function footerResizer(currentTarget, footerElement, bodyElement) {
+export function footerResizer(currentTarget, footerElement, bodyElement, onButtons) {
     if (currentTarget.innerHeight > bodyElement.clientHeight) {
         footerElement.classList.add('position-fixed', 'w-100', 'bottom-0');
     }
@@ -8,7 +8,19 @@ export function footerResizer(currentTarget, footerElement, bodyElement) {
         } else {
             footerElement.classList.remove('position-fixed', 'w-100', 'bottom-0');
         }
-    })
+    });
+
+    onButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            setTimeout(() => {
+                if (currentTarget.innerHeight > bodyElement.clientHeight) {
+                    footerElement.classList.add('position-fixed', 'w-100', 'bottom-0');
+                } else {
+                    footerElement.classList.remove('position-fixed', 'w-100', 'bottom-0');
+                }
+            }, 250);
+        });
+    });
 }
 
 const cartKeyCookie = 'cartProducts';
