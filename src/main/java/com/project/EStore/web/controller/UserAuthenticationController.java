@@ -15,15 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("users")
-public class UserController {
+public class UserAuthenticationController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserAuthenticationController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
@@ -70,5 +71,4 @@ public class UserController {
 
         return "redirect:login";
     }
-
 }

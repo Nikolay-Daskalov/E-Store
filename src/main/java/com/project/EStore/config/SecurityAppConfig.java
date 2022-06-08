@@ -37,6 +37,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/cart").fullyAuthenticated()
+                .antMatchers("/users/profile").fullyAuthenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

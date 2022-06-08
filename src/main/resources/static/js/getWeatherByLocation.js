@@ -1,12 +1,5 @@
 import {buildSpinner, footerResizer} from './util.js';
 
-const mobileNavBtn = document.querySelector('#mobile-nav-button > span');
-
-const currentTarget = window;
-const footerElement = document.getElementsByTagName('footer')[0];
-const bodyElement = document.getElementsByTagName('body')[0];
-footerResizer(currentTarget, footerElement, bodyElement, [mobileNavBtn]);
-
 const weatherCoordinatesApi = 'https://api.openweathermap.org/geo/1.0/direct?appid=8f7ad215dda0fce71704f079657852b6&q=';
 
 const locationButton = document.getElementsByTagName('button')[1];
@@ -14,20 +7,28 @@ locationButton.addEventListener('click', (e) => {
     const weatherSectionElement = document.getElementById('weather-section');
     buildSpinner(weatherSectionElement);
 
+    const buildDangerAlert = (element, text) => {
+        element.innerHTML = '';
+        const container = document.createElement('div');
+        container.style.width = '350px';
+        container.classList.add('ms-auto', 'me-auto', 'alert', 'alert-danger', 'mb-0');
+        container.setAttribute('role', 'alert');
+        container.textContent = text;
+
+        element.appendChild(container);
+    }
+
     const locationInput = e.currentTarget.previousElementSibling.lastElementChild;
+    if (locationInput.value.trim() === '') {
+        buildDangerAlert(weatherSectionElement, 'Cannot be empty!');
+        return;
+    }
 
     fetch(weatherCoordinatesApi + locationInput.value)
         .then(res => res.json())
         .then(data => {
             if (data.length === 0) {
-                weatherSectionElement.innerHTML = '';
-                const container = document.createElement('div');
-                container.style.width = '350px';
-                container.classList.add('ms-auto', 'me-auto', 'alert', 'alert-danger', 'mb-0');
-                container.setAttribute('role', 'alert');
-                container.textContent = 'Location not found!';
-
-                weatherSectionElement.appendChild(container);
+                buildDangerAlert(weatherSectionElement, 'Location not found!');
                 return;
             }
             const lat = data[0].lat;
@@ -42,8 +43,10 @@ locationButton.addEventListener('click', (e) => {
                 .then(data => {
                     const locationSpan = document.createElement('span');
                     locationSpan.textContent = `${city}, ${country}`;
+                    locationSpan.id = 'location';
 
                     const weatherConditionSpan = document.createElement('span');
+                    weatherConditionSpan.id = 'weather-condition';
                     weatherConditionSpan.textContent =
                         data.weather[0].description.split(' ').map((value, index) => {
                             if (index === 0) {
@@ -58,6 +61,7 @@ locationButton.addEventListener('click', (e) => {
 
                     const tempSpan = document.createElement('span');
                     tempSpan.textContent = data.main.temp.toFixed(2);
+                    tempSpan.id = 'temp';
                     tempSpan.appendChild(fontIcon);
 
                     const weatherDataContainer = document.createElement('div');
@@ -73,8 +77,7 @@ locationButton.addEventListener('click', (e) => {
                     weatherImg.classList.add('d-block', 'ms-auto', 'me-auto');
 
                     const container = document.createElement('div');
-                    container.style.width = '350px';
-                    container.classList.add('ms-auto', 'me-auto', 'alert', 'alert-success', 'mb-0');
+                    container.classList.add('ms-auto', 'me-auto', 'alert', 'alert-success', 'mb-0', 'shadow');
                     container.setAttribute('role', 'alert');
                     container.appendChild(weatherDataContainer);
                     container.appendChild(weatherImg);

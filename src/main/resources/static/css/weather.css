@@ -1,0 +1,21 @@
+.input-group {
+    width: 270px;
+}
+
+#weather-section > div.alert{
+    width: 350px;
+}
+
+#location{
+    padding-right: 5px;
+    border-right: 1.5px solid black;
+}
+
+#weather-condition{
+    padding: 0 5px;
+}
+
+#temp{
+    padding-left: 5px;
+    border-left: 1.5px solid black;
+}

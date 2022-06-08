@@ -16,9 +16,16 @@ removeBtns.forEach(btn => {
         e.preventDefault();
         const productId = Number(e.currentTarget.getAttribute('data-product-id'));
         removeItemFromCart(productId);
+        const quantity = Number(e.currentTarget.parentElement.previousElementSibling.previousElementSibling.textContent.split(' ')[1]);
+        const price = Number(e.currentTarget.parentElement.previousElementSibling.textContent.split(' ')[0]);
+        const totalPriceElement = document.getElementsByTagName('h5')[0];
+        const totalPrice = Number(totalPriceElement.textContent.split(' ')[1]);
+        totalPriceElement.textContent = `Total: ${(totalPrice - (price * quantity)).toFixed(2)} BGN`;
         e.currentTarget.parentElement.parentElement.parentElement.remove();
-        footerResizer(currentTarget, footerElement, bodyElement);
+        footerResizer(currentTarget, footerElement, bodyElement, [mobileNavBtn]);
         if (ulElement.childElementCount === 0) {
+            totalPriceElement.remove();
+
             const mainElement = ulElement.parentElement.parentElement;
             ulElement.parentElement.remove();
 
