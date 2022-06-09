@@ -9,9 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableCaching
 public class EStoreApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(EStoreApplication.class, args);
 	}
-
 }

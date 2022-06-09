@@ -23,7 +23,7 @@ public class ProductCookieValidator {
     }
 
     public void validateProductsFromCookie(ProductCookieHolderBindingModel productCookieHolderBindingModel) {
-        ArrayList<ProductCookieBindingModel> products = productCookieHolderBindingModel.getProducts();
+        List<ProductCookieBindingModel> products = productCookieHolderBindingModel.getProducts();
 
         if (products == null){
             throw new CartCookieException("Cookie data is not valid");

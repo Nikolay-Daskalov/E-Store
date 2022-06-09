@@ -12,7 +12,9 @@ import com.project.EStore.service.domain.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -38,5 +40,13 @@ public class OrderServiceImpl implements OrderService {
 
         this.orderDetailService.placeOrderWithDetails(productsByIdAndCount, this.modelMapper.map(newOrder, OrderServiceModel.class));
         this.productSupplyService.decrementQuantity(productsByIdAndCount);
+    }
+
+    @Override
+    public List<OrderServiceModel> findOrdersByUsername(String username) {
+        UserServiceModel user = this.userService.findUserByUsername(username);
+        List<OrderEntity> orders = this.orderRepository.findAllByUser(this.modelMapper.map(user, UserEntity.class));
+
+        return orders.stream().map(order -> this.modelMapper.map(order, OrderServiceModel.class)).collect(Collectors.toList());
     }
 }

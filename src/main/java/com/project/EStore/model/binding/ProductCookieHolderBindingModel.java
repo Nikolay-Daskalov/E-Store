@@ -3,15 +3,15 @@ package com.project.EStore.model.binding;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
 public class ProductCookieHolderBindingModel {
 
-    private ArrayList<ProductCookieBindingModel> products;
+    private List<ProductCookieBindingModel> products;
 
-    public ArrayList<ProductCookieBindingModel> getProducts() {
+    public List<ProductCookieBindingModel> getProducts() {
         return products;
     }
 }
