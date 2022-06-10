@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,12 +33,9 @@ public class UserProfileController {
     }
 
     @GetMapping("profile/orders")
-    @ResponseBody
-    public ResponseEntity<List<OrderViewModel>> getOrdersByUser(Principal principal) {
+    public String getOrdersByUser(Principal principal, Model model) {
         List<OrderServiceModel> ordersByUsername = this.orderService.findOrdersByUsername(principal.getName());
 
-        return ordersByUsername.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(ordersByUsername.stream().map(order -> this.modelMapper.map(order, OrderViewModel.class)).collect(Collectors.toList()));
+        return "userProfile";
     }
 }
