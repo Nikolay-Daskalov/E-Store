@@ -11,7 +11,7 @@ import java.util.Set;
 public class OrderViewModel {
 
     private Integer id;
-    private LocalDateTime created;
+    private String created;
     private Set<OrderDetailViewModel> orderDetails;
 
     public OrderViewModel setId(Integer id) {
@@ -19,7 +19,7 @@ public class OrderViewModel {
         return this;
     }
 
-    public OrderViewModel setCreated(LocalDateTime created) {
+    public OrderViewModel setCreated(String created) {
         this.created = created;
         return this;
     }

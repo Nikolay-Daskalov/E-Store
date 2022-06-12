@@ -1,11 +1,11 @@
 package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
+import com.project.EStore.model.service.order.OrderServiceModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
-import com.project.EStore.model.view.product.ProductCardViewModel;
-import com.project.EStore.model.view.product.ProductCartViewModel;
-import com.project.EStore.model.view.product.ProductDetailsViewModel;
-import com.project.EStore.model.view.product.ProductSupplyViewModel;
+import com.project.EStore.model.view.order.OrderDetailViewModel;
+import com.project.EStore.model.view.order.OrderViewModel;
+import com.project.EStore.model.view.product.*;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -94,6 +96,35 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setImageUrl(source.getImageUrl());
 
                 return productCartViewModel;
+            }
+        });
+        modelMapper.addConverter(new AbstractConverter<OrderServiceModel, OrderViewModel>() {
+            @Override
+            protected OrderViewModel convert(OrderServiceModel source) {
+                OrderViewModel orderViewModel = new OrderViewModel();
+                orderViewModel
+                        .setId(source.getId())
+                        .setCreated(source.getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")))
+                        .setOrderDetails(new HashSet<>(
+                                source.getOrderDetails()
+                                        .stream()
+                                        .map(orderDetailServiceModel -> {
+                                            OrderDetailViewModel orderDetailViewModel = new OrderDetailViewModel();
+                                            orderDetailViewModel
+                                                    .setQuantity(orderDetailServiceModel.getQuantity())
+                                                    .setProduct(new ProductOrderViewModel()
+                                                            .setBrand(orderDetailServiceModel.getProduct().getBrand())
+                                                            .setModel(orderDetailServiceModel.getProduct().getModel())
+                                                            .setImageUrl(orderDetailServiceModel.getProduct().getImageUrl())
+                                                            .setPrice(convertPrice(orderDetailServiceModel.getProduct().getSupply().getPrice()))
+                                                            .setProductPage(String.format("/products/%s/details/%s",
+                                                                    orderDetailServiceModel.getProduct().getCategory().toString().toLowerCase(), orderDetailServiceModel.getProduct().getId())));
+
+                                            return orderDetailViewModel;
+                                        }).collect(Collectors.toSet())
+                        ));
+
+                return orderViewModel;
             }
         });
         return modelMapper;

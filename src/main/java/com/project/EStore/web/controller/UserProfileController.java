@@ -36,6 +36,9 @@ public class UserProfileController {
     public String getOrdersByUser(Principal principal, Model model) {
         List<OrderServiceModel> ordersByUsername = this.orderService.findOrdersByUsername(principal.getName());
 
+        List<OrderViewModel> collect = ordersByUsername.stream().map(order -> this.modelMapper.map(order, OrderViewModel.class)).collect(Collectors.toList());
+        model.addAttribute("orders", collect);
+
         return "userProfile";
     }
 }
