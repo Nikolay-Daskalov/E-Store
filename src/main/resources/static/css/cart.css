@@ -1,4 +1,8 @@
-li {
+body{
+    min-height: 100vh;
+}
+
+#list-group > li {
     width: 100%;
     max-width: 525px;
 }
@@ -6,4 +10,8 @@ li {
 img {
     width: auto;
     height: 90px;
+}
+
+main {
+    padding-bottom: 100px;
 }

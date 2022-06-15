@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/commons::login-register-head"></head>
-<body>
+<body class="min-vh-100 position-relative">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
@@ -26,6 +26,6 @@
         </form>
     </div>
 </main>
-<footer th:replace="fragments/commons::fixed-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

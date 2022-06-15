@@ -1,11 +1,4 @@
-import {footerResizer, removeItemFromCart} from './util.js';
-
-const mobileNavBtn = document.querySelector('#mobile-nav-button > span');
-
-const currentTarget = window;
-const footerElement = document.getElementsByTagName('footer')[0];
-const bodyElement = document.getElementsByTagName('body')[0];
-footerResizer(currentTarget, footerElement, bodyElement, [mobileNavBtn]);
+import {removeItemFromCart} from './util.js';
 
 const ulElement = document.getElementById('list-group');
 
@@ -22,7 +15,6 @@ removeBtns.forEach(btn => {
         const totalPrice = Number(totalPriceElement.textContent.split(' ')[1]);
         totalPriceElement.textContent = `Total: ${(totalPrice - (price * quantity)).toFixed(2)} BGN`;
         e.currentTarget.parentElement.parentElement.parentElement.remove();
-        footerResizer(currentTarget, footerElement, bodyElement, [mobileNavBtn]);
         if (ulElement.childElementCount === 0) {
             totalPriceElement.remove();
 
@@ -38,5 +30,5 @@ removeBtns.forEach(btn => {
 
             mainElement.appendChild(divElement);
         }
-    });
+    })
 });

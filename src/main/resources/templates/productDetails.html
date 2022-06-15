@@ -16,11 +16,11 @@
     <script src="/js/loadCartItems.js" type="module"></script>
     <link rel="icon" href="/icon/favicon.jpg">
 </head>
-<body>
+<body class="min-vh-100 position-relative">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
-<main class="mt-5 text-center mb-5" th:object="${product}">
+<main class="mt-5 text-center" th:object="${product}">
     <h2>Product Details</h2>
     <div class="row row-cols-1 row-cols-lg-2 mt-5 ms-auto me-auto w-75" id="parent-container">
         <div class="col mb-4 details-container">
@@ -59,6 +59,6 @@
         </div>
     </div>
 </main>
-<footer th:replace="fragments/commons::normal-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

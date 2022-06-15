@@ -16,7 +16,7 @@
     <link rel="icon" href="/icon/favicon.jpg">
     <link rel="stylesheet" href="/css/cart.css">
 </head>
-<body>
+<body class="min-vh-100 position-relative">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
@@ -42,14 +42,14 @@
                 </div>
             </li>
         </ul>
-        <form method="post" th:action="@{/products/purchase}">
-            <input type="submit" value="Purchase" class="btn btn-outline-primary mt-4 mb-5">
+        <form method="post" th:action="@{/products/purchase}" class="mt-4">
+            <input type="submit" value="Purchase" class="btn btn-outline-primary">
         </form>
     </div>
     <div th:if="${products.isEmpty()}" class="mt-5">
         <h3>No Products</h3>
     </div>
 </main>
-<footer th:replace="fragments/commons::normal-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

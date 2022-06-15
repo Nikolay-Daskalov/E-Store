@@ -1,13 +1,3 @@
-import {footerResizer} from './util.js';
-
-const accordionButton = document.getElementsByClassName('accordion-button')[0];
-const mobileNavBtn = document.querySelector('#mobile-nav-button > span');
-
-const currentTarget = window;
-const footerElement = document.getElementsByTagName('footer')[0];
-const bodyElement = document.getElementsByTagName('body')[0];
-footerResizer(currentTarget, footerElement, bodyElement, [accordionButton, mobileNavBtn]);
-
 function changeRangeLabelText(currentTarget, pes, text) {
     pes.textContent = text + currentTarget.value;
 }

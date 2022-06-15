@@ -16,10 +16,9 @@
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/weather.css">
     <script src="/js/loadCartItems.js" type="module"></script>
-    <script src="/js/weather.js" type="module"></script>
     <script src="/js/getWeatherByLocation.js" type="module"></script>
 </head>
-<body>
+<body class="min-vh-100 position-relative">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
@@ -38,9 +37,9 @@
         </div>
         <button type="button" class="btn btn-outline-primary mt-4">Search</button>
     </section>
-    <section id="weather-section" class="mt-5 mb-5">
+    <section id="weather-section" class="mt-5">
     </section>
 </main>
-<footer th:replace="fragments/commons::fixed-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

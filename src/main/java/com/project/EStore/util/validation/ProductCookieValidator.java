@@ -78,14 +78,14 @@ public class ProductCookieValidator {
                 }
 
             } catch (IllegalArgumentException e) {
-                throw new CartCookieException("Cookie data is not valid");
+                throw new CartCookieException("Cookie data is not valid!");
             }
         }
     }
 
     public void isCartCookiePresent(String cartItemsCookie) {
         if (cartItemsCookie == null) {
-            throw new CartCookieException("Cookie is null");
+            throw new CartCookieException("Cookie is null!");
         }
     }
 
@@ -93,7 +93,7 @@ public class ProductCookieValidator {
         try {
             return objectMapper.readValue(cartItemsCookie, ProductCookieHolderBindingModel.class);
         } catch (JsonProcessingException e) {
-            throw new CartCookieException("Cookie is not valid");
+            throw new CartCookieException("Cookie mapping failed. Invalid Cookie!");
         }
     }
 }

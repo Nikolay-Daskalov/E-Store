@@ -19,10 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -101,6 +98,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
         modelMapper.addConverter(new AbstractConverter<OrderServiceModel, OrderViewModel>() {
             @Override
             protected OrderViewModel convert(OrderServiceModel source) {
+                List<BigDecimal> totalPrice = new ArrayList<>();
                 OrderViewModel orderViewModel = new OrderViewModel();
                 orderViewModel
                         .setId(source.getId())
@@ -115,14 +113,13 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                                                     .setProduct(new ProductOrderViewModel()
                                                             .setBrand(orderDetailServiceModel.getProduct().getBrand())
                                                             .setModel(orderDetailServiceModel.getProduct().getModel())
-                                                            .setImageUrl(orderDetailServiceModel.getProduct().getImageUrl())
-                                                            .setPrice(convertPrice(orderDetailServiceModel.getProduct().getSupply().getPrice()))
-                                                            .setProductPage(String.format("/products/%s/details/%s",
-                                                                    orderDetailServiceModel.getProduct().getCategory().toString().toLowerCase(), orderDetailServiceModel.getProduct().getId())));
+                                                            .setPrice(convertPrice(orderDetailServiceModel.getProduct().getSupply().getPrice())));
 
+                                            totalPrice.add(orderDetailServiceModel.getProduct().getSupply().getPrice());
                                             return orderDetailViewModel;
                                         }).collect(Collectors.toSet())
-                        ));
+                        ))
+                        .setTotalPrice(convertPrice(totalPrice.stream().reduce(new BigDecimal("0"), BigDecimal::add)));
 
                 return orderViewModel;
             }

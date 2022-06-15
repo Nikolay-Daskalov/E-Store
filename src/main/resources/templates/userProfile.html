@@ -17,7 +17,7 @@
     <script src="/js/userProfile.js" type="module"></script>
     <script src="/js/orders.js" type="module"></script>
 </head>
-<body>
+<body class="min-vh-100 position-relative">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
@@ -27,7 +27,7 @@
             <h1 class="text-center mb-4">Settings</h1>
             <ul class="list-group">
                 <li class="list-group-item">
-                    <a href="/users/profile/orders" class="w-50 btn btn-primary d-block ms-auto me-auto"
+                    <a href="/users/orders" class="w-50 btn btn-primary d-block ms-auto me-auto"
                        id="orders-btn">Orders</a>
                 </li>
                 <li class="list-group-item">
@@ -38,7 +38,7 @@
             </ul>
         </div>
     </section>
-    <section class="text-center mt-5" id="content">
+    <section class="text-center mt-5">
         <h2 class="mb-0" th:text="|Welcome ${username}|" th:if="${username != null}"></h2>
         <ul class="list-group orders ms-auto me-auto mb-5" th:if="${orders != null}">
             <li class="list-group-item list-group-item-primary mb-1" th:each="order, status : ${orders}"
@@ -58,9 +58,11 @@
                              th:data-bs-parent="'#accordionParent' + ${status.index + 1}">
                             <div class="accordion-body">
                                 <ul class="list-group">
-                                    <li class="list-group-item" th:each="orderDetails : *{getOrderDetails()}">
-
+                                    <li class="list-group-item" th:each="orderDetails : *{getOrderDetails()}"
+                                        th:utext="${orderDetails.getProduct().getBrand()} + ' ' + ${orderDetails.getProduct().getModel()} + ',<br> Quantity: ' +
+                                        ${orderDetails.getQuantity()} + ' X ' + ${orderDetails.getProduct().getPrice()} + ' BGN'">
                                     </li>
+                                    <p th:text="|Total price: *{getTotalPrice()} BGN|" class="mb-0 mt-1"></p>
                                 </ul>
                             </div>
                         </div>
@@ -70,6 +72,6 @@
         </ul>
     </section>
 </main>
-<footer th:replace="fragments/commons::fixed-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

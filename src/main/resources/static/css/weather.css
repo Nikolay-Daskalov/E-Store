@@ -1,6 +1,9 @@
 .input-group {
     width: 270px;
 }
+#weather-section {
+    padding-bottom: 100px;
+}
 
 #weather-section > div.alert{
     width: 350px;

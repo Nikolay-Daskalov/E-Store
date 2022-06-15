@@ -7,16 +7,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductOrderViewModel {
 
-    private String productPage;
     private String brand;
     private String model;
     private String price;
-    private String imageUrl;
-
-    public ProductOrderViewModel setProductPage(String productPage) {
-        this.productPage = productPage;
-        return this;
-    }
 
     public ProductOrderViewModel setBrand(String brand) {
         this.brand = brand;
@@ -30,11 +23,6 @@ public class ProductOrderViewModel {
 
     public ProductOrderViewModel setPrice(String price) {
         this.price = price;
-        return this;
-    }
-
-    public ProductOrderViewModel setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
         return this;
     }
 }

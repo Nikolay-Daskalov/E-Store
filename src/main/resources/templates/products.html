@@ -16,7 +16,7 @@
     <script src="/js/loadCartItems.js" type="module"></script>
     <link rel="icon" href="/icon/favicon.jpg">
 </head>
-<body>
+<body class="min-vh-100 position-relative">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
@@ -97,7 +97,7 @@
         </div>
     </div>
     <nav aria-label="Pages" id="pagination" th:if="${totalPages > 0}">
-        <ul class="pagination pt-5 mb-5 justify-content-center">
+        <ul class="pagination pt-5 justify-content-center">
             <li class="page-item nav-btn">
                 <a class="page-link page-button" href="javascript:void(0)">Prev</a>
             </li>
@@ -114,6 +114,6 @@
         </ul>
     </nav>
 </main>
-<footer th:replace="fragments/commons::normal-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

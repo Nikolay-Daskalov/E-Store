@@ -3,7 +3,6 @@ package com.project.EStore.model.view.order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -13,6 +12,7 @@ public class OrderViewModel {
     private Integer id;
     private String created;
     private Set<OrderDetailViewModel> orderDetails;
+    private String totalPrice;
 
     public OrderViewModel setId(Integer id) {
         this.id = id;
@@ -26,6 +26,11 @@ public class OrderViewModel {
 
     public OrderViewModel setOrderDetails(Set<OrderDetailViewModel> orderDetails) {
         this.orderDetails = orderDetails;
+        return this;
+    }
+
+    public OrderViewModel setTotalPrice(String totalPrice) {
+        this.totalPrice = totalPrice;
         return this;
     }
 }
