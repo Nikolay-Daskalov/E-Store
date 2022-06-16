@@ -4,10 +4,13 @@ import com.project.EStore.model.service.order.OrderServiceModel;
 import com.project.EStore.model.view.order.OrderViewModel;
 import com.project.EStore.service.domain.order.OrderService;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,11 +34,12 @@ public class UserProfileController {
     }
 
     @GetMapping("orders")
-    public String getOrdersByUser(Principal principal, Model model) {
+    @ResponseBody
+    public List<OrderViewModel> getOrdersByUser(Principal principal, Model model) {
         List<OrderServiceModel> ordersByUsername = this.orderService.findOrdersByUsername(principal.getName());
 
         List<OrderViewModel> orders = ordersByUsername.stream().map(order -> this.modelMapper.map(order, OrderViewModel.class)).collect(Collectors.toList());
         model.addAttribute("orders", orders);
-        return "userProfile";
+        return orders;
     }
 }

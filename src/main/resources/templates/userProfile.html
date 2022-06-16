@@ -38,38 +38,38 @@
             </ul>
         </div>
     </section>
-    <section class="text-center mt-5">
+    <section class="text-center mt-5" id="contentSection">
         <h2 class="mb-0" th:text="|Welcome ${username}|" th:if="${username != null}"></h2>
-        <ul class="list-group orders ms-auto me-auto mb-5" th:if="${orders != null}">
-            <li class="list-group-item list-group-item-primary mb-1" th:each="order, status : ${orders}"
-                th:object="${order}">
-                <div class="accordion" th:id="'accordionParent' + ${status.index + 1}">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" th:id="'heading' + ${status.index + 1}">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    th:data-bs-target="'#collapse' + ${status.index + 1}" aria-expanded="false"
-                                    th:aria-controls="'collapse'  + ${status.index + 1}"
-                                    th:text="'Order #' + *{getId()} + ', purchased on: ' + *{getCreated()}">
-                                Button text
-                            </button>
-                        </h2>
-                        <div th:id="'collapse' + ${status.index + 1}" class="accordion-collapse collapse"
-                             th:aria-labelledby="'heading' + ${status.index + 1}"
-                             th:data-bs-parent="'#accordionParent' + ${status.index + 1}">
-                            <div class="accordion-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item" th:each="orderDetails : *{getOrderDetails()}"
-                                        th:utext="${orderDetails.getProduct().getBrand()} + ' ' + ${orderDetails.getProduct().getModel()} + ',<br> Quantity: ' +
-                                        ${orderDetails.getQuantity()} + ' X ' + ${orderDetails.getProduct().getPrice()} + ' BGN'">
-                                    </li>
-                                    <p th:text="|Total price: *{getTotalPrice()} BGN|" class="mb-0 mt-1"></p>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
+<!--        <ul class="list-group orders ms-auto me-auto mb-5" th:if="${orders != null}">-->
+<!--            <li class="list-group-item list-group-item-primary mb-1" th:each="order, status : ${orders}"-->
+<!--                th:object="${order}">-->
+<!--                <div class="accordion" th:id="'accordionParent' + ${status.index + 1}">-->
+<!--                    <div class="accordion-item">-->
+<!--                        <h2 class="accordion-header" th:id="'heading' + ${status.index + 1}">-->
+<!--                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"-->
+<!--                                    th:data-bs-target="'#collapse' + ${status.index + 1}" aria-expanded="false"-->
+<!--                                    th:aria-controls="'collapse'  + ${status.index + 1}"-->
+<!--                                    th:text="'Order #' + *{getId()} + ', purchased on: ' + *{getCreated()}">-->
+<!--                                Button text-->
+<!--                            </button>-->
+<!--                        </h2>-->
+<!--                        <div th:id="'collapse' + ${status.index + 1}" class="accordion-collapse collapse"-->
+<!--                             th:aria-labelledby="'heading' + ${status.index + 1}"-->
+<!--                             th:data-bs-parent="'#accordionParent' + ${status.index + 1}">-->
+<!--                            <div class="accordion-body">-->
+<!--                                <ul class="list-group">-->
+<!--                                    <li class="list-group-item" th:each="orderDetails : *{getOrderDetails()}"-->
+<!--                                        th:utext="${orderDetails.getProduct().getBrand()} + ' ' + ${orderDetails.getProduct().getModel()} + ',<br> Quantity: ' +-->
+<!--                                        ${orderDetails.getQuantity()} + ' X ' + ${orderDetails.getProduct().getPrice()} + ' BGN'">-->
+<!--                                    </li>-->
+<!--                                    <p th:text="|Total price: *{getTotalPrice()} BGN|" class="mb-0 mt-1"></p>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--        </ul>-->
     </section>
 </main>
 <footer th:replace="fragments/commons::absolute-footer"></footer>

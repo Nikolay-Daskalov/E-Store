@@ -43,7 +43,7 @@
             </li>
         </ul>
         <form method="post" th:action="@{/products/purchase}" class="mt-4">
-            <input type="submit" value="Purchase" class="btn btn-outline-primary">
+            <input type="submit" value="Purchase" class="btn btn-outline-primary" id="purchaseBtn">
         </form>
     </div>
     <div th:if="${products.isEmpty()}" class="mt-5">

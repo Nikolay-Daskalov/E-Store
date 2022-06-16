@@ -1,5 +1,10 @@
 import {removeItemFromCart} from './util.js';
 
+const purchaseBtn = document.getElementById('purchaseBtn');
+purchaseBtn.addEventListener('click', (e) =>{
+    e.currentTarget.classList.add('disabled');
+});
+
 const ulElement = document.getElementById('list-group');
 
 const removeBtns = [...document.getElementsByClassName('remove-btn')];
