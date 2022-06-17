@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface UserRepository extends BaseRepository<UserEntity> {
 
     Optional<UserEntity> findByUsername (String username);
+
+    void deleteByUsername(String username);
 }

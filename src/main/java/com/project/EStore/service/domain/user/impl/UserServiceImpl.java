@@ -7,7 +7,6 @@ import com.project.EStore.model.entity.enums.RoleEnum;
 import com.project.EStore.model.service.user.RoleServiceModel;
 import com.project.EStore.model.service.user.UserServiceModel;
 import com.project.EStore.repository.user.UserRepository;
-import com.project.EStore.service.domain.order.OrderService;
 import com.project.EStore.service.domain.user.RoleService;
 import com.project.EStore.service.domain.user.UserService;
 import org.modelmapper.ModelMapper;
@@ -20,8 +19,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -111,5 +110,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         UserEntity userEntity = this.userRepository.findByUsername(username).orElse(null);
 
         return userEntity == null ? null : this.modelMapper.map(userEntity, UserServiceModel.class);
+    }
+
+    @Transactional
+    @Override
+    public void deleteUserByUsername(String username) {
+        this.userRepository.deleteByUsername(username);
+
+        LOGGER.info(String.format("User delete his account { %s }", username));
     }
 }

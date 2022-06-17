@@ -11,4 +11,6 @@ import java.util.List;
 public interface OrderRepository extends BaseRepository<OrderEntity> {
 
     List<OrderEntity> findAllByUser(UserEntity user);
+
+    void deleteAllByUser(UserEntity user);
 }

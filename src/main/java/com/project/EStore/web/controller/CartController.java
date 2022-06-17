@@ -43,6 +43,10 @@ public class CartController {
 
         ProductCookieHolderBindingModel productCookieHolderBindingModel = this.productCookieValidator.mapCookieToPOJO(cartItemsCookie, objectMapper);
 
+        if (productCookieHolderBindingModel.getProducts().isEmpty()) {
+            return "cart";
+        }
+
         this.productCookieValidator.validateProductsFromCookie(productCookieHolderBindingModel);
 
         Map<String, String> productQuantity = new HashMap<>();

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ProductCookieBindingModel {
-
+    
     private String id;
     private String quantity;
     private String size;

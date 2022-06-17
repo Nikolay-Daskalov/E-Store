@@ -10,4 +10,6 @@ public interface UserService extends Init {
     void add(UserServiceModel userServiceModel);
 
     UserServiceModel findUserByUsername(String username);
+
+    void deleteUserByUsername(String username);
 }

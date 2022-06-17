@@ -115,7 +115,7 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                                                             .setModel(orderDetailServiceModel.getProduct().getModel())
                                                             .setPrice(convertPrice(orderDetailServiceModel.getProduct().getSupply().getPrice())));
 
-                                            totalPrice.add(orderDetailServiceModel.getProduct().getSupply().getPrice());
+                                            totalPrice.add(orderDetailServiceModel.getProduct().getSupply().getPrice().multiply(BigDecimal.valueOf(orderDetailServiceModel.getQuantity())));
                                             return orderDetailViewModel;
                                         }).collect(Collectors.toSet())
                         ))

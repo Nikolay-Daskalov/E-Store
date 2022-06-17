@@ -19,7 +19,7 @@ public class OrderEntity extends BaseEntity {
     private UserEntity user;
     @Column(nullable = false)
     private LocalDateTime created;
-    @OneToMany(mappedBy = "orderNumber")
+    @OneToMany(mappedBy = "orderNumber", cascade = CascadeType.ALL)
     private Set<OrderDetailEntity> orderDetails;
 
     @PrePersist

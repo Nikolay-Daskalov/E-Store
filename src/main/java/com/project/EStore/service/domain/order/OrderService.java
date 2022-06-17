@@ -10,4 +10,6 @@ public interface OrderService {
     void placeOrder(Map<String, String> productsByIdAndCount, String username);
 
     List<OrderServiceModel> findOrdersByUsername(String username);
+
+    void deleteOrdersByUser(String username);
 }

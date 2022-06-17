@@ -1,6 +1,10 @@
+import {buildSpinner} from './util.js';
+
 const orderBtn = document.getElementById('orders-btn');
 orderBtn.addEventListener('click', (e) => {
     e.preventDefault();
+    const sectionContainer = document.getElementById('contentSection');
+    buildSpinner(sectionContainer);
     fetch('/users/orders')
         .then(res => {
             if (res.status === 204) {
@@ -11,13 +15,11 @@ orderBtn.addEventListener('click', (e) => {
             return res.json();
         })
         .then(data => {
-            const sectionContainer = document.getElementById('contentSection');
-            sectionContainer.innerHTML = '';
-
             if (typeof data === 'string') {
                 const noOrdersH2 = document.createElement('h2');
                 noOrdersH2.textContent = 'No orders';
                 noOrdersH2.classList.add('mb-0');
+                sectionContainer.innerHTML = '';
                 sectionContainer.appendChild(noOrdersH2);
                 return;
             }
@@ -86,6 +88,7 @@ orderBtn.addEventListener('click', (e) => {
                 parentUL.appendChild(parentItemLI);
             });
 
+            sectionContainer.innerHTML = '';
             sectionContainer.appendChild(parentUL);
         })
         .catch(err => {
