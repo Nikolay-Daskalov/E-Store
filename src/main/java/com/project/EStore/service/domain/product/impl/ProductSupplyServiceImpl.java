@@ -51,7 +51,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("6"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646456700/EStore/Fitness/corength-push-ups-handlebars.webp",
-                "Corength", "Push ups handlebars", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+                "Corength", "Push Ups Handlebars", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("5.40"), Short.valueOf("10"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1646496614/EStore/Fitness/weider-shaker-300ml.webp",
@@ -75,11 +75,11 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("10.90"), Short.valueOf("14"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652694038/EStore/Fitness/nyamba-lady-t-shirt-slim-white.avif",
-                "Nyamba", "T-shirt Lady Slim", ProductCategoryEnum.FITNESS, ProductTypeEnum.TOP, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
+                "Nyamba", "T-Shirt Lady Slim", ProductCategoryEnum.FITNESS, ProductTypeEnum.TOP, ProductSizeEnum.XS, ProductSizeEnum.S, ProductSizeEnum.M, ProductSizeEnum.L);
 
         initSuppliesAndProducts(new BigDecimal("7.40"), Short.valueOf("4"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652705504/EStore/Fitness/domyos-jr-100-jumping-rope.avif",
-                "Domyos", "JR 100 Jumping rope", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
+                "Domyos", "JR 100 Jumping Rope", ProductCategoryEnum.FITNESS, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("79.90"), Short.valueOf("7"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652798687/EStore/Hiking/quechua-mh-100.avif",
@@ -139,7 +139,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
         initSuppliesAndProducts(new BigDecimal("21.90"), Short.valueOf("22"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652876044/EStore/Running/kalenji-soft-bottle.avif",
-                "Kalenji", "Soft water battle", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
+                "Kalenji", "Soft Water Bottle", ProductCategoryEnum.RUNNING, ProductTypeEnum.ACCESSORIES);
 
         initSuppliesAndProducts(new BigDecimal("45.90"), Short.valueOf("5"),
                 "https://res.cloudinary.com/dee2hxl5o/image/upload/v1652878800/EStore/Running/evadict-belt-light.avif",

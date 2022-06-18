@@ -1,5 +1,6 @@
 main {
     margin-top: 40px;
+    padding-bottom: 150px;
 }
 
 .info-div > p {
@@ -9,7 +10,6 @@ main {
 #info-div-wrapper {
     text-align: center;
     width: 70%;
-    /*background-color: #85c2ff;*/
     margin-top: 60px;
     margin-left: auto;
     margin-right: auto;

@@ -15,7 +15,7 @@
     <link rel="icon" href="/icon/favicon.jpg">
     <script src="/js/loadCartItems.js" type="module"></script>
 </head>
-<body>
+<body class="position-relative min-vh-100">
 <header>
     <nav th:replace="fragments/commons::nav"></nav>
 </header>
@@ -95,6 +95,6 @@
         </div>
     </section>
 </main>
-<footer th:replace="fragments/commons::normal-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>
