@@ -16,7 +16,7 @@
     <script src="/js/loadCartItems.js" type="module"></script>
 </head>
 <body>
-<nav th:fragment="nav" class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0">
+<nav th:fragment="user-nav" class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0">
     <div class="container-fluid">
         <a class="navbar-brand ms-4 fs-1 fw-bold fst-italic" href="/">EStore</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -77,17 +77,71 @@
         </div>
     </div>
 </nav>
-<footer th:fragment="normal-footer" class="bg-info border-top border-bottom border-1 border-dark">
+<nav th:fragment="admin-nav" class="navbar navbar-expand-md navbar-dark bg-primary pt-0 pb-0">
+    <div class="container-fluid">
+        <a class="navbar-brand ms-4 fs-1 fw-bold fst-italic" href="/">EStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse text-center" id="navbarNav">
+            <ul class="navbar-nav ms-auto me-4">
+                <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage Products
+                    </a>
+                    <ul class="dropdown-menu text-center p-1" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/products/fitness/manage">Fitness</a></li>
+                        <li>
+                            <hr class="dropdown-divider mt-1 mb-1">
+                        </li>
+                        <li><a class="dropdown-item" href="/products/hiking/manage">Hiking</a></li>
+                        <li>
+                            <hr class="dropdown-divider mt-1 mb-1">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/products/running/manage">Running</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider mt-1 mb-1">
+                        </li>
+                        <li><a class="dropdown-item" href="/products/football/manage">Football</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <a class="nav-link active fs-5" href="/admin/users/all">View Users</a>
+                </li>
+                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <a class="nav-link active fs-5" href="/admin/users/account">Account</a>
+                </li>
+                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <form th:action="@{/users/logout}" method="post">
+                        <input type="submit" value="Logout" class="nav-link active fs-5 ms-auto me-auto"
+                               style="border: none;background-color: transparent">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--<footer th:fragment="normal-footer" class="bg-info border-top border-bottom border-1 border-dark">-->
+<!--    <div class="text-center fw-bold fs-6">-->
+<!--        Project created by Nikolay Daskalov.-->
+<!--        <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>-->
+<!--    </div>-->
+<!--</footer>-->
+<footer th:fragment="user-absolute-footer"
+        class="bg-info border-top border-bottom border-1 border-dark position-absolute bottom-0 w-100">
     <div class="text-center fw-bold fs-6">
         Project created by Nikolay Daskalov.
         <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>
     </div>
 </footer>
-<footer th:fragment="absolute-footer"
-        class="bg-info border-top border-bottom border-1 border-dark position-absolute bottom-0 w-100">
-    <div class="text-center fw-bold fs-6">
+<footer th:fragment="admin-absolute-footer"
+        class="bg-primary border-top border-bottom border-1 border-dark position-absolute bottom-0 w-100">
+    <div class="text-center fw-bold fs-6 text-light">
         Project created by Nikolay Daskalov.
-        <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>
+        <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank" class="link-info">Github</a></p>
     </div>
 </footer>
 </body>

@@ -14,12 +14,11 @@
             crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="/css/userProfile.css">
     <script src="/js/loadCartItems.js" type="module"></script>
-    <script src="/js/userProfile.js" type="module"></script>
-    <script src="/js/orders.js" type="module"></script>
+    <script src="/js/getOrdersByUser.js" type="module"></script>
 </head>
 <body class="min-vh-100 position-relative">
 <header>
-    <nav th:replace="fragments/commons::nav"></nav>
+    <nav th:replace="fragments/commons::user-nav"></nav>
 </header>
 <main>
     <section class="mb-5 mt-5">
@@ -42,6 +41,6 @@
         <h2 class="mb-0" th:text="|Welcome ${username}|"></h2>
     </section>
 </main>
-<footer th:replace="fragments/commons::absolute-footer"></footer>
+<footer th:replace="fragments/commons::user-absolute-footer"></footer>
 </body>
 </html>

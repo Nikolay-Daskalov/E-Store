@@ -10,35 +10,35 @@ logging:
 
 spring:
     datasource:
-#       This is for Heroku Cloud
-        url: ${JDBC_DATABSE_URL:}
-        username: ${JDBC_DATABASE_USERNAME:}
-        password: ${JDBC_DATABASE_PASSWORD:}
-        driver-class-name: org.postgresql.Driver
+        #       This is for Heroku Cloud
+        #        url: ${JDBC_DATABSE_URL:}
+        #        username: ${JDBC_DATABASE_USERNAME:}
+        #        password: ${JDBC_DATABASE_PASSWORD:}
+        #        driver-class-name: org.postgresql.Driver
 
-#        This is for local development.
-#        driver-class-name: com.mysql.cj.jdbc.Driver
-#        url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE}?${DATABASE_QSP}
-#        username: ${DATABASE_ROOT_USER}
-#        password: ${DATABASE_ROOT_PASS}
+        #        This is for local development.
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE}?${DATABASE_QSP}
+        username: ${DATABASE_ROOT_USER}
+        password: ${DATABASE_ROOT_PASS}
 
-# This setting is used for uploading images to the server
-#  servlet:
-#    multipart:
-#      max-file-size: 15MB
-#      max-request-size: 15MB
+    # This setting is used for uploading images to the server
+    #  servlet:
+    #    multipart:
+    #      max-file-size: 15MB
+    #      max-request-size: 15MB
 
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         properties:
             hibernate:
                 format_sql: true
-#       This is for Heroku Cloud
-        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        #       This is for Heroku Cloud
+        #        database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-#       This is for local development
-#       database-platform: org.hibernate.dialect.MySQL8Dialect
+        #       This is for local development
+        database-platform: org.hibernate.dialect.MySQL8Dialect
 
     # This is used for testing purposes
     #    web:
@@ -58,10 +58,10 @@ database:
     admin-username: ${DATABASE_ADMIN_USER}
     admin-password: ${DATABASE_ADMIN_PASS}
 
-#This is for Heroku Cloud
-server:
-    port: ${PORT:8080}
+##This is for Heroku Cloud
+#server:
+#    port: ${PORT:8080}
 
 #This is for local development.
-#server:
-#    port: ${APP_PORT}
+server:
+    port: ${APP_PORT}

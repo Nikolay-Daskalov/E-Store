@@ -18,7 +18,7 @@
 </head>
 <body class="min-vh-100 position-relative">
 <header>
-    <nav th:replace="fragments/commons::nav"></nav>
+    <nav th:replace="fragments/commons::user-nav"></nav>
 </header>
 <main class="mt-4 text-center">
     <h2 th:text="|${#strings.capitalize(productType)} Products|">Test Products</h2>
@@ -114,6 +114,6 @@
         </ul>
     </nav>
 </main>
-<footer th:replace="fragments/commons::absolute-footer"></footer>
+<footer th:replace="fragments/commons::user-absolute-footer"></footer>
 </body>
 </html>

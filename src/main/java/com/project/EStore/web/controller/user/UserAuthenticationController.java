@@ -1,4 +1,4 @@
-package com.project.EStore.web.controller;
+package com.project.EStore.web.controller.user;
 
 import com.project.EStore.model.binding.UserBindingModel;
 import com.project.EStore.model.service.user.UserServiceModel;

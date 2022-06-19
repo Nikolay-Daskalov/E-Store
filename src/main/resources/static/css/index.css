@@ -7,6 +7,12 @@ main {
     font-size: 18px;
 }
 
+#carouselDark {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #info-div-wrapper {
     text-align: center;
     width: 70%;
@@ -15,12 +21,15 @@ main {
     margin-right: auto;
 }
 
+.img-parent {
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+}
 
 .slide-images {
     width: 500px;
     height: auto;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #weather-div-wrapper {
