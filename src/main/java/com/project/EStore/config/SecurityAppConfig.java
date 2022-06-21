@@ -1,10 +1,9 @@
 package com.project.EStore.config;
 
+import com.project.EStore.model.entity.enums.RoleEnum;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -39,8 +38,8 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cart").fullyAuthenticated()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers("/users/register").permitAll()
-                .antMatchers("/users/account/deleted").permitAll()
                 .antMatchers("/users/**").fullyAuthenticated()
+                .antMatchers("/admin/**").hasRole(RoleEnum.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

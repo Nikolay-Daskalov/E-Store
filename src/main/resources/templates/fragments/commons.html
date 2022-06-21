@@ -27,11 +27,17 @@
             <ul class="navbar-nav ms-auto me-4">
                 <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                       data-bs-toggle="dropdown" aria-expanded="false" sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
+                        Manage Products
+                    </a>
+                    <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false" sec:authorize="${!hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
                         Products
                     </a>
                     <ul class="dropdown-menu text-center p-1" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/products/fitness">Fitness</a></li>
+                        <li>
+                            <a class="dropdown-item" href="/products/fitness">Fitness</a>
+                        </li>
                         <li>
                             <hr class="dropdown-divider mt-1 mb-1">
                         </li>
@@ -53,6 +59,9 @@
                 </li>
                 <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
                     <a class="nav-link active fs-5 position-relative" href="/cart" id="cartLink">Cart</a>
+                </li>
+                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto" sec:authorize="hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())">
+                    <a class="nav-link active fs-5 position-relative" href="/admin/home">View Users</a>
                 </li>
                 <th:block sec:authorize="isAnonymous()">
                     <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
@@ -124,12 +133,6 @@
         </div>
     </div>
 </nav>
-<!--<footer th:fragment="normal-footer" class="bg-info border-top border-bottom border-1 border-dark">-->
-<!--    <div class="text-center fw-bold fs-6">-->
-<!--        Project created by Nikolay Daskalov.-->
-<!--        <p class="mb-0"><a href="https://github.com/Nikolay-Daskalov" target="_blank">Github</a></p>-->
-<!--    </div>-->
-<!--</footer>-->
 <footer th:fragment="user-absolute-footer"
         class="bg-info border-top border-bottom border-1 border-dark position-absolute bottom-0 w-100">
     <div class="text-center fw-bold fs-6">

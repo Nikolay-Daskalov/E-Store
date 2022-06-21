@@ -7,6 +7,10 @@ logging:
                 type:
                     descriptor: TRACE
             nodeValue: WARN
+#            springframework:
+#                security:
+#                    web:
+#                        FilterChainProxy=DEBUG:
 
 spring:
     datasource:

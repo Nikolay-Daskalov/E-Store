@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -79,19 +79,28 @@
     <div class="mt-5 ms-auto me-auto" id="content-container-wrapper">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+                <div th:if="${allProductCards.size() == 0}" class="ms-auto me-auto mt-4">
+                    <h2>No products found</h2>
+                </div>
                 <div class="col mb-3" th:each="product : ${allProductCards}" th:object="${product}">
                     <div class="card ms-auto me-auto card-wrapper-div">
                         <img src="..." th:src="*{getImageUrl()}" class="card-img-top img-thumbnail" alt="Product image">
                         <div class="card-body">
                             <h5 class="card-title" th:text="*{getBrand() + ' ' + getModel()}">Card title</h5>
                             <p class="card-text" th:text="*{getPrice() + ' BGN'}">Some text</p>
+
                             <a th:href="@{/products/{productType}/details/{id}(id=*{getId()},productType=${productType})}"
-                               class="btn btn-primary">Details</a>
+                               class="btn btn-primary" sec:authorize="${!hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">Details</a>
+
+                            <a th:href="@{/products/{productType}/details/{id}/edit(id=*{getId()},productType=${productType})}"
+                               class="btn btn-primary" sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">Edit</a>
+
+                            <form class="d-inline-block ms-2" th:action="@{/products/{productType}/details/{id}/delete(id=*{getId()},productType=${productType})}" th:method="delete"
+                                  sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
+                                <input type="submit" value="Delete" class="btn btn-danger">
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div th:if="${allProductCards.size() == 0}" class="ms-auto me-auto mt-4">
-                    <h2>No products found</h2>
                 </div>
             </div>
         </div>

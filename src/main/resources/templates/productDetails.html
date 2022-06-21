@@ -40,8 +40,7 @@
                 <label for="products-count" class="mb-1">Available Quantity</label>
                 <input id="products-count" type="number" class="form-control ms-auto me-auto"
                        th:min="${quantity > 0? '1': '0'}"
-                       th:max="${quantity > 20? '20': quantity}" th:value="${quantity > 0? '1': '0'}"
-                       th:data-max-products="${quantity > 20? '20': quantity}">
+                       th:max="${quantity}" th:value="${quantity > 0? '1': '0'}">
             </div>
             <div class="mt-4 fw-bold">
                 <p class="mb-0" th:text="|Price: *{getSupply().getPrice()} BGN|">Text price</p>
