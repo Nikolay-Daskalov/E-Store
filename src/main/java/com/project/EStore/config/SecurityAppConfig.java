@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -39,7 +39,8 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/login").permitAll()
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/**").fullyAuthenticated()
-                .antMatchers("/admin/**").hasRole(RoleEnum.ADMIN.name())
+                .antMatchers("/products/add").hasRole(RoleEnum.ADMIN.name())
+                .antMatchers("/products/delete/**").hasRole(RoleEnum.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

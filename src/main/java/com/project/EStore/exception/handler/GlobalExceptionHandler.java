@@ -2,7 +2,7 @@ package com.project.EStore.exception.handler;
 
 import com.project.EStore.exception.CartCookieException;
 import com.project.EStore.exception.ProductNotFoundException;
-import com.project.EStore.exception.ProductQueryCriteriaException;
+import com.project.EStore.exception.ProductCriteriaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({ProductQueryCriteriaException.class, CartCookieException.class})
+    @ExceptionHandler({ProductCriteriaException.class, CartCookieException.class})
     public ModelAndView productQueryCriteriaHandler() {
         return this.buildModelAndView("error", HttpStatus.BAD_REQUEST);
     }

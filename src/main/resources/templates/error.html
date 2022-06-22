@@ -17,12 +17,12 @@
 </head>
 <body class="min-vh-100 position-relative">
 <header>
-    <nav th:replace="fragments/commons::user-nav"></nav>
+    <nav th:replace="fragments/commons::nav"></nav>
 </header>
 <main class="mt-5 text-center">
     <h2>Opps! Something went wrong.</h2>
     <h5 th:text="${statusInfo == null? '404 Not Found': statusInfo}">Status text</h5>
 </main>
-<footer th:replace="fragments/commons::user-absolute-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

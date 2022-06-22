@@ -18,7 +18,7 @@
 </head>
 <body class="min-vh-100 position-relative">
 <header>
-    <nav th:replace="fragments/commons::user-nav"></nav>
+    <nav th:replace="fragments/commons::nav"></nav>
 </header>
 <main class="mt-4 text-center">
     <h2 th:text="|${#strings.capitalize(productType)} Products|">Test Products</h2>
@@ -95,7 +95,7 @@
                             <a th:href="@{/products/{productType}/details/{id}/edit(id=*{getId()},productType=${productType})}"
                                class="btn btn-primary" sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">Edit</a>
 
-                            <form class="d-inline-block ms-2" th:action="@{/products/{productType}/details/{id}/delete(id=*{getId()},productType=${productType})}" th:method="delete"
+                            <form class="d-inline-block ms-2" th:action="@{/products/delete/{id}(id=*{getId()})}" th:method="delete"
                                   sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
                                 <input type="submit" value="Delete" class="btn btn-danger">
                             </form>
@@ -123,6 +123,6 @@
         </ul>
     </nav>
 </main>
-<footer th:replace="fragments/commons::user-absolute-footer"></footer>
+<footer th:replace="fragments/commons::absolute-footer"></footer>
 </body>
 </html>

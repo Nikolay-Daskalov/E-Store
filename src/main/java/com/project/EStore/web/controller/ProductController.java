@@ -1,7 +1,7 @@
 package com.project.EStore.web.controller;
 
 import com.project.EStore.exception.ProductNotFoundException;
-import com.project.EStore.exception.ProductQueryCriteriaException;
+import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
@@ -47,7 +47,7 @@ public class ProductController {
         boolean isCategoryValid = this.productValidator.isCategoryValid(productCategory);
 
         if (!isCategoryValid) {
-            throw new ProductQueryCriteriaException("Product category is not valid");
+            throw new ProductCriteriaException("Product category is not valid");
         }
 
         findAllProductsByCriteria(
@@ -65,17 +65,17 @@ public class ProductController {
         boolean isCategoryValid = this.productValidator.isCategoryValid(productCategory);
 
         if (!isCategoryValid) {
-            throw new ProductQueryCriteriaException("Product category is not valid");
+            throw new ProductCriteriaException("Product category is not valid");
         }
 
         boolean isValid = this.productValidator.isIdValid(productId);
 
         if (!isValid) {
-            throw new ProductQueryCriteriaException("Id is not valid type");
+            throw new ProductCriteriaException("Id is not valid type");
         }
 
         ProductServiceModel productByIdAndType = this.productService
-                .findProductByIdAndType(Integer.parseInt(productId), ProductCategoryEnum.valueOf(productCategory.toUpperCase()));
+                .findProductByIdAndCategory(Integer.parseInt(productId), ProductCategoryEnum.valueOf(productCategory.toUpperCase()));
 
         if (productByIdAndType == null) {
             throw new ProductNotFoundException("Product not found");
@@ -120,5 +120,56 @@ public class ProductController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("pageNumber", page.getPageable().getPageNumber());
     }
+
+
+    @GetMapping("add")
+    public String getProductsAddView() {
+        //TODO
+        return null;
+    }
+
+    @DeleteMapping("delete/{productId}")
+    public String deleteProduct(@PathVariable String productId) {
+
+        if (!this.productValidator.isIdValid(productId)) {
+            throw new ProductCriteriaException("Id not valid type");
+        }
+
+        Integer id = Integer.parseInt(productId);
+
+        Boolean isExists = this.productService.doesExistById(id);
+
+        if (!isExists){
+            throw new ProductNotFoundException("Product not found");
+        }
+
+        this.productService.deleteProductById(id);
+
+        return "redirect:/products/delete/successful";
+    }
+
+    @GetMapping("delete/successful")
+    public String getProductDeleteSuccessfulView(){
+        return "deleteProductSuccessful";
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

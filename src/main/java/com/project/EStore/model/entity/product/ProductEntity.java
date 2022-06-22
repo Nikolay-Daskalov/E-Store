@@ -36,6 +36,8 @@ public class ProductEntity extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductTypeEnum type;
+    @Column(nullable = false)
+    private Boolean isDeleted;
 
     public ProductEntity() {
         this.sizes = new HashSet<>();
@@ -45,6 +47,7 @@ public class ProductEntity extends BaseEntity {
     @PrePersist
     private void initAddedOn() {
         this.addedOn = LocalDateTime.now();
+        this.isDeleted = false;
     }
 
 
@@ -75,6 +78,11 @@ public class ProductEntity extends BaseEntity {
 
     public ProductEntity setPictureUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public ProductEntity setDeleted(Boolean deleted) {
+        isDeleted = deleted;
         return this;
     }
 }

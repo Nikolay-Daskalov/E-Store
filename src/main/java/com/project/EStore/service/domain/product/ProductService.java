@@ -16,13 +16,15 @@ public interface ProductService {
 
     Boolean doesExistById(Integer id);
 
+    void deleteProductById(Integer id);
+
     Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes);
 
     ProductServiceModel findProductById(Integer id);
 
     List<ProductServiceModel> findAllProductsByIds(Collection<Integer> ids);
 
-    ProductServiceModel findProductByIdAndType(Integer id, ProductCategoryEnum productCategory);
+    ProductServiceModel findProductByIdAndCategory(Integer id, ProductCategoryEnum productCategory);
 
     Set<String> getAllBrandsByCategory(ProductCategoryEnum productCategory);
 

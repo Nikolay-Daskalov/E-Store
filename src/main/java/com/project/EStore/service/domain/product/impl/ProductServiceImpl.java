@@ -38,6 +38,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
+    public void deleteProductById(Integer id) {
+        ProductEntity productEntity = this.productRepository.findById(id).get();
+        productEntity.setDeleted(true);
+    }
+
+    @Override
     public Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes) {
         ProductEntity productEntity = new ProductEntity();
         if (sizes.length != 0) {
@@ -69,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductServiceModel findProductByIdAndType(Integer id, ProductCategoryEnum productCategory) {
+    public ProductServiceModel findProductByIdAndCategory(Integer id, ProductCategoryEnum productCategory) {
         ProductEntity productEntity = this.productRepository.findByIdAndCategory(id, productCategory).orElse(null);
 
         return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
@@ -93,8 +100,8 @@ public class ProductServiceImpl implements ProductService {
             productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toSet());
         }
 
-        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
-                brands, productTypes, productCategory, new BigDecimal(lowerPrice), new BigDecimal(higherPrice), PageRequest.of(pageNumber, pageSize)
+        Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndIsDeletedAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+                brands, productTypes, productCategory, false, new BigDecimal(lowerPrice), new BigDecimal(higherPrice), PageRequest.of(pageNumber, pageSize)
         );
 
         return pages.map(productEntity -> this.modelMapper.map(productEntity, ProductServiceModel.class));

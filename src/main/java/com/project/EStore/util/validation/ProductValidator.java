@@ -1,6 +1,6 @@
 package com.project.EStore.util.validation;
 
-import com.project.EStore.exception.ProductQueryCriteriaException;
+import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.util.validation.annotation.validator.NoSpecialCharactersValidator;
@@ -50,18 +50,18 @@ public class ProductValidator {
             int pageNumberConverted = Integer.parseInt(pageNumber);
 
             if (lowestPriceConverted < 0 || lowestPriceConverted > HIGHEST_PRICE || lowestPriceConverted % 5 != 0) {
-                throw new ProductQueryCriteriaException("Lowest price limit exceeded");
+                throw new ProductCriteriaException("Lowest price limit exceeded");
             }
 
             if (highestPriceConverted > HIGHEST_PRICE || highestPriceConverted < 0 || highestPriceConverted % 5 != 0) {
-                throw new ProductQueryCriteriaException("Highest price limit exceeded");
+                throw new ProductCriteriaException("Highest price limit exceeded");
             }
 
             if (pageNumberConverted < 0) {
-                throw new ProductQueryCriteriaException("Page number limit exceeded");
+                throw new ProductCriteriaException("Page number limit exceeded");
             }
         } catch (NumberFormatException e) {
-            throw new ProductQueryCriteriaException("Price or page not valid");
+            throw new ProductCriteriaException("Price or page not valid");
         }
     }
 
@@ -72,7 +72,7 @@ public class ProductValidator {
             } else {
                 boolean isValid = brands.stream().allMatch(brand -> this.noSpecialCharactersValidator.isValid(brand, null));
                 if (!isValid) {
-                    throw new ProductQueryCriteriaException("Brands contain special characters");
+                    throw new ProductCriteriaException("Brands contain special characters");
                 }
                 brandCheckboxesToCheck.addAll(brands);
                 model.addAttribute("brands", String.join(",", brands));
@@ -96,7 +96,7 @@ public class ProductValidator {
 
                 return typesConverted;
             } catch (IllegalArgumentException e) {
-                throw new ProductQueryCriteriaException("Type not valid");
+                throw new ProductCriteriaException("Type not valid");
             }
         }
 
