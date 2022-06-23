@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EStore | Web Application | Nikolay Daskalov</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="/css/form.css">
+    <script src="/js/loadCartItems.js" type="module"></script>
+    <script src="/js/checkSizeValidity.js" type="module"></script>
+    <link rel="icon" href="/icon/favicon.jpg">
+</head>
+<body class="position-relative min-vh-100">
+<header>
+    <nav th:replace="fragments/commons::nav"></nav>
+</header>
+<main>
+    <section>
+        <div id="form-div-wrapper" class="text-center ms-auto me-auto mt-5 border border-info border-3 rounded shadow">
+            <h1 class="fw-bold mb-2 mt-3">Add Product</h1>
+            <form method="post" enctype="multipart/form-data" th:action="@{/products/addProduct}" th:object="${productSupplyBindingModel}">
+                <p class="form-text ms-auto me-auto mb-2" id="info-text">
+                    Input fields mustn't contain any special characters nor white spaces.
+                </p>
+                <div class="mb-3 ms-auto me-auto" id="img-wrapper">
+                    <input type="file" class="form-control" placeholder="Image"
+                           th:field="*{product.image}"
+                           required accept="image/*">
+                    <div class="form-text">Image must be entered</div>
+                </div>
+                <div class="form-floating mb-3 ms-auto me-auto" id="brand-wrapper">
+                    <input type="text" class="form-control" id="brand" placeholder="Brand"
+                           th:field="*{product.brand}"
+                           required minlength="3" maxlength="35">
+                    <label for="brand">Brand</label>
+                    <div class="form-text">Brand must be 3-35 characters long.</div>
+                </div>
+                <div class="form-floating ms-auto me-auto mb-3" id="model-wrapper">
+                    <input type="text" class="form-control" id="model" placeholder="Model"
+                           th:field="*{product.model}"
+                           required minlength="3" maxlength="35">
+                    <label for="model">Model</label>
+                    <div class="form-text">Model must be 3-35 characters long.</div>
+                </div>
+                <div class="form-floating ms-auto me-auto mb-3" id="category-wrapper">
+                    <select class="form-select" id="category" th:field="*{product.category}" required>
+                        <option selected value="">Not Selected</option>
+                        <option th:each="categ : ${T(com.project.EStore.model.entity.enums.ProductCategoryEnum).values()}"
+                                th:value="${categ}" th:text="${#strings.capitalize(categ.name().toLowerCase())}">First
+                        </option>
+                    </select>
+                    <label for="category">Select category</label>
+                    <div class="form-text">Category must be selected.</div>
+                </div>
+                <div class="form-floating ms-auto me-auto mb-3" id="price-wrapper">
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="price" placeholder="Price" th:field="*{price}" min="1" max="200" step="0.01" required>
+                        <div class="input-group-text">BGN</div>
+                    </div>
+                    <div class="form-text">Price must be 1-200.</div>
+                </div>
+                <div class="form-floating mb-3 ms-auto me-auto" id="quantity-wrapper">
+                    <input type="number" class="form-control" id="quantity" placeholder="Quantity"
+                           th:field="*{quantity}"
+                           required min="1" max="40">
+                    <label for="quantity">Quantity</label>
+                    <div class="form-text">Quantity must be 1-40.</div>
+                </div>
+                <div class="form-floating ms-auto me-auto mb-3" id="type-wrapper">
+                    <select class="form-select" id="type" th:field="*{product.type}" required>
+                        <option selected value="">Not Selected</option>
+                        <option th:each="type : ${T(com.project.EStore.model.entity.enums.ProductTypeEnum).values()}"
+                                th:value="${type}" th:text="${#strings.capitalize(type.name().toLowerCase())}">First
+                        </option>
+                    </select>
+                    <label for="type">Select type</label>
+                    <div class="form-text">Type must be selected.</div>
+                </div>
+                <div class="ms-auto me-auto mb-3" id="size-wrapper">
+                    <h5 class="mb-1">Select sizes</h5>
+                    <div class="form-text mb-2">Type must be selected.</div>
+                    <div class="form-check form-switch text-start ms-auto me-auto w-25" th:each="size, status : ${T(com.project.EStore.model.entity.enums.ProductSizeEnum).values()}">
+                        <input class="form-check-input" type="checkbox" th:id="'switch' + ${status.index + 1}" name="product_sizes" th:value="${size}">
+                        <label class="form-check-label" th:for="'switch' + ${status.index + 1}" th:text="${size.name()}">Text example</label>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary mb-4" value="Add">
+            </form>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragments/commons::absolute-footer}"></footer>
+</body>
+</html>

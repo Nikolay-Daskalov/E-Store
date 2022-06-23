@@ -2,12 +2,15 @@ package com.project.EStore.util.validation;
 
 import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
+import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.util.validation.annotation.validator.NoSpecialCharactersValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -101,5 +104,19 @@ public class ProductValidator {
         }
 
         return typesConverted;
+    }
+
+    public Set<ProductSizeEnum> validateSize(List<String> sizes) {
+        Set<ProductSizeEnum> validatedSizes = new HashSet<>();
+        try {
+            if (sizes.isEmpty()) {
+                throw new ProductCriteriaException("Sizes is empty");
+            }
+            sizes.stream().map(ProductSizeEnum::valueOf).forEach(validatedSizes::add);
+        } catch (IllegalArgumentException e) {
+            throw new ProductCriteriaException("Sizes not valid type");
+        }
+
+        return validatedSizes;
     }
 }

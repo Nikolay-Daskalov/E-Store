@@ -24,6 +24,7 @@ public class ProductSupplyEntity extends BaseEntity {
     private LocalDateTime lastUpdatedOn;
 
     @PrePersist
+    @PreUpdate
     private void initLastUpdatedOn(){
         this.lastUpdatedOn = LocalDateTime.now();
     }

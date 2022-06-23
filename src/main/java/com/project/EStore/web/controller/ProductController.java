@@ -2,7 +2,9 @@ package com.project.EStore.web.controller;
 
 import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.exception.ProductCriteriaException;
+import com.project.EStore.model.binding.ProductSupplyBindingModel;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
+import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
@@ -13,9 +15,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -123,9 +129,19 @@ public class ProductController {
 
 
     @GetMapping("add")
-    public String getProductsAddView() {
-        //TODO
-        return null;
+    public String getProductsAddView(Model model) {
+        model.addAttribute("productSupplyBindingModel", new ProductSupplyBindingModel());
+        return "addProduct";
+    }
+
+    @PostMapping("addProduct")
+    public String postProductsAdd(@RequestParam(name = "product_sizes", defaultValue = "") List<String> sizes, @Valid @ModelAttribute ProductSupplyBindingModel productSupplyBindingModel,
+                                  BindingResult bindingResult ,
+                                  RedirectAttributes redirectAttributes){
+
+        Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSize(sizes);
+
+        return "redirect:/products/add";
     }
 
     @DeleteMapping("delete/{productId}")
