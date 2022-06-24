@@ -7,7 +7,7 @@ imgInput.addEventListener('change', (e) => {
 form.addEventListener('submit', (e) => {
     console.log(e.defaultPrevented);
     const formObj = Object.fromEntries(new FormData(e.currentTarget));
-    const imgType = formObj['product.image'].type;
+    const imgType = formObj.image.type;
 
     if (!imgType.includes('image')) {
         e.preventDefault();
@@ -17,7 +17,7 @@ form.addEventListener('submit', (e) => {
         return;
     }
 
-    if (!formObj.hasOwnProperty('product_sizes')) {
+    if (!formObj.hasOwnProperty('productSizes')) {
         e.preventDefault();
         document.getElementsByTagName('h5')[0].style.color = '#ff2626';
         document.querySelectorAll('input[type="checkbox"]').forEach(e => {

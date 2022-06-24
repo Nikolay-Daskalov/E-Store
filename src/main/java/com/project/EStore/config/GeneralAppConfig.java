@@ -1,6 +1,7 @@
 package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
+import com.project.EStore.model.binding.ProductBindingModel;
 import com.project.EStore.model.service.order.OrderServiceModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.order.OrderDetailViewModel;
@@ -123,6 +124,12 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setTotalPrice(convertPrice(totalPrice.stream().reduce(new BigDecimal("0"), BigDecimal::add)));
 
                 return orderViewModel;
+            }
+        });
+        modelMapper.addConverter(new AbstractConverter<ProductBindingModel, ProductServiceModel>() {
+            @Override
+            protected ProductServiceModel convert(ProductBindingModel source) {
+                return null;
             }
         });
         return modelMapper;

@@ -114,7 +114,7 @@ public class ProductValidator {
             }
             sizes.stream().map(ProductSizeEnum::valueOf).forEach(validatedSizes::add);
         } catch (IllegalArgumentException e) {
-            throw new ProductCriteriaException("Sizes not valid type");
+            return null;
         }
 
         return validatedSizes;

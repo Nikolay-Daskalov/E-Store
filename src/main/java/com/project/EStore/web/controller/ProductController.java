@@ -1,8 +1,9 @@
 package com.project.EStore.web.controller;
 
+import com.cloudinary.Cloudinary;
 import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.exception.ProductCriteriaException;
-import com.project.EStore.model.binding.ProductSupplyBindingModel;
+import com.project.EStore.model.binding.ProductBindingModel;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
@@ -33,11 +34,13 @@ public class ProductController {
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final ProductValidator productValidator;
+    private final Cloudinary cloudinary;
 
-    public ProductController(ProductService productService, ModelMapper modelMapper, ProductValidator productValidator) {
+    public ProductController(ProductService productService, ModelMapper modelMapper, ProductValidator productValidator, Cloudinary cloudinary) {
         this.productService = productService;
         this.modelMapper = modelMapper;
         this.productValidator = productValidator;
+        this.cloudinary = cloudinary;
     }
 
     @GetMapping("{productCategory}")
@@ -130,16 +133,28 @@ public class ProductController {
 
     @GetMapping("add")
     public String getProductsAddView(Model model) {
-        model.addAttribute("productSupplyBindingModel", new ProductSupplyBindingModel());
+        if (!model.containsAttribute("productBindingModel")) {
+            model.addAttribute("productBindingModel", new ProductBindingModel());
+        }
         return "addProduct";
     }
 
     @PostMapping("addProduct")
-    public String postProductsAdd(@RequestParam(name = "product_sizes", defaultValue = "") List<String> sizes, @Valid @ModelAttribute ProductSupplyBindingModel productSupplyBindingModel,
-                                  BindingResult bindingResult ,
-                                  RedirectAttributes redirectAttributes){
+    public String postProductsAdd(@RequestParam(name = "productSizes", defaultValue = "") List<String> sizes,
+                                  @Valid @ModelAttribute ProductBindingModel productBindingModel,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
 
         Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSize(sizes);
+
+        if (bindingResult.hasErrors() || productSizeEnums == null) {
+            redirectAttributes.addFlashAttribute("productBindingModel", productBindingModel);
+            redirectAttributes.addFlashAttribute("isDataInvalid", true);
+
+            return "redirect:/products/add";
+        }
+
+
 
         return "redirect:/products/add";
     }
@@ -155,7 +170,7 @@ public class ProductController {
 
         Boolean isExists = this.productService.doesExistById(id);
 
-        if (!isExists){
+        if (!isExists) {
             throw new ProductNotFoundException("Product not found");
         }
 
@@ -165,7 +180,7 @@ public class ProductController {
     }
 
     @GetMapping("delete/successful")
-    public String getProductDeleteSuccessfulView(){
+    public String getProductDeleteSuccessfulView() {
         return "deleteProductSuccessful";
     }
 }
