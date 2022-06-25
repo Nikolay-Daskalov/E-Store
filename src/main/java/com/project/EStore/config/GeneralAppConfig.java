@@ -1,9 +1,12 @@
 package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
-import com.project.EStore.model.binding.ProductBindingModel;
+import com.project.EStore.model.entity.product.ProductEntity;
+import com.project.EStore.model.entity.product.ProductSizeEntity;
+import com.project.EStore.model.entity.product.ProductSupplyEntity;
 import com.project.EStore.model.service.order.OrderServiceModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
+import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.model.view.order.OrderDetailViewModel;
 import com.project.EStore.model.view.order.OrderViewModel;
 import com.project.EStore.model.view.product.*;
@@ -15,7 +18,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.math.BigDecimal;
@@ -126,10 +128,27 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                 return orderViewModel;
             }
         });
-        modelMapper.addConverter(new AbstractConverter<ProductBindingModel, ProductServiceModel>() {
+        modelMapper.addConverter(new AbstractConverter<ProductSupplyServiceModel, ProductSupplyEntity>() {
             @Override
-            protected ProductServiceModel convert(ProductBindingModel source) {
-                return null;
+            protected ProductSupplyEntity convert(ProductSupplyServiceModel source) {
+                ProductSupplyEntity productSupplyEntity = new ProductSupplyEntity();
+                productSupplyEntity
+                        .setPrice(source.getPrice())
+                        .setQuantity(source.getQuantity())
+                        .setProduct(new ProductEntity()
+                                .setBrand(source.getProduct().getBrand())
+                                .setModel(source.getProduct().getModel())
+                                .setCategory(source.getProduct().getCategory())
+                                .setType(source.getProduct().getType())
+                                .setImageUrl(source.getProduct().getImageUrl())
+                                .setDeleted(false));
+
+                source.getProduct().getSizes()
+                        .stream()
+                        .forEach(sizeServiceModel -> productSupplyEntity.getProduct()
+                                .getSizes().add(new ProductSizeEntity().setSize(sizeServiceModel.getSize())));
+
+                return productSupplyEntity;
             }
         });
         return modelMapper;
@@ -138,9 +157,9 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(Map.of(
-                "cloud_name", config.getCloudName(),
-                "api_key", config.getApiKey(),
-                "api_secret", config.getApiSecret()
+                "api_key", this.config.getApiKey(),
+                "api_secret", this.config.getApiSecret(),
+                "cloud_name", this.config.getCloudName()
         ));
     }
 

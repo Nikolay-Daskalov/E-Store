@@ -76,7 +76,7 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
-    public ProductEntity setPictureUrl(String imageUrl) {
+    public ProductEntity setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
         return this;
     }

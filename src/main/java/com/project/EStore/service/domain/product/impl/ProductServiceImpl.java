@@ -23,12 +23,10 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductSizeService productSizeService;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductSizeService productSizeService, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
-        this.productSizeService = productSizeService;
         this.modelMapper = modelMapper;
     }
 
@@ -42,24 +40,6 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(Integer id) {
         ProductEntity productEntity = this.productRepository.findById(id).get();
         productEntity.setDeleted(true);
-    }
-
-    @Override
-    public Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes) {
-        ProductEntity productEntity = new ProductEntity();
-        if (sizes.length != 0) {
-            Arrays.stream(sizes).forEach(s -> {
-                ProductSizeServiceModel productSizeByName = this.productSizeService.getProductSizeByName(s);
-                productEntity.getSizes().add(this.modelMapper.map(productSizeByName, ProductSizeEntity.class));
-            });
-        }
-
-        productEntity
-                .setBrand(brand)
-                .setModel(model)
-                .setCategory(category);
-
-        return this.productRepository.save(productEntity).getId();
     }
 
     @Override

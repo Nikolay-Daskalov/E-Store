@@ -27,7 +27,7 @@ const cartKeyCookie = 'cartProducts';
 const cart = document.getElementById('cartLink');
 
 function setCartItemsCookie(cartItems) {
-    document.cookie = `${cartKeyCookie}=` + encodeURIComponent(JSON.stringify(cartItems)) + '; path=/; samesite=strict;';
+    document.cookie = `${cartKeyCookie}=` + encodeURIComponent(JSON.stringify(cartItems)) + '; path=/; samesite=strict; max-age=31536000;';
 }
 
 export function addItemToCart(itemId, quantity, sizeSelect) {

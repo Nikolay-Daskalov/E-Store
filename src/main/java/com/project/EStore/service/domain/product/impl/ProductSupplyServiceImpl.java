@@ -8,6 +8,7 @@ import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
+import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.repository.product.ProductSupplyRepository;
 import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSizeService;
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class ProductSupplyServiceImpl implements ProductSupplyService {
@@ -233,14 +236,14 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setBrand(brand)
                 .setModel(model)
-                .setPictureUrl(imageUrl)
+                .setImageUrl(imageUrl)
                 .setCategory(category)
                 .setType(productTypeEnum);
 
         if (productSizeEnum.length != 0) {
             Arrays.stream(productSizeEnum)
                     .forEach(s -> {
-                        ProductSizeServiceModel productSizeByName = this.productSizeService.getProductSizeByName(s);
+                        ProductSizeServiceModel productSizeByName = this.productSizeService.getSizeByName(s);
                         ProductSizeEntity productSizeEntity = this.modelMapper.map(productSizeByName, ProductSizeEntity.class);
                         productEntity.getSizes().add(productSizeEntity);
                     });
@@ -251,22 +254,20 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
         this.productSupplyRepository.save(productSupplyEntity);
     }
 
-    @Override
-    public void addSupplyToProduct(BigDecimal price, Short quantity, ProductServiceModel productServiceModel) {
-        ProductEntity productEntity = this.modelMapper.map(productServiceModel, ProductEntity.class);
 
-        ProductSupplyEntity productSupplyEntity = new ProductSupplyEntity();
-        productSupplyEntity
-                .setPrice(price)
-                .setQuantity(quantity)
-                .setProduct(productEntity);
+    @Override
+    public void addSupplyWithProduct(ProductSupplyServiceModel productSupplyServiceModel) {
+        ProductSupplyEntity productSupplyEntity = this.modelMapper.map(productSupplyServiceModel, ProductSupplyEntity.class);
+        Set<ProductSizeEntity> sizeEntities = new HashSet<>();
+        productSupplyEntity.getProduct().getSizes().stream().forEach(productSizeEntity -> {
+            ProductSizeServiceModel sizeByName = this.productSizeService.getSizeByName(productSizeEntity.getSize());
+            sizeEntities.add(this.modelMapper.map(sizeByName, ProductSizeEntity.class));
+        });
+
+        productSupplyEntity.getProduct().getSizes().clear();
+        productSupplyEntity.getProduct().getSizes().addAll(sizeEntities);
 
         this.productSupplyRepository.save(productSupplyEntity);
-    }
-
-    @Override
-    public Short getAvailableQuantity(Integer productId) {
-        return this.productSupplyRepository.findQuantityByProduct_Id(productId);
     }
 
     @Override

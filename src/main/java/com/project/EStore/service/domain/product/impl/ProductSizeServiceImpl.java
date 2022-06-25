@@ -40,7 +40,7 @@ public class ProductSizeServiceImpl implements ProductSizeService {
     }
 
     @Override
-    public ProductSizeServiceModel getProductSizeByName(ProductSizeEnum productSizeEnum) {
+    public ProductSizeServiceModel getSizeByName(ProductSizeEnum productSizeEnum) {
         ProductSizeEntity productSizeEntity = this.productSizeRepository.findBySize(productSizeEnum).orElse(null);
 
         return productSizeEntity == null ? null : this.modelMapper.map(productSizeEntity, ProductSizeServiceModel.class);

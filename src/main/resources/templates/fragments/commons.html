@@ -16,7 +16,7 @@
     <script src="/js/loadCartItems.js" type="module"></script>
 </head>
 <body>
-<nav th:fragment="nav" class="navbar navbar-expand-md navbar-light bg-info pt-0 pb-0">
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-info pt-0 pb-0">
     <div class="container-fluid">
         <a class="navbar-brand ms-4 fs-1 fw-bold fst-italic" href="/">EStore</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -25,7 +25,7 @@
         </button>
         <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto me-4">
-                <li class="nav-item dropdown ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                <li class="nav-item dropdown ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                     <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false"
                        sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
@@ -68,29 +68,29 @@
                         </th:block>
                     </ul>
                 </li>
-                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                     <a class="nav-link active fs-5" href="/weather">Weather</a>
                 </li>
-                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                     <a class="nav-link active fs-5 position-relative" href="/cart" id="cartLink">Cart</a>
                 </li>
-                <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto"
+                <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto"
                     sec:authorize="hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())">
                     <a class="nav-link active fs-5 position-relative" href="/admin/home">View Users</a>
                 </li>
                 <th:block sec:authorize="isAnonymous()">
-                    <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                         <a class="nav-link active fs-5" href="/users/login">Login</a>
                     </li>
-                    <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                         <a class="nav-link active fs-5" href="/users/register">Register</a>
                     </li>
                 </th:block>
                 <th:block sec:authorize="isFullyAuthenticated()">
-                    <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                         <a class="nav-link active fs-5" href="/users/account">Account</a>
                     </li>
-                    <li class="nav-item ms-md-3 mb-sm-1 mb-md-0 ms-auto me-auto">
+                    <li class="nav-item ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                         <form th:action="@{/users/logout}" method="post">
                             <input type="submit" value="Logout" class="nav-link active fs-5 ms-auto me-auto"
                                    style="border: none;background-color: transparent">

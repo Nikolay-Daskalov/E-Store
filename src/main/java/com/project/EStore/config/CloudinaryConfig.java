@@ -11,14 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class CloudinaryConfig {
 
-    private String cloudName;
     private String apiKey;
     private String apiSecret;
-
-    public CloudinaryConfig setCloudName(String cloudName) {
-        this.cloudName = cloudName;
-        return this;
-    }
+    private String cloudName;
 
     public CloudinaryConfig setApiKey(String apiKey) {
         this.apiKey = apiKey;
@@ -27,6 +22,11 @@ public class CloudinaryConfig {
 
     public CloudinaryConfig setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
+        return this;
+    }
+
+    public CloudinaryConfig setCloudName(String cloudName) {
+        this.cloudName = cloudName;
         return this;
     }
 }

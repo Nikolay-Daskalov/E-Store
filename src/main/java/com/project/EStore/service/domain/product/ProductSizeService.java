@@ -6,5 +6,5 @@ import com.project.EStore.service.domain.init.Init;
 
 public interface ProductSizeService extends Init {
 
-    ProductSizeServiceModel getProductSizeByName(ProductSizeEnum productSizeEnum);
+    ProductSizeServiceModel getSizeByName(ProductSizeEnum productSizeEnum);
 }

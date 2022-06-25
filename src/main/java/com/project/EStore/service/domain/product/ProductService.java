@@ -18,8 +18,6 @@ public interface ProductService {
 
     void deleteProductById(Integer id);
 
-    Integer addProduct(String brand, String model, ProductCategoryEnum category, ProductSizeEnum... sizes);
-
     ProductServiceModel findProductById(Integer id);
 
     List<ProductServiceModel> findAllProductsByIds(Collection<Integer> ids);
