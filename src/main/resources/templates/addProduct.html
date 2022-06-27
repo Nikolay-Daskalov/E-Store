@@ -26,7 +26,7 @@
         <div id="form-div-wrapper" class="text-center ms-auto me-auto mt-5 border border-info border-3 rounded shadow">
             <h1 class="fw-bold mb-2 mt-3">Add Product</h1>
             <p th:if="${isDataInvalid != null}" class="fs-5 mb-2 fw-bold text-danger">Invalid Data</p>
-            <form method="post" enctype="multipart/form-data" th:action="@{/products/addProduct}"
+            <form method="post" enctype="multipart/form-data" th:action="@{/products/add}"
                   th:object="${productBindingModel}">
                 <p class="form-text ms-auto me-auto mb-2" id="info-text">
                     Input fields mustn't contain any special characters nor white spaces.

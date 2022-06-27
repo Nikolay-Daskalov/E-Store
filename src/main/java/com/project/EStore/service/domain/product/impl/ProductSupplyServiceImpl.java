@@ -6,11 +6,9 @@ import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.product.ProductSupplyEntity;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
-import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.repository.product.ProductSupplyRepository;
-import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSizeService;
 import com.project.EStore.service.domain.product.ProductSupplyService;
 import org.modelmapper.ModelMapper;
@@ -27,13 +25,11 @@ import java.util.Set;
 public class ProductSupplyServiceImpl implements ProductSupplyService {
 
     private final ProductSupplyRepository productSupplyRepository;
-    private final ProductService productService;
     private final ProductSizeService productSizeService;
     private final ModelMapper modelMapper;
 
-    public ProductSupplyServiceImpl(ProductSupplyRepository productSupplyRepository, ProductService productService, ProductSizeService productSizeService, ModelMapper modelMapper) {
+    public ProductSupplyServiceImpl(ProductSupplyRepository productSupplyRepository, ProductSizeService productSizeService, ModelMapper modelMapper) {
         this.productSupplyRepository = productSupplyRepository;
-        this.productService = productService;
         this.productSizeService = productSizeService;
         this.modelMapper = modelMapper;
     }

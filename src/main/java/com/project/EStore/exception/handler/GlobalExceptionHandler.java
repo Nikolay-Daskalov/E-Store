@@ -14,23 +14,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ProductCriteriaException.class, CartCookieException.class})
     public ModelAndView productQueryCriteriaHandler() {
-        return this.buildModelAndView("error", HttpStatus.BAD_REQUEST);
+        return new ModelAndView("error", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ModelAndView productNotFoundHandler() {
-        return this.buildModelAndView("error", HttpStatus.NOT_FOUND);
+        return new ModelAndView("error", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ModelAndView httpMethodNotAllowedHandler() {
-        return this.buildModelAndView("error", HttpStatus.METHOD_NOT_ALLOWED);
-    }
-
-    private ModelAndView buildModelAndView(String viewName, HttpStatus httpStatus) {
-        ModelAndView response = new ModelAndView(viewName, httpStatus);
-        response.addObject("statusInfo", httpStatus.value() + " " + httpStatus.getReasonPhrase());
-
-        return response;
+        return new ModelAndView("error", HttpStatus.METHOD_NOT_ALLOWED);
     }
 }
