@@ -1,6 +1,5 @@
 package com.project.EStore.web.controller.product;
 
-import com.cloudinary.Cloudinary;
 import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
@@ -9,7 +8,6 @@ import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCardViewModel;
 import com.project.EStore.model.view.product.ProductDetailsViewModel;
 import com.project.EStore.service.domain.product.ProductService;
-import com.project.EStore.service.domain.product.ProductSupplyService;
 import com.project.EStore.util.validation.ProductValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -116,7 +114,7 @@ public class ProductController {
         model.addAttribute("typeCheckboxesToCheck", typeCheckboxesToCheck);
         model.addAttribute("lowerPrice", lowestPriceConverted);
         model.addAttribute("higherPrice", highestPriceConverted);
-        model.addAttribute("productType", productCategory.toString().toLowerCase());
+        model.addAttribute("productCategory", productCategory.toString().toLowerCase());
         model.addAttribute("allProductCards", page.map(product -> this.modelMapper.map(product, ProductCardViewModel.class)).getContent());
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("pageNumber", page.getPageable().getPageNumber());

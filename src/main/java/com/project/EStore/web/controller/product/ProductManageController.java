@@ -8,9 +8,11 @@ import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.service.product.ProductSupplyServiceModel;
+import com.project.EStore.model.view.product.ProductEditViewModel;
 import com.project.EStore.service.domain.product.ProductService;
 import com.project.EStore.service.domain.product.ProductSupplyService;
 import com.project.EStore.util.validation.ProductValidator;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,12 +36,14 @@ public class ProductManageController {
     private final ProductSupplyService productSupplyService;
     private final ProductValidator productValidator;
     private final Cloudinary cloudinary;
+    private final ModelMapper modelMapper;
 
-    public ProductManageController(ProductService productService, ProductSupplyService productSupplyService, ProductValidator productValidator, Cloudinary cloudinary) {
+    public ProductManageController(ProductService productService, ProductSupplyService productSupplyService, ProductValidator productValidator, Cloudinary cloudinary, ModelMapper modelMapper) {
         this.productService = productService;
         this.productSupplyService = productSupplyService;
         this.productValidator = productValidator;
         this.cloudinary = cloudinary;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("add")
@@ -47,6 +51,9 @@ public class ProductManageController {
         if (!model.containsAttribute("productBindingModel")) {
             model.addAttribute("productBindingModel", new ProductBindingModel());
         }
+
+        model.addAttribute("heading", "Add Products");
+        model.addAttribute("url", "/products/add");
         return "addProduct";
     }
 
@@ -74,7 +81,22 @@ public class ProductManageController {
             throw new ProductCriteriaException("File is not image");
         }
 
+        String imageUrl = this.uploadImage(productBindingModel);
 
+        ProductSupplyServiceModel productSupplyServiceModel = this.buildProductSupplyServiceModel(productBindingModel, imageUrl, productSizeEnums);
+
+        this.productSupplyService.addSupplyWithProduct(productSupplyServiceModel);
+
+        return "redirect:/products/added/successfully";
+    }
+
+    private String convertProductName(String name) {
+        return Arrays.stream(name.split("\\s+"))
+                .map(String::toLowerCase)
+                .collect(Collectors.joining("-"));
+    }
+
+    private String uploadImage(ProductBindingModel productBindingModel) {
         String imageUrl = null;
         try {
             File userImage = File.createTempFile("userImage", "image");
@@ -94,6 +116,10 @@ public class ProductManageController {
             throw new ProductCriteriaException("Unsupported image format");
         }
 
+        return imageUrl;
+    }
+
+    private ProductSupplyServiceModel buildProductSupplyServiceModel(ProductBindingModel productBindingModel, String imageUrl, Set<ProductSizeEnum> productSizeEnums){
         ProductSupplyServiceModel productSupplyServiceModel = new ProductSupplyServiceModel();
         productSupplyServiceModel
                 .setPrice(productBindingModel.getPrice().setScale(2, RoundingMode.HALF_UP))
@@ -110,15 +136,7 @@ public class ProductManageController {
                                 .collect(Collectors.toSet())));
 
 
-        this.productSupplyService.addSupplyWithProduct(productSupplyServiceModel);
-
-        return "redirect:/products/added/successfully";
-    }
-
-    private String convertProductName(String name) {
-        return Arrays.stream(name.split("\\s+"))
-                .map(String::toLowerCase)
-                .collect(Collectors.joining("-"));
+        return productSupplyServiceModel;
     }
 
     @DeleteMapping("delete/{productId}")
@@ -146,13 +164,31 @@ public class ProductManageController {
         return "deleteProductSuccessful";
     }
 
-    @GetMapping("edit")
-    public String getEditView(){
-        return null;
+    @GetMapping("edit/{productId}")
+    public String getEditView(@PathVariable(name = "productId") String id, Model model) {
+
+        boolean isIdValid = this.productValidator.isIdValid(id);
+
+        if (!isIdValid){
+            throw new ProductCriteriaException("Id is not valid type");
+        }
+
+        Integer productId = Integer.parseInt(id);
+
+        ProductServiceModel productById = this.productService.findProductById(productId);
+
+        if (productById == null){
+            throw new ProductNotFoundException("Product not found");
+        }
+
+        model.addAttribute("productEditViewModel", this.modelMapper.map(productById, ProductEditViewModel.class));
+        
+
+        return "editProduct";
     }
 
-    @PutMapping("edit")
-    public String putProduct(){
+    @PutMapping("edit/{productId}")
+    public String putProduct(@PathVariable(name = "productId") String id) {
         return null;
     }
 }

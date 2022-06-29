@@ -6,6 +6,7 @@ import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.product.ProductSupplyEntity;
 import com.project.EStore.model.service.order.OrderServiceModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
+import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.model.view.order.OrderDetailViewModel;
 import com.project.EStore.model.view.order.OrderViewModel;
@@ -149,6 +150,24 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                                 .getSizes().add(new ProductSizeEntity().setSize(sizeServiceModel.getSize())));
 
                 return productSupplyEntity;
+            }
+        });
+        modelMapper.addConverter(new AbstractConverter<ProductServiceModel, ProductEditViewModel>() {
+            @Override
+            protected ProductEditViewModel convert(ProductServiceModel source) {
+                ProductEditViewModel productEditViewModel = new ProductEditViewModel();
+                productEditViewModel
+                        .setId(source.getId())
+                        .setBrand(source.getBrand())
+                        .setModel(source.getModel())
+                        .setCategory(source.getCategory())
+                        .setPrice(source.getSupply().getPrice())
+                        .setQuantity(source.getSupply().getQuantity())
+                        .setType(source.getType())
+                        .setImageUrl(source.getImageUrl())
+                        .setSizes(source.getSizes().stream().map(ProductSizeServiceModel::getSize).collect(Collectors.toSet()));
+
+                return productEditViewModel;
             }
         });
         return modelMapper;
