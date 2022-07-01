@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Getter
-public class ProductBindingModel {
+public class ProductEditBindingModel {
 
     private Integer id;
     @NotNull
@@ -40,42 +40,42 @@ public class ProductBindingModel {
     @DecimalMax(value = "200")
     private BigDecimal price;
 
-    public ProductBindingModel setId(Integer id) {
+    public ProductEditBindingModel setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public ProductBindingModel setBrand(String brand) {
+    public ProductEditBindingModel setBrand(String brand) {
         this.brand = brand;
         return this;
     }
 
-    public ProductBindingModel setModel(String model) {
+    public ProductEditBindingModel setModel(String model) {
         this.model = model;
         return this;
     }
 
-    public ProductBindingModel setCategory(ProductCategoryEnum category) {
+    public ProductEditBindingModel setCategory(ProductCategoryEnum category) {
         this.category = category;
         return this;
     }
 
-    public ProductBindingModel setImage(MultipartFile image) {
+    public ProductEditBindingModel setImage(MultipartFile image) {
         this.image = image;
         return this;
     }
 
-    public ProductBindingModel setType(ProductTypeEnum type) {
+    public ProductEditBindingModel setType(ProductTypeEnum type) {
         this.type = type;
         return this;
     }
 
-    public ProductBindingModel setQuantity(Short quantity) {
+    public ProductEditBindingModel setQuantity(Short quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    public ProductBindingModel setPrice(BigDecimal price) {
+    public ProductEditBindingModel setPrice(BigDecimal price) {
         this.price = price;
         return this;
     }

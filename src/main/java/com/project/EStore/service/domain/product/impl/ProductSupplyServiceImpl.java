@@ -273,4 +273,27 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
             this.productSupplyRepository.decrementQuantityById(Short.valueOf(entry.getValue()), Integer.parseInt(entry.getKey()));
         }
     }
+
+    @Override
+    @Transactional
+    public void replaceSupplyWithProduct(ProductSupplyServiceModel productSupplyServiceModel) {
+        ProductSupplyEntity productSupplyEntity = this.productSupplyRepository.findById(productSupplyServiceModel.getId()).get();
+        productSupplyEntity
+                .setPrice(productSupplyServiceModel.getPrice())
+                .setQuantity(productSupplyServiceModel.getQuantity())
+                .getProduct()
+                .setBrand(productSupplyServiceModel.getProduct().getBrand())
+                .setModel(productSupplyServiceModel.getProduct().getModel())
+                .setCategory(productSupplyServiceModel.getProduct().getCategory())
+                .setType(productSupplyServiceModel.getProduct().getType());
+
+        if (productSupplyServiceModel.getProduct().getImageUrl() != null) {
+            productSupplyEntity.getProduct().setImageUrl(productSupplyServiceModel.getProduct().getImageUrl());
+        }
+
+        productSupplyEntity.getProduct().getSizes().clear();
+        for (ProductSizeServiceModel size : productSupplyServiceModel.getProduct().getSizes()) {
+            productSupplyEntity.getProduct().getSizes().add(this.modelMapper.map(this.productSizeService.getSizeByName(size.getSize()), ProductSizeEntity.class));
+        }
+    }
 }

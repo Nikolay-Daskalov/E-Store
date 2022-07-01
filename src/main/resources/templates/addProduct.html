@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/form.css">
     <link rel="stylesheet" href="/css/addProduct.css">
     <script src="/js/loadCartItems.js" type="module"></script>
-    <script src="/js/checkSizeValidity.js" type="module"></script>
+    <script src="/js/checkProductInputValidity.js" type="module"></script>
     <link rel="icon" href="/icon/favicon.jpg">
 </head>
 <body class="position-relative min-vh-100">
@@ -89,13 +89,13 @@
                 </div>
                 <div class="ms-auto me-auto mb-4" id="size-wrapper">
                     <h5 class="mb-1">Select sizes</h5>
-                    <div class="form-text mb-2">Size must be selected.</div>
+                    <div class="form-text mb-2">Size is optional.</div>
                     <div class="form-check form-switch text-start ms-auto me-auto w-25"
                          th:each="size, status : ${T(com.project.EStore.model.entity.enums.ProductSizeEnum).values()}">
                         <input class="form-check-input" type="checkbox" th:id="'switch' + ${status.index + 1}"
                                name="productSizes" th:value="${size}">
                         <label class="form-check-label" th:for="'switch' + ${status.index + 1}"
-                               th:text="${size.name()}">Text example</label>
+                               th:text="${size.name()}">Text</label>
                     </div>
                 </div>
                 <input type="submit" class="btn btn-primary mb-4" value="Add">

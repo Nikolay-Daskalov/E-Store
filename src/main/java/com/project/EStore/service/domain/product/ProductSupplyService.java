@@ -10,4 +10,6 @@ public interface ProductSupplyService extends Init {
     void addSupplyWithProduct(ProductSupplyServiceModel productSupplyServiceModel);
 
     void decrementQuantity(Map<String, String> productsByIdAndCount);
+
+    void replaceSupplyWithProduct(ProductSupplyServiceModel productSupplyServiceModel);
 }

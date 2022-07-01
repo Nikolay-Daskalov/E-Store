@@ -14,15 +14,6 @@ form.addEventListener('submit', (e) => {
         imgInput.classList.add('is-invalid');
         imgInput.setCustomValidity('invalid image');
         e.currentTarget.reportValidity();
-        return;
-    }
-
-    if (!formObj.hasOwnProperty('productSizes')) {
-        e.preventDefault();
-        document.getElementsByTagName('h5')[0].style.color = '#ff2626';
-        document.querySelectorAll('input[type="checkbox"]').forEach(e => {
-            e.classList.add('is-invalid');
-        });
     }
 });
 

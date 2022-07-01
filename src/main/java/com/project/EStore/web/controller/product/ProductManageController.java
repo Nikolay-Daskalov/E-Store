@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.List;
@@ -119,7 +120,7 @@ public class ProductManageController {
         return imageUrl;
     }
 
-    private ProductSupplyServiceModel buildProductSupplyServiceModel(ProductBindingModel productBindingModel, String imageUrl, Set<ProductSizeEnum> productSizeEnums){
+    private ProductSupplyServiceModel buildProductSupplyServiceModel(ProductBindingModel productBindingModel, String imageUrl, Set<ProductSizeEnum> productSizeEnums) {
         ProductSupplyServiceModel productSupplyServiceModel = new ProductSupplyServiceModel();
         productSupplyServiceModel
                 .setPrice(productBindingModel.getPrice().setScale(2, RoundingMode.HALF_UP))
@@ -169,7 +170,7 @@ public class ProductManageController {
 
         boolean isIdValid = this.productValidator.isIdValid(id);
 
-        if (!isIdValid){
+        if (!isIdValid) {
             throw new ProductCriteriaException("Id is not valid type");
         }
 
@@ -177,18 +178,68 @@ public class ProductManageController {
 
         ProductServiceModel productById = this.productService.findProductById(productId);
 
-        if (productById == null){
+        if (productById == null) {
             throw new ProductNotFoundException("Product not found");
         }
 
         model.addAttribute("productEditViewModel", this.modelMapper.map(productById, ProductEditViewModel.class));
-        
 
         return "editProduct";
     }
 
     @PutMapping("edit/{productId}")
-    public String putProduct(@PathVariable(name = "productId") String id) {
-        return null;
+    public String putProduct(@PathVariable(name = "productId") String id,
+                             @RequestParam(name = "productSizes", defaultValue = "") List<String> sizes,
+                             @Valid @ModelAttribute ProductBindingModel productBindingModel,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("isDataInvalid", true);
+
+            return String.format("redirect:/products/edit/%s", id);
+        }
+
+        boolean isIdValid = this.productValidator.isIdValid(id);
+
+        if (!isIdValid) {
+            redirectAttributes.addFlashAttribute("isDataInvalid", true);
+
+            return String.format("redirect:/products/edit/%s", id);
+        }
+
+        ProductServiceModel productById = this.productService.findProductById(Integer.parseInt(id));
+
+        if (productById == null) {
+            throw new ProductNotFoundException("Product not found");
+        }
+
+        String imageUrl = null;
+        if (!productBindingModel.getImage().isEmpty()) {
+            if (!productBindingModel.getImage().getContentType().contains("image")) {
+                throw new ProductCriteriaException("File is not image");
+            }
+
+            try {
+                this.cloudinary.uploader().destroy(this.getPublicId(productById.getImageUrl()), Map.of());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            imageUrl = this.uploadImage(productBindingModel);
+        }
+
+        Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSize(sizes);
+
+        this.productSupplyService.replaceSupplyWithProduct(this.buildProductSupplyServiceModel(productBindingModel, imageUrl, productSizeEnums).setId(Integer.parseInt(id)));
+
+        return String.format("redirect:/products/edit/%s", id);
+    }
+
+    private String getPublicId(String imageUrl) {
+        String publicIdWithExtension = imageUrl.split("/EStore")[1];
+        String publicId = publicIdWithExtension.split("\\.")[0];
+
+        return "EStore" + publicId;
     }
 }

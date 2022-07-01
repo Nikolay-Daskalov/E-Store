@@ -1,20 +1,18 @@
 package com.project.EStore.service.domain.product.impl;
 
+import com.cloudinary.Cloudinary;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.product.ProductEntity;
-import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
-import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
-import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.repository.product.ProductRepository;
 import com.project.EStore.service.domain.product.ProductService;
-import com.project.EStore.service.domain.product.ProductSizeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,10 +22,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+    private final Cloudinary cloudinary;
 
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, Cloudinary cloudinary) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.cloudinary = cloudinary;
     }
 
     @Override
@@ -39,7 +39,26 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void deleteProductById(Integer id) {
         ProductEntity productEntity = this.productRepository.findById(id).get();
+        String publicId = this.getPublicId(productEntity.getImageUrl());
+
+        try {
+            this.cloudinary.uploader().destroy(publicId, Map.of(
+                    "resource_type", "image"
+            ));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        productEntity.setImageUrl("N/A");
         productEntity.setDeleted(true);
+    }
+
+    private String getPublicId(String imageUrl) {
+        String publicIdWithExtension = imageUrl.split("/EStore")[1];
+        String publicId = publicIdWithExtension.split("\\.")[0];
+
+        return "EStore" + publicId;
     }
 
     @Override

@@ -109,9 +109,6 @@ public class ProductValidator {
     public Set<ProductSizeEnum> validateSize(List<String> sizes) {
         Set<ProductSizeEnum> validatedSizes = new HashSet<>();
         try {
-            if (sizes.isEmpty()) {
-                throw new ProductCriteriaException("Sizes is empty");
-            }
             sizes.stream().map(ProductSizeEnum::valueOf).forEach(validatedSizes::add);
         } catch (IllegalArgumentException e) {
             return null;

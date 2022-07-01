@@ -12,7 +12,7 @@ import java.util.Set;
 public class NoSpecialCharactersValidator implements ConstraintValidator<NoSpecialCharacters, String> {
 
     private static final Set<Character> specialCharacters =
-            new HashSet<>(Set.of('<', '>', '\\', '/', '"', '\'', '`', '%', '&', '=', ';', '|'));
+            new HashSet<>(Set.of('<', '>', '\\', '/', '"', '\'', '`', '%', '&', '=', ';', '|', '.', ',', ':'));
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

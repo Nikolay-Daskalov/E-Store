@@ -22,7 +22,7 @@
 </header>
 <main class="mt-5 text-center" th:object="${product}">
     <h2>Product Details</h2>
-    <div class="row row-cols-1 row-cols-lg-2 mt-5 ms-auto me-auto w-75" id="parent-container">
+    <div class="row row-cols-1 row-cols-lg-2 mt-4 ms-auto me-auto w-75" id="parent-container">
         <div class="col mb-4 details-container">
             <img th:src="*{getImageUrl()}" th:alt="*{getBrand() + ' ' + getModel() + ' image'}"
                  class="rounded shadow-sm border">
@@ -37,7 +37,7 @@
                 </select>
             </div>
             <div class="mt-4">
-                <label for="products-count" class="mb-1">Available Quantity</label>
+                <label for="products-count" class="mb-1">Quantity</label>
                 <input id="products-count" type="number" class="form-control ms-auto me-auto"
                        th:min="${quantity > 0? '1': '0'}"
                        th:max="${quantity}" th:value="${quantity > 0? '1': '0'}">
