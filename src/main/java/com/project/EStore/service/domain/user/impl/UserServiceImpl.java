@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -118,5 +119,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.userRepository.deleteByUsername(username);
 
         LOGGER.info(String.format("User delete his account { %s }", username));
+    }
+
+    @Override
+    public List<UserServiceModel> getAllUsers() {
+        List<UserEntity> users = this.userRepository.findAll();
+
+        return users.stream().map(user -> this.modelMapper.map(user, UserServiceModel.class)).collect(Collectors.toList());
     }
 }

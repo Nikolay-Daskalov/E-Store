@@ -48,8 +48,15 @@ orderBtn.addEventListener('click', (e) => {
                 order.orderDetails.forEach((orderDetail) => {
                     const orderLiItem = document.createElement('li');
                     orderLiItem.classList.add('list-group-item');
-                    orderLiItem.innerHTML = `${orderDetail.product.brand} ${orderDetail.product.model},` + '<br>' +
-                        `Quantity: ${orderDetail.quantity} X ${orderDetail.product.price} BGN`;
+                    const titleSpan = document.createElement('span');
+                    titleSpan.classList.add('d-block');
+                    titleSpan.textContent = `${orderDetail.product.brand} ${orderDetail.product.model},`;
+
+                    const orderInfoSpan = document.createElement('span');
+                    orderInfoSpan.classList.add('d-block');
+                    orderInfoSpan.textContent = `Quantity: ${orderDetail.quantity} X ${orderDetail.product.price} BGN`;
+
+                    orderLiItem.append(titleSpan, orderInfoSpan);
 
                     listGroupUl.appendChild(orderLiItem);
                 });

@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("products")
+@RequestMapping("admin/products")
 public class ProductManageController {
 
     private final ProductService productService;
@@ -53,8 +53,6 @@ public class ProductManageController {
             model.addAttribute("productBindingModel", new ProductBindingModel());
         }
 
-        model.addAttribute("heading", "Add Products");
-        model.addAttribute("url", "/products/add");
         return "addProduct";
     }
 
@@ -88,7 +86,7 @@ public class ProductManageController {
 
         this.productSupplyService.addSupplyWithProduct(productSupplyServiceModel);
 
-        return "redirect:/products/added/successfully";
+        return "redirect:/admin/products/added/successfully";
     }
 
     private String convertProductName(String name) {
@@ -220,11 +218,7 @@ public class ProductManageController {
                 throw new ProductCriteriaException("File is not image");
             }
 
-            try {
-                this.cloudinary.uploader().destroy(this.getPublicId(productById.getImageUrl()), Map.of());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            this.deleteImage(productById.getImageUrl());
 
             imageUrl = this.uploadImage(productBindingModel);
         }
@@ -233,7 +227,17 @@ public class ProductManageController {
 
         this.productSupplyService.replaceSupplyWithProduct(this.buildProductSupplyServiceModel(productBindingModel, imageUrl, productSizeEnums).setId(Integer.parseInt(id)));
 
-        return String.format("redirect:/products/edit/%s", id);
+        return String.format("redirect:/products/%s", productBindingModel.getCategory().toString().toLowerCase());
+    }
+
+    private void deleteImage(String imageUrl){
+        try {
+            this.cloudinary.uploader().destroy(this.getPublicId(imageUrl), Map.of(
+                    "resource_type", "image"
+            ));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getPublicId(String imageUrl) {
