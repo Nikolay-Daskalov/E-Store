@@ -127,4 +127,42 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return users.stream().map(user -> this.modelMapper.map(user, UserServiceModel.class)).collect(Collectors.toList());
     }
+
+    @Override
+    public boolean isUserExists(String username) {
+        return this.userRepository.existsByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public void addRolesToUser(String username, Set<RoleEnum> roles) {
+        UserEntity userEntity = this.userRepository.findByUsername(username).get();
+
+        Set<RoleEnum> userRoles = userEntity.getRoles()
+                .stream()
+                .filter(roleEntity -> !roleEntity.getRole().equals(RoleEnum.USER))
+                .map(RoleEntity::getRole)
+                .collect(Collectors.toSet());
+
+        boolean isRolesEqual = isUserRolesAndRolesEqual(userRoles, roles);
+
+        if (!isRolesEqual) {
+            userEntity.getRoles().removeIf(roleEntity -> !roleEntity.getRole().equals(RoleEnum.USER));
+
+            if (roles.isEmpty()) {
+                return;
+            }
+
+            roles.stream()
+                    .map(roleEnum -> this.modelMapper.map(this.roleService.findByName(roleEnum), RoleEntity.class))
+                    .forEach(roleEntity -> userEntity.getRoles().add(roleEntity));
+        }
+    }
+
+    private boolean isUserRolesAndRolesEqual(Set<RoleEnum> userRoles, Set<RoleEnum> roles) {
+        if (userRoles.size() == roles.size()) {
+            return userRoles.containsAll(roles);
+        }
+        return false;
+    }
 }

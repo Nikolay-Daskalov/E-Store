@@ -22,19 +22,20 @@
 <main class="pt-5 text-center">
     <section>
         <h1>Users</h1>
-        <ul class="mt-3 list-group ms-auto me-auto" id="user-container">
-            <li class="list-group-item border-3" th:each="user: ${users}" th:object="${user}">
+        <ul class="mt-4 list-group ms-auto me-auto" id="user-container">
+            <li class="list-group-item border-3" th:each="user : ${users}" th:object="${user}">
                 <h3 th:text="*{username}">Heading</h3>
                 <p th:text="|Created on: *{createdOn}|">Paragraph</p>
                 <th:block th:if="${!user.username.equals(currentUser)}">
-                    <form th:method="patch" th:action="@{/admin/users}">
+                    <form th:method="patch" th:action="@{/admin/users/roles}">
                         <input type="hidden" th:value="*{username}" name="username"/>
                         <div class="form-check form-switch text-start ms-auto me-auto w-25"
-                             th:each="role, status : ${T(com.project.EStore.model.entity.enums.RoleEnum).values()}">
-                            <input class="form-check-input" type="checkbox" th:id="'switch' + ${status.index + 1}"
+                             th:each="role, roleStatus : ${T(com.project.EStore.model.entity.enums.RoleEnum).values()}"
+                             th:if="${role != T(com.project.EStore.model.entity.enums.RoleEnum).USER}">
+                            <input class="form-check-input" type="checkbox" th:id="'switch' + *{username} + ${roleStatus.index + 1}"
                                    name="roles" th:value="${role}"
                                     th:checked="${user.roles.contains(role)}">
-                            <label class="form-check-label" th:for="'switch' + ${status.index + 1}"
+                            <label class="form-check-label" th:for="'switch' + *{username} + ${roleStatus.index + 1}"
                                    th:text="${role.toString()}">Text</label>
                         </div>
                         <input class="btn btn-primary mt-3" type="submit" value="Update Roles"/>

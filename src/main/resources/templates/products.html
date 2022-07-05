@@ -92,10 +92,10 @@
                             <a th:href="@{/products/{productCategory}/details/{id}(id=*{getId()},productCategory=${productCategory})}"
                                class="btn btn-primary" sec:authorize="${!hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">Details</a>
 
-                            <a th:href="@{/products/edit/{id}(id=*{getId()})}"
+                            <a th:href="@{/admin/products/edit/{id}(id=*{getId()})}"
                                class="btn btn-primary" sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">Edit</a>
 
-                            <form class="d-inline-block ms-2" th:action="@{/products/delete/{id}(id=*{getId()})}" th:method="delete"
+                            <form class="d-inline-block ms-2" th:action="@{/admin/products/delete/{id}(id=*{getId()})}" th:method="delete"
                                   sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
                                 <input type="submit" value="Delete" class="btn btn-danger">
                             </form>

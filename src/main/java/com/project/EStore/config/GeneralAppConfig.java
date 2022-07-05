@@ -9,17 +9,17 @@ import com.project.EStore.model.service.order.OrderServiceModel;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.service.product.ProductSupplyServiceModel;
-import com.project.EStore.model.service.user.UserServiceModel;
 import com.project.EStore.model.view.order.OrderDetailViewModel;
 import com.project.EStore.model.view.order.OrderViewModel;
 import com.project.EStore.model.view.product.*;
-import com.project.EStore.model.view.user.UserViewModel;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -47,6 +47,11 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
 
     private static String convertPrice(BigDecimal price) {
         return price.setScale(2, RoundingMode.HALF_UP).toString();
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry(){
+        return new SessionRegistryImpl();
     }
 
     @Bean

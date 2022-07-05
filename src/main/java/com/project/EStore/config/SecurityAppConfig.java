@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -17,10 +18,12 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
+    private final SessionRegistry sessionRegistry;
 
-    public SecurityAppConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public SecurityAppConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, SessionRegistry sessionRegistry) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.sessionRegistry = sessionRegistry;
     }
 
     @Override
@@ -33,13 +36,19 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .sessionManagement()
+                .maximumSessions(2)
+                .sessionRegistry(sessionRegistry)
+                .expiredUrl("/users/login")
+                .and()
+                .and()
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/cart").fullyAuthenticated()
                 .antMatchers("/users/login").permitAll()
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/**").fullyAuthenticated()
-                .antMatchers("/admin/products/**").hasRole(RoleEnum.ADMIN.name())
+                .antMatchers("/admin/products/**").hasAnyRole(RoleEnum.ADMIN.name(), RoleEnum.EDITOR.name())
                 .antMatchers("/admin/users").hasRole(RoleEnum.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()

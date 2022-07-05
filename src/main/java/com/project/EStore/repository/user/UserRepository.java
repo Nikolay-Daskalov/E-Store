@@ -12,4 +12,6 @@ public interface UserRepository extends BaseRepository<UserEntity> {
     Optional<UserEntity> findByUsername (String username);
 
     void deleteByUsername(String username);
+
+    boolean existsByUsername(String username);
 }
