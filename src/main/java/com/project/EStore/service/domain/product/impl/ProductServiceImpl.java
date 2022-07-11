@@ -1,6 +1,7 @@
 package com.project.EStore.service.domain.product.impl;
 
 import com.cloudinary.Cloudinary;
+import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
 import com.project.EStore.model.entity.product.ProductEntity;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
@@ -63,9 +64,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductServiceModel findProductById(Integer id) {
-        ProductEntity productEntity = this.productRepository.findById(id).orElse(null);
+        ProductEntity productEntity = this.productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 
-        return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
+        return this.modelMapper.map(productEntity, ProductServiceModel.class);
     }
 
     @Override
@@ -76,9 +77,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductServiceModel findProductByIdAndCategory(Integer id, ProductCategoryEnum productCategory) {
-        ProductEntity productEntity = this.productRepository.findByIdAndCategory(id, productCategory).orElse(null);
+        ProductEntity productEntity = this.productRepository.findByIdAndCategory(id, productCategory).orElseThrow(ProductNotFoundException::new);
 
-        return productEntity == null ? null : this.modelMapper.map(productEntity, ProductServiceModel.class);
+        return this.modelMapper.map(productEntity, ProductServiceModel.class);
     }
 
     @Override

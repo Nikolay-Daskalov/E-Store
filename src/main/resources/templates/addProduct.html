@@ -93,7 +93,7 @@
                     <div class="form-check form-switch text-start ms-auto me-auto w-25"
                          th:each="size, status : ${T(com.project.EStore.model.entity.enums.ProductSizeEnum).values()}">
                         <input class="form-check-input" type="checkbox" th:id="'switch' + ${status.index + 1}"
-                               name="productSizes" th:value="${size}">
+                               name="productSizes" th:value="${size.name()}">
                         <label class="form-check-label" th:for="'switch' + ${status.index + 1}"
                                th:text="${size.name()}">Text</label>
                     </div>

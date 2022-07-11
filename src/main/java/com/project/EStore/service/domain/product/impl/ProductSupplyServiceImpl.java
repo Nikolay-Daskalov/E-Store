@@ -276,7 +276,7 @@ public class ProductSupplyServiceImpl implements ProductSupplyService {
 
     @Override
     @Transactional
-    public void replaceSupplyWithProduct(ProductSupplyServiceModel productSupplyServiceModel) {
+    public void updateSupplyAndProduct(ProductSupplyServiceModel productSupplyServiceModel) {
         ProductSupplyEntity productSupplyEntity = this.productSupplyRepository.findById(productSupplyServiceModel.getId()).get();
         productSupplyEntity
                 .setPrice(productSupplyServiceModel.getPrice())

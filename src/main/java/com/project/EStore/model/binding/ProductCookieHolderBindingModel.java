@@ -11,7 +11,8 @@ public class ProductCookieHolderBindingModel {
 
     private List<ProductCookieBindingModel> products;
 
-    public List<ProductCookieBindingModel> getProducts() {
-        return products;
+    public ProductCookieHolderBindingModel setProducts(List<ProductCookieBindingModel> products) {
+        this.products = products;
+        return this;
     }
 }

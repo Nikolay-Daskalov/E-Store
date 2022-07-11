@@ -1,9 +1,10 @@
-package com.project.EStore.web.controller.product;
+package com.project.EStore.web.controller.admin;
 
 import com.cloudinary.Cloudinary;
 import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.model.binding.ProductBindingModel;
+import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
@@ -67,9 +68,9 @@ public class ProductManageController {
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes) {
 
-        Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSize(sizes);
+        Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSizeStrict(sizes);
 
-        if (bindingResult.hasErrors() || productSizeEnums == null) {
+        if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("productBindingModel", productBindingModel);
             redirectAttributes.addFlashAttribute("isDataInvalid", true);
 
@@ -141,7 +142,7 @@ public class ProductManageController {
     @DeleteMapping("delete/{productId}")
     public String deleteProduct(@PathVariable String productId) {
 
-        if (!this.productValidator.isIdValid(productId)) {
+        if (!this.productValidator.isIdTypeValid(productId)) {
             throw new ProductCriteriaException("Id not valid type");
         }
 
@@ -150,12 +151,12 @@ public class ProductManageController {
         Boolean isExists = this.productService.doesExistById(id);
 
         if (!isExists) {
-            throw new ProductNotFoundException("Product not found");
+            throw new ProductNotFoundException();
         }
 
         this.productService.deleteProductById(id);
 
-        return "redirect:/products/delete/successful";
+        return "redirect:/admin/products/delete/successful";
     }
 
     @GetMapping("delete/successful")
@@ -166,7 +167,7 @@ public class ProductManageController {
     @GetMapping("edit/{productId}")
     public String getEditView(@PathVariable(name = "productId") String id, Model model) {
 
-        boolean isIdValid = this.productValidator.isIdValid(id);
+        boolean isIdValid = this.productValidator.isIdTypeValid(id);
 
         if (!isIdValid) {
             throw new ProductCriteriaException("Id is not valid type");
@@ -177,7 +178,7 @@ public class ProductManageController {
         ProductServiceModel productById = this.productService.findProductById(productId);
 
         if (productById == null) {
-            throw new ProductNotFoundException("Product not found");
+            throw new ProductNotFoundException();
         }
 
         model.addAttribute("productEditViewModel", this.modelMapper.map(productById, ProductEditViewModel.class));
@@ -198,7 +199,7 @@ public class ProductManageController {
             return String.format("redirect:/products/edit/%s", id);
         }
 
-        boolean isIdValid = this.productValidator.isIdValid(id);
+        boolean isIdValid = this.productValidator.isIdTypeValid(id);
 
         if (!isIdValid) {
             redirectAttributes.addFlashAttribute("isDataInvalid", true);
@@ -207,10 +208,6 @@ public class ProductManageController {
         }
 
         ProductServiceModel productById = this.productService.findProductById(Integer.parseInt(id));
-
-        if (productById == null) {
-            throw new ProductNotFoundException("Product not found");
-        }
 
         String imageUrl = null;
         if (!productBindingModel.getImage().isEmpty()) {
@@ -221,16 +218,36 @@ public class ProductManageController {
             this.deleteImage(productById.getImageUrl());
 
             imageUrl = this.uploadImage(productBindingModel);
+        } else {
+            if (productById.getCategory() != productBindingModel.getCategory()) {
+                String oldImageUrl = productById.getImageUrl();
+                String newPublicId = updateImagePublicId(oldImageUrl, productBindingModel.getCategory());
+                try {
+                    Map response = this.cloudinary.uploader().rename(getPublicId(oldImageUrl), newPublicId, null);
+                    imageUrl = (String) response.get("secure_url");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
-        Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSize(sizes);
+        Set<ProductSizeEnum> productSizeEnums = this.productValidator.validateSizeStrict(sizes);
 
-        this.productSupplyService.replaceSupplyWithProduct(this.buildProductSupplyServiceModel(productBindingModel, imageUrl, productSizeEnums).setId(Integer.parseInt(id)));
+        this.productSupplyService.updateSupplyAndProduct(this.buildProductSupplyServiceModel(productBindingModel, imageUrl, productSizeEnums).setId(Integer.parseInt(id)));
 
         return String.format("redirect:/products/%s", productBindingModel.getCategory().toString().toLowerCase());
     }
 
-    private void deleteImage(String imageUrl){
+    private String updateImagePublicId(String imageUrl, ProductCategoryEnum categoryEnum) {
+        String publicId = getPublicId(imageUrl);
+
+        String[] split = publicId.split("/");
+        split[1] = categoryEnum.toString().substring(0, 1).toUpperCase() + categoryEnum.toString().substring(1).toLowerCase();
+
+        return String.join("/", split);
+    }
+
+    private void deleteImage(String imageUrl) {
         try {
             this.cloudinary.uploader().destroy(this.getPublicId(imageUrl), Map.of(
                     "resource_type", "image"

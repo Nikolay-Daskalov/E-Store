@@ -1,5 +1,6 @@
 package com.project.EStore.service.domain.user.impl;
 
+import com.project.EStore.exception.RoleNotFoundException;
 import com.project.EStore.model.entity.enums.RoleEnum;
 import com.project.EStore.model.entity.user.RoleEntity;
 import com.project.EStore.model.service.user.RoleServiceModel;
@@ -9,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleServiceModel findByName(RoleEnum role) {
-        RoleEntity roleEntity = this.roleRepository.findByRole(role).get();
+        RoleEntity roleEntity = this.roleRepository.findByRole(role).orElseThrow(RoleNotFoundException::new);
         return this.modelMapper.map(roleEntity, RoleServiceModel.class);
     }
 

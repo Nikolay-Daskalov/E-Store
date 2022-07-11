@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 @Getter
 public class ProductBindingModel {
 
-    private Integer id;
     @NotNull
     @NoSpecialCharacters
     @Size(min = 3, max = 35)
@@ -39,11 +38,6 @@ public class ProductBindingModel {
     @DecimalMin(value = "1")
     @DecimalMax(value = "200")
     private BigDecimal price;
-
-    public ProductBindingModel setId(Integer id) {
-        this.id = id;
-        return this;
-    }
 
     public ProductBindingModel setBrand(String brand) {
         this.brand = brand;

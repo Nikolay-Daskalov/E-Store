@@ -1,6 +1,7 @@
 package com.project.EStore.service.domain.user.impl;
 
 import com.project.EStore.config.DatabaseConfig;
+import com.project.EStore.exception.UserNotFoundException;
 import com.project.EStore.model.entity.user.RoleEntity;
 import com.project.EStore.model.entity.user.UserEntity;
 import com.project.EStore.model.entity.enums.RoleEnum;
@@ -29,7 +30,8 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);//TODO: Refactor with AOP
+    private static final String ROLE_PREFIX = "ROLE_";
 
     private final DatabaseConfig databaseConfig;
     private final UserRepository userRepository;
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private static UserDetails mapUserEntityToUserDetails(UserEntity userEntity) {
         Set<SimpleGrantedAuthority> roles = userEntity.getRoles().stream()
-                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRole().name()))
+                .map(r -> new SimpleGrantedAuthority(ROLE_PREFIX + r.getRole().name()))
                 .collect(Collectors.toSet());
 
         return new User(
@@ -87,11 +89,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean isUsernameUnique(String username) {
-        return this.userRepository.findByUsername(username).isEmpty();
-    }
-
-    @Override
     public void add(UserServiceModel userServiceModel) {
         UserEntity user = this.modelMapper.map(userServiceModel, UserEntity.class);
         RoleServiceModel roleServiceModel = this.roleService.findByName(RoleEnum.USER);
@@ -108,9 +105,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserServiceModel findUserByUsername(String username) {
-        UserEntity userEntity = this.userRepository.findByUsername(username).orElse(null);
+        UserEntity userEntity = this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return userEntity == null ? null : this.modelMapper.map(userEntity, UserServiceModel.class);
+        return this.modelMapper.map(userEntity, UserServiceModel.class);
     }
 
     @Transactional
@@ -136,7 +133,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void addRolesToUser(String username, Set<RoleEnum> roles) {
-        UserEntity userEntity = this.userRepository.findByUsername(username).get();
+        UserEntity userEntity = this.userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
         Set<RoleEnum> userRoles = userEntity.getRoles()
                 .stream()

@@ -25,32 +25,28 @@ public class ProductCookieValidator {
     public void validateProductsFromCookie(ProductCookieHolderBindingModel productCookieHolderBindingModel) {
         List<ProductCookieBindingModel> products = productCookieHolderBindingModel.getProducts();
 
-        if (products == null){
-            throw new CartCookieException("Cookie data is not valid");
-        }
-
         Set<Integer> ids = new HashSet<>();
-        for (ProductCookieBindingModel product : products) {
+        for (ProductCookieBindingModel productCookieBindingModel : products) {
             try {
-                Integer id = Integer.parseInt(product.getId());
-                Short quantity = Short.parseShort(product.getQuantity());
+                int id = Integer.parseInt(productCookieBindingModel.getId());
+                short quantity = Short.parseShort(productCookieBindingModel.getQuantity());
 
                 if (id < 0) {
                     throw new IllegalArgumentException();
                 }
 
                 ProductSizeEnum size = null;
-                if (product.getSize() != null) {
-                    size = ProductSizeEnum.valueOf(product.getSize());
+                if (productCookieBindingModel.getSize() != null) {
+                    size = ProductSizeEnum.valueOf(productCookieBindingModel.getSize());
                 }
 
                 ProductServiceModel productById = this.productService.findProductById(id);
 
-                if (productById == null) {
+                if (size == null && productById.getSizes().size() > 0) {
                     throw new IllegalArgumentException();
                 }
 
-                if (size == null && productById.getSizes().size() > 0) {
+                if (size != null && productById.getSizes().isEmpty()){
                     throw new IllegalArgumentException();
                 }
 
@@ -58,14 +54,13 @@ public class ProductCookieValidator {
                     throw new IllegalArgumentException();
                 }
 
-                Boolean isSizeValid = false;
+                boolean isSizeValid = false;
                 for (ProductSizeServiceModel productSize : productById.getSizes()) {
                     if (productSize.getSize().equals(size)) {
                         isSizeValid = true;
                         break;
                     }
                 }
-
 
                 if (!isSizeValid && !productById.getSizes().isEmpty()) {
                     throw new IllegalArgumentException();

@@ -23,7 +23,7 @@ public class UserEntity extends BaseEntity {
     private LocalDateTime createdOn;
     @ManyToMany
     private Set<RoleEntity> roles;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<OrderEntity> orders;
 
     public UserEntity() {

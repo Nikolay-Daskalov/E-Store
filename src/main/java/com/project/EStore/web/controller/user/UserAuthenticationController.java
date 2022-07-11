@@ -60,9 +60,9 @@ public class UserAuthenticationController {
             return "redirect:register";
         }
 
-        boolean isUserNameUnique = this.userService.isUsernameUnique(user.getUsername());
+        boolean userExists = this.userService.isUserExists(user.getUsername());
 
-        if (!isUserNameUnique) {
+        if (userExists) {
             redirectAttributes.addFlashAttribute("userNameNotUnique", true);
             return "redirect:register";
         }

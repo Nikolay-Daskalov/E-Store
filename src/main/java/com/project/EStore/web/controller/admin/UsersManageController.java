@@ -1,5 +1,6 @@
-package com.project.EStore.web.controller;
+package com.project.EStore.web.controller.admin;
 
+import com.project.EStore.exception.UserNotFoundException;
 import com.project.EStore.exception.UserRolesBindingException;
 import com.project.EStore.model.binding.UserRoleBindingModel;
 import com.project.EStore.model.entity.enums.RoleEnum;
@@ -21,18 +22,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("admin")
-public class AdminController {
+@RequestMapping(value = "admin/users")
+public class UsersManageController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    public AdminController(UserService userService, ModelMapper modelMapper) {
+    public UsersManageController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("users")
+    @GetMapping
     public String getAllUsersView(Model model, Principal principal) {
         List<UserServiceModel> users = this.userService.getAllUsers();
 
@@ -52,7 +53,7 @@ public class AdminController {
     }
 
 
-    @PatchMapping("users/roles")
+    @PatchMapping("roles")
     public String patchUserRole(@Valid @ModelAttribute UserRoleBindingModel userRoleBindingModel, BindingResult bindingResult, Principal principal) {
 
         if (bindingResult.hasErrors() || userRoleBindingModel.getUsername().equalsIgnoreCase(principal.getName())) {
@@ -70,10 +71,23 @@ public class AdminController {
         boolean userExists = this.userService.isUserExists(userRoleBindingModel.getUsername());
 
         if (!userExists) {
-            throw new UserRolesBindingException("User does not exists");
+            throw new UserNotFoundException();
         }
 
         this.userService.addRolesToUser(userRoleBindingModel.getUsername(), userRoleBindingModel.getRoles());
+
+        return "redirect:/admin/users";
+    }
+
+    @DeleteMapping
+    public String deleteUser(@RequestParam String username){
+        boolean userExists = this.userService.isUserExists(username);
+
+        if (!userExists){
+            throw new UserNotFoundException();
+        }
+
+        this.userService.deleteUserByUsername(username);
 
         return "redirect:/admin/users";
     }

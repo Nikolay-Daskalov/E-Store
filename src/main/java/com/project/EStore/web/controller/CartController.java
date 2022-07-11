@@ -1,7 +1,7 @@
 package com.project.EStore.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.EStore.model.binding.ProductCookieBindingModel;
+import com.project.EStore.exception.CartCookieException;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.view.product.ProductCartViewModel;
 import com.project.EStore.service.domain.product.ProductService;
@@ -42,6 +42,10 @@ public class CartController {
         this.productCookieValidator.isCartCookiePresent(cartItemsCookie);
 
         ProductCookieHolderBindingModel productCookieHolderBindingModel = this.productCookieValidator.mapCookieToPOJO(cartItemsCookie, objectMapper);
+
+        if (productCookieHolderBindingModel.getProducts() == null){
+            throw new CartCookieException("Cookie data is not valid");
+        }
 
         if (productCookieHolderBindingModel.getProducts().isEmpty()) {
             return "cart";

@@ -28,12 +28,14 @@
                 <li class="nav-item dropdown ms-lg-3 mb-sm-1 mb-lg-0 ms-auto me-auto">
                     <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false"
-                       sec:authorize="${hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
+                       sec:authorize="${hasAnyRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name(),
+                                                    T(com.project.EStore.model.entity.enums.RoleEnum).EDITOR.name())}">
                         Manage Products
                     </a>
                     <a class="nav-link dropdown-toggle active fs-5" href="/products" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false"
-                       sec:authorize="${!hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())}">
+                       sec:authorize="${!hasAnyRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name(),
+                                                    T(com.project.EStore.model.entity.enums.RoleEnum).EDITOR.name())}">
                         Products
                     </a>
                     <ul class="dropdown-menu text-center p-1" aria-labelledby="navbarDropdown">
@@ -58,7 +60,9 @@
                         <li>
                             <a class="dropdown-item" href="/products/football">Football</a>
                         </li>
-                        <th:block sec:authorize="hasRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name())">
+                        <th:block
+                                sec:authorize="${hasAnyRole(T(com.project.EStore.model.entity.enums.RoleEnum).ADMIN.name(),
+                                                    T(com.project.EStore.model.entity.enums.RoleEnum).EDITOR.name())}">
                             <li>
                                 <hr class="dropdown-divider mt-1 mb-1">
                             </li>

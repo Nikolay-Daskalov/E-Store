@@ -1,5 +1,7 @@
 package com.project.EStore.service.domain.product.impl;
 
+import com.project.EStore.exception.ProductCriteriaException;
+import com.project.EStore.exception.SizeNotFoundException;
 import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
@@ -41,8 +43,8 @@ public class ProductSizeServiceImpl implements ProductSizeService {
 
     @Override
     public ProductSizeServiceModel getSizeByName(ProductSizeEnum productSizeEnum) {
-        ProductSizeEntity productSizeEntity = this.productSizeRepository.findBySize(productSizeEnum).orElse(null);
+        ProductSizeEntity productSizeEntity = this.productSizeRepository.findBySize(productSizeEnum).orElseThrow(SizeNotFoundException::new);
 
-        return productSizeEntity == null ? null : this.modelMapper.map(productSizeEntity, ProductSizeServiceModel.class);
+        return this.modelMapper.map(productSizeEntity, ProductSizeServiceModel.class);
     }
 }

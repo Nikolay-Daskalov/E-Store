@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);//TODO: Refactor with AOP
 
     private final OrderRepository orderRepository;
     private final ProductSupplyService productSupplyService;
@@ -39,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void placeOrder(Map<String, String> productsByIdAndCount, String username) {
         UserServiceModel user = this.userService.findUserByUsername(username);
         OrderEntity newOrder = this.orderRepository.save(new OrderEntity().setUser(this.modelMapper.map(user, UserEntity.class)));

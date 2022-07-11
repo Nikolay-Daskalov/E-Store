@@ -1,7 +1,6 @@
 package com.project.EStore.config;
 
 import com.cloudinary.Cloudinary;
-import com.project.EStore.model.binding.ProductEditBindingModel;
 import com.project.EStore.model.entity.product.ProductEntity;
 import com.project.EStore.model.entity.product.ProductSizeEntity;
 import com.project.EStore.model.entity.product.ProductSupplyEntity;
@@ -176,23 +175,6 @@ public class GeneralAppConfig extends GlobalMethodSecurityConfiguration implemen
                         .setSizes(source.getSizes().stream().map(ProductSizeServiceModel::getSize).collect(Collectors.toSet()));
 
                 return productEditViewModel;
-            }
-        });
-        modelMapper.addConverter(new AbstractConverter<ProductEditBindingModel, ProductSupplyServiceModel>() {
-            @Override
-            protected ProductSupplyServiceModel convert(ProductEditBindingModel source) {
-                ProductSupplyServiceModel productSupplyServiceModel = new ProductSupplyServiceModel();
-                productSupplyServiceModel
-                        .setId(source.getId())
-                        .setPrice(source.getPrice())
-                        .setQuantity(source.getQuantity())
-                        .setProduct(new ProductServiceModel()
-                                    .setModel(source.getModel())
-                        .setBrand(source.getBrand())
-                        .setCategory(source.getCategory())
-                        );
-
-                return null;
             }
         });
         return modelMapper;

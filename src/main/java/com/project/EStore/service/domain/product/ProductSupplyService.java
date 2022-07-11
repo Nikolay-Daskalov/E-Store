@@ -11,5 +11,5 @@ public interface ProductSupplyService extends Init {
 
     void decrementQuantity(Map<String, String> productsByIdAndCount);
 
-    void replaceSupplyWithProduct(ProductSupplyServiceModel productSupplyServiceModel);
+    void updateSupplyAndProduct(ProductSupplyServiceModel productSupplyServiceModel);
 }

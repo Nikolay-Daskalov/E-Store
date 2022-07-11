@@ -1,4 +1,4 @@
-package com.project.EStore.web.controller.product;
+package com.project.EStore.web.controller;
 
 import com.project.EStore.exception.ProductCriteriaException;
 import com.project.EStore.exception.ProductNotFoundException;
@@ -43,7 +43,7 @@ public class ProductController {
             @RequestParam(name = "pageNumber", defaultValue = "0") String pageNumber,
             Model model) {
 
-        boolean isCategoryValid = this.productValidator.isCategoryValid(productCategory);
+        boolean isCategoryValid = this.productValidator.isCategoryTypeValidStrict(productCategory);
 
         if (!isCategoryValid) {
             throw new ProductCriteriaException("Product category is not valid");
@@ -61,13 +61,13 @@ public class ProductController {
     public String getFitnessDetailsView(@PathVariable String productCategory, @PathVariable String productId,
                                         Model model) {
 
-        boolean isCategoryValid = this.productValidator.isCategoryValid(productCategory);
+        boolean isCategoryValid = this.productValidator.isCategoryTypeValidStrict(productCategory);
 
         if (!isCategoryValid) {
             throw new ProductCriteriaException("Product category is not valid");
         }
 
-        boolean isValid = this.productValidator.isIdValid(productId);
+        boolean isValid = this.productValidator.isIdTypeValid(productId);
 
         if (!isValid) {
             throw new ProductCriteriaException("Id is not valid type");
@@ -77,7 +77,7 @@ public class ProductController {
                 .findProductByIdAndCategory(Integer.parseInt(productId), ProductCategoryEnum.valueOf(productCategory.toUpperCase()));
 
         if (productByIdAndType == null) {
-            throw new ProductNotFoundException("Product not found");
+            throw new ProductNotFoundException();
         }
 
         ProductDetailsViewModel detailsViewModel = this.modelMapper.map(productByIdAndType, ProductDetailsViewModel.class);

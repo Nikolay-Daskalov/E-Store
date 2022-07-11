@@ -37,9 +37,8 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .sessionManagement()
-                .maximumSessions(2)
+                .maximumSessions(-1)
                 .sessionRegistry(sessionRegistry)
-                .expiredUrl("/users/login")
                 .and()
                 .and()
                 .authorizeRequests()
@@ -49,7 +48,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/**").fullyAuthenticated()
                 .antMatchers("/admin/products/**").hasAnyRole(RoleEnum.ADMIN.name(), RoleEnum.EDITOR.name())
-                .antMatchers("/admin/users").hasRole(RoleEnum.ADMIN.name())
+                .antMatchers("/admin/users", "/admin/users/**").hasRole(RoleEnum.ADMIN.name())
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

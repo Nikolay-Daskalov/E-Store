@@ -1,6 +1,7 @@
 package com.project.EStore.util.validation;
 
 import com.project.EStore.exception.ProductCriteriaException;
+import com.project.EStore.exception.SizeMappingException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
@@ -25,7 +26,7 @@ public class ProductValidator {
         this.noSpecialCharactersValidator = noSpecialCharactersValidator;
     }
 
-    public boolean isIdValid(String id) {
+    public boolean isIdTypeValid(String id) {
         try {
             Integer.parseInt(id);
             return true;
@@ -34,7 +35,7 @@ public class ProductValidator {
         }
     }
 
-    public boolean isCategoryValid(String category) {
+    public boolean isCategoryTypeValidStrict(String category) {
         try {
             if (category.equals(category.toLowerCase())) {
                 ProductCategoryEnum.valueOf(category.toUpperCase());
@@ -61,10 +62,10 @@ public class ProductValidator {
             }
 
             if (pageNumberConverted < 0) {
-                throw new ProductCriteriaException("Page number limit exceeded");
+                throw new ProductCriteriaException("Page number cannot be negative");
             }
         } catch (NumberFormatException e) {
-            throw new ProductCriteriaException("Price or page not valid");
+            throw new ProductCriteriaException("Price or page not valid type");
         }
     }
 
@@ -87,13 +88,12 @@ public class ProductValidator {
     }
 
     public Set<ProductTypeEnum> addTypesToCheck(Set<String> types, Set<String> typeCheckboxesToCheck, Model model) {
-        Set<ProductTypeEnum> typesConverted = null;
         if (types != null) {
             if (types.isEmpty()) {
                 return null;
             }
             try {
-                typesConverted = types.stream().map(ProductTypeEnum::valueOf)
+                Set<ProductTypeEnum> typesConverted = types.stream().map(ProductTypeEnum::valueOf)
                         .peek(productEnum -> typeCheckboxesToCheck.add(productEnum.toString())).collect(Collectors.toSet());
                 model.addAttribute("types", String.join(",", types));
 
@@ -103,15 +103,15 @@ public class ProductValidator {
             }
         }
 
-        return typesConverted;
+        return null;
     }
 
-    public Set<ProductSizeEnum> validateSize(List<String> sizes) {
+    public Set<ProductSizeEnum> validateSizeStrict(List<String> sizes) {
         Set<ProductSizeEnum> validatedSizes = new HashSet<>();
         try {
             sizes.stream().map(ProductSizeEnum::valueOf).forEach(validatedSizes::add);
         } catch (IllegalArgumentException e) {
-            return null;
+            throw new SizeMappingException();
         }
 
         return validatedSizes;

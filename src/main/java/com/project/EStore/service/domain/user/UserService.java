@@ -9,8 +9,6 @@ import java.util.Set;
 
 public interface UserService extends Init {
 
-    boolean isUsernameUnique(String username);
-
     void add(UserServiceModel userServiceModel);
 
     UserServiceModel findUserByUsername(String username);

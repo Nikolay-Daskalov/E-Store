@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CLRImpl implements CommandLineRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CLRImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CLRImpl.class);//TODO: Refactor with AOP
 
     private final UserService userService;
     private final ProductSupplyService productSupplyService;
