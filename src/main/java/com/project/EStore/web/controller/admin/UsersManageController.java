@@ -9,6 +9,9 @@ import com.project.EStore.model.service.user.UserServiceModel;
 import com.project.EStore.model.view.user.UserViewModel;
 import com.project.EStore.service.domain.user.UserService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,10 +30,12 @@ public class UsersManageController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final SessionRegistry sessionRegistry;
 
-    public UsersManageController(UserService userService, ModelMapper modelMapper) {
+    public UsersManageController(UserService userService, ModelMapper modelMapper, SessionRegistry sessionRegistry) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.sessionRegistry = sessionRegistry;
     }
 
     @GetMapping
@@ -85,6 +90,20 @@ public class UsersManageController {
 
         if (!userExists){
             throw new UserNotFoundException();
+        }
+
+        UserDetails userToLogOut = null;
+        for (Object principal : this.sessionRegistry.getAllPrincipals()) {
+            UserDetails currentPrincipal = (UserDetails) principal;
+
+            if (currentPrincipal.getUsername().equals(username)){
+                userToLogOut = currentPrincipal;
+                break;
+            }
+        }
+
+        for (SessionInformation session : this.sessionRegistry.getAllSessions(userToLogOut, false)) {
+            session.expireNow();
         }
 
         this.userService.deleteUserByUsername(username);
