@@ -45,12 +45,11 @@ public class UserAccountController {
 
     @DeleteMapping("account")
     public String deleteUserProfile(HttpServletRequest httpRequest, HttpServletResponse httpResponse, Principal principal) {
-        this.orderService.deleteOrdersByUser(principal.getName());
-        this.userService.deleteUserByUsername(principal.getName());
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         new CookieClearingLogoutHandler("JSESSIONID").logout(httpRequest, httpResponse, authentication);
         new SecurityContextLogoutHandler().logout(httpRequest, httpResponse, authentication);
+
+        this.userService.deleteUserByUsername(principal.getName());
 
         return "redirect:/users/account/deleted";
     }

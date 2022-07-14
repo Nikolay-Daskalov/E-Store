@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -39,6 +39,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .maximumSessions(-1)
                 .sessionRegistry(sessionRegistry)
+                .expiredUrl("/users/login")
                 .and()
                 .and()
                 .authorizeRequests()

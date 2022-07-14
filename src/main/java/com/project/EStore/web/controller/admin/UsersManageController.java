@@ -62,7 +62,7 @@ public class UsersManageController {
     public String patchUserRole(@Valid @ModelAttribute UserRoleBindingModel userRoleBindingModel, BindingResult bindingResult, Principal principal) {
 
         if (bindingResult.hasErrors() || userRoleBindingModel.getUsername().equalsIgnoreCase(principal.getName())) {
-            throw new UserRolesBindingException("Errors on validation");
+            throw new UserRolesBindingException("User to change role cannot be the Principal");
         }
 
         if (userRoleBindingModel.getRoles() == null) {
@@ -70,6 +70,7 @@ public class UsersManageController {
         } else {
             if (userRoleBindingModel.getRoles().contains(RoleEnum.USER)) {
                 throw new UserRolesBindingException("Roles should not contain USER");
+
             }
         }
 

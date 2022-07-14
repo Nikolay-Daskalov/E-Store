@@ -1,6 +1,7 @@
 package com.project.EStore.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.EStore.exception.CartCookieException;
 import com.project.EStore.model.binding.ProductCookieBindingModel;
 import com.project.EStore.model.binding.ProductCookieHolderBindingModel;
 import com.project.EStore.service.domain.order.OrderService;
@@ -28,11 +29,19 @@ public class PurchaseController {
 
     @PostMapping
     public String postPurchase(@CookieValue(name = "cartProducts", required = false) String cartItemsCookie,
-                                  ObjectMapper objectMapper, Principal principal) {
+                               ObjectMapper objectMapper, Principal principal) {
 
         this.productCookieValidator.isCartCookiePresent(cartItemsCookie);
 
         ProductCookieHolderBindingModel productCookieHolderBindingModel = this.productCookieValidator.mapCookieToPOJO(cartItemsCookie, objectMapper);
+
+        if (productCookieHolderBindingModel.getProducts() == null) {
+            throw new CartCookieException("Cookie data is not valid");
+        }
+
+        if (productCookieHolderBindingModel.getProducts().isEmpty()) {
+            return "redirect:/cart";
+        }
 
         this.productCookieValidator.validateProductsFromCookie(productCookieHolderBindingModel);
 
@@ -43,7 +52,7 @@ public class PurchaseController {
     }
 
     @GetMapping("successful")
-    public String getPurchaseView(){
+    public String getPurchaseView() {
         return "purchaseSuccessful";
     }
 }
