@@ -1,7 +1,7 @@
 package com.project.EStore.model.binding;
 
 import com.project.EStore.model.entity.enums.RoleEnum;
-import com.project.EStore.util.validation.annotation.NoSpecialCharacters;
+import com.project.EStore.validation.annotation.NoSpecialCharacters;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

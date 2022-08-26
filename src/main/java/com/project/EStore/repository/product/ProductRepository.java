@@ -25,13 +25,8 @@ public interface ProductRepository extends BaseRepository<ProductEntity> {
     @Query(value = "SELECT DISTINCT p.brand FROM ProductEntity AS p WHERE p.category = :category")
     Set<String> findAllBrandsByProductCategory(@Param("category") ProductCategoryEnum categoryEnum);
 
-    Page<ProductEntity> findAllByBrandInAndTypeInAndCategoryAndIsDeletedAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
-            Collection<String> brand, Collection<ProductTypeEnum> type, ProductCategoryEnum category,
-            Boolean isDeleted, BigDecimal supply_price, BigDecimal supply_price2, Pageable pageable);
-
-    @Query(value = "SELECT ps.price FROM ProductEntity AS p JOIN ProductSupplyEntity AS ps ON ps.product = p " +
-            "WHERE p.category = :category ORDER BY ps.price DESC")
-    List<BigDecimal> getPricesDescByCategory(@Param("category") ProductCategoryEnum productCategory);
+    Page<ProductEntity> findAllByBrandInAndTypeInAndCategoryAndIsDeletedFalseAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+            Collection<String> brand, Collection<ProductTypeEnum> type, ProductCategoryEnum category, BigDecimal supply_price, BigDecimal supply_price2, Pageable pageable);
 
     List<ProductEntity> findAllByIdIn(Collection<Integer> id);
 }

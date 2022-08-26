@@ -39,14 +39,6 @@ public class ProductSupplyEntity extends BaseEntity {
         return this;
     }
 
-    public void increaseQuantity(Short quantity){
-        this.quantity = (short) (this.quantity + quantity);
-    }
-
-    public void decreaseQuantity(Short quantity){
-        this.quantity = (short) (this.quantity - quantity);
-    }
-
     public ProductSupplyEntity setPrice(BigDecimal price) {
         this.price = price;
         return this;

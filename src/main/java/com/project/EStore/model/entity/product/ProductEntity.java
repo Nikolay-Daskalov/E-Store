@@ -66,11 +66,6 @@ public class ProductEntity extends BaseEntity {
         return this;
     }
 
-    public ProductEntity setSupply(ProductSupplyEntity supply) {
-        this.supply = supply;
-        return this;
-    }
-
     public ProductEntity setType(ProductTypeEnum type) {
         this.type = type;
         return this;

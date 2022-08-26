@@ -2,7 +2,7 @@ package com.project.EStore.model.binding;
 
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
-import com.project.EStore.util.validation.annotation.NoSpecialCharacters;
+import com.project.EStore.validation.annotation.NoSpecialCharacters;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;

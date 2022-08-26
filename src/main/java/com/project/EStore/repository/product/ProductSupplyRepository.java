@@ -9,9 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductSupplyRepository extends BaseRepository<ProductSupplyEntity> {
 
-    @Query("SELECT ps.quantity FROM ProductSupplyEntity AS ps WHERE ps.product.id = :productId")
-    Short findQuantityByProduct_Id(Integer productId);
-
     @Modifying
     @Query("UPDATE ProductSupplyEntity AS ps SET ps.quantity = (ps.quantity - :quantity) WHERE ps.product.id = :productId")
     void decrementQuantityById(Short quantity, Integer productId);

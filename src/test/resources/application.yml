@@ -1,0 +1,15 @@
+cloudinary:
+    api-key: testKey
+    api-secret: testSecret
+    cloud-name: testName
+database:
+    admin-password: testPass
+    admin-username: testName
+spring:
+    datasource:
+        driver-class-name: org.h2.Driver
+        password: sa
+        url: jdbc:h2:mem:E_store_tests
+        username: sa
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect

@@ -1,9 +1,9 @@
 package com.project.EStore.init;
 
-import com.project.EStore.service.domain.product.ProductSizeService;
-import com.project.EStore.service.domain.product.ProductSupplyService;
-import com.project.EStore.service.domain.user.RoleService;
-import com.project.EStore.service.domain.user.UserService;
+import com.project.EStore.service.product.ProductSizeService;
+import com.project.EStore.service.product.ProductSupplyService;
+import com.project.EStore.service.user.RoleService;
+import com.project.EStore.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
