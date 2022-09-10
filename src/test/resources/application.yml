@@ -8,8 +8,8 @@ database:
 spring:
     datasource:
         driver-class-name: org.h2.Driver
-        password: sa
+        password: pass
         url: jdbc:h2:mem:E_store_tests
-        username: sa
+        username: user
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
