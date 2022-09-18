@@ -2,6 +2,10 @@ package com.project.EStore.controller;
 
 import com.project.EStore.TestConfig;
 import com.project.EStore.exception.CartCookieException;
+import com.project.EStore.model.entity.enums.ProductSizeEnum;
+import com.project.EStore.model.service.product.ProductServiceModel;
+import com.project.EStore.model.service.product.ProductSizeServiceModel;
+import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.service.product.ProductService;
 import com.project.EStore.validation.ProductCookieValidator;
 import org.junit.jupiter.api.AfterEach;
@@ -18,10 +22,17 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.Cookie;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import static org.mockito.Mockito.*;
 
 @WebMvcTest(CartController.class)
 @Import({TestConfig.class, ProductCookieValidator.class})
@@ -57,7 +68,7 @@ class CartControllerTest {
 
     @Test
     @WithMockUser
-    void shouldReturnCartViewWhenUserIsLoggedAndNoCookiesSend() throws Exception {
+    void shouldReturnEmptyCartViewWhenUserIsLoggedAndNoCookiesSend() throws Exception {
         final String viewName = "cart";
 
         this.mockMvc
@@ -83,5 +94,70 @@ class CartControllerTest {
                             "Exception is not the correct instance.");
                     assertEquals(exceptionMessage, result.getResolvedException().getMessage(), "Exception message");
                 });
+    }
+
+    @Test
+    @WithMockUser
+    void shouldReturnEmptyCartViewWhenHasNoProducts() throws Exception {
+        final Cookie mockCookie = new MockCookie("cartProducts", "{\"products\":[]}");
+        final String viewName = "cart";
+
+        this.mockMvc
+                .perform(get(url)
+                        .cookie(mockCookie))
+                .andExpect(status().isOk())
+                .andExpect(view().name(viewName));
+    }
+
+    @Test
+    @WithMockUser
+    void shouldReturnCartViewWithProducts() throws Exception {
+        ProductServiceModel[] productServiceModels = new ProductServiceModel[]{
+                new ProductServiceModel()
+                        .setId(1)
+                        .setBrand("Brand_1")
+                        .setModel("Model_1")
+                        .setImageUrl("imgUrl_1")
+                        .setSupply(new ProductSupplyServiceModel()
+                                .setQuantity(Short.valueOf("10"))
+                                .setPrice(new BigDecimal("25")))
+                        .setSizes(new HashSet<>()),
+                new ProductServiceModel()
+                        .setId(2)
+                        .setBrand("Brand_2")
+                        .setModel("Model_2")
+                        .setImageUrl("imgUrl_2")
+                        .setSupply(new ProductSupplyServiceModel()
+                                .setQuantity(Short.valueOf("4"))
+                                .setPrice(new BigDecimal("15.00")))
+                        .setSizes(new HashSet<>(Set.of(
+                        new ProductSizeServiceModel()
+                                .setId(1)
+                                .setSize(ProductSizeEnum.S),
+                        new ProductSizeServiceModel()
+                                .setId(2)
+                                .setSize(ProductSizeEnum.M)
+                )))
+        };
+
+        for (int i = 0; i < productServiceModels.length; i++) {
+            when(this.productService.findProductById(i + 1)).thenReturn(productServiceModels[i]);
+        }
+
+        final Cookie mockCookie = new MockCookie("cartProducts",
+                "{\"products\":[{\"id\":1,\"quantity\":1},{\"id\":2,\"quantity\":2,\"size\":\"M\"}]}"
+        );
+
+        final String viewName = "cart";
+        final String[] expectedAttributes = new String[]{
+                "products", "totalPrice"
+        };
+
+        this.mockMvc
+                .perform(get(url)
+                        .cookie(mockCookie))
+                .andExpect(status().isOk())
+                .andExpect(view().name(viewName))
+                .andExpect(model().attributeExists(expectedAttributes));
     }
 }
