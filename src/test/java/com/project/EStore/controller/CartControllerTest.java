@@ -2,6 +2,7 @@ package com.project.EStore.controller;
 
 import com.project.EStore.TestConfig;
 import com.project.EStore.exception.CartCookieException;
+import com.project.EStore.model.entity.enums.ProductCategoryEnum;
 import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.service.product.ProductServiceModel;
 import com.project.EStore.model.service.product.ProductSizeServiceModel;
@@ -23,8 +24,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.servlet.http.Cookie;
 
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -45,14 +48,6 @@ class CartControllerTest {
     private ProductService productService;
 
     private final String url = "/cart";
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     @WithAnonymousUser
@@ -118,6 +113,7 @@ class CartControllerTest {
                         .setBrand("Brand_1")
                         .setModel("Model_1")
                         .setImageUrl("imgUrl_1")
+                        .setCategory(ProductCategoryEnum.FITNESS)
                         .setSupply(new ProductSupplyServiceModel()
                                 .setQuantity(Short.valueOf("10"))
                                 .setPrice(new BigDecimal("25")))
@@ -127,6 +123,7 @@ class CartControllerTest {
                         .setBrand("Brand_2")
                         .setModel("Model_2")
                         .setImageUrl("imgUrl_2")
+                        .setCategory(ProductCategoryEnum.FITNESS)
                         .setSupply(new ProductSupplyServiceModel()
                                 .setQuantity(Short.valueOf("4"))
                                 .setPrice(new BigDecimal("15.00")))
@@ -144,9 +141,10 @@ class CartControllerTest {
             when(this.productService.findProductById(i + 1)).thenReturn(productServiceModels[i]);
         }
 
-        final Cookie mockCookie = new MockCookie("cartProducts",
-                "{\"products\":[{\"id\":1,\"quantity\":1},{\"id\":2,\"quantity\":2,\"size\":\"M\"}]}"
-        );
+        final String pathName = "./src/test/resources/cartProductsCookieMock.json";
+        String cookieDataJson = Files.readString(Path.of(pathName));
+
+        final Cookie mockCookie = new MockCookie("cartProducts", cookieDataJson);
 
         final String viewName = "cart";
         final String[] expectedAttributes = new String[]{
