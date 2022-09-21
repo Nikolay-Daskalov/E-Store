@@ -9,8 +9,6 @@ import com.project.EStore.model.service.product.ProductSizeServiceModel;
 import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.service.product.ProductService;
 import com.project.EStore.validation.ProductCookieValidator;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,7 +24,6 @@ import javax.servlet.http.Cookie;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -142,7 +139,7 @@ class CartControllerTest {
         }
 
         final String pathName = "./src/test/resources/cartProductsCookieMock.json";
-        String cookieDataJson = Files.readString(Path.of(pathName));
+        final String cookieDataJson = Files.readString(Path.of(pathName));
 
         final Cookie mockCookie = new MockCookie("cartProducts", cookieDataJson);
 
