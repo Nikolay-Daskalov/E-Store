@@ -93,11 +93,11 @@ public class ProductServiceImpl implements ProductService {
             Integer lowerPrice, Integer higherPrice, int pageNumber, int pageSize) {
 
         if (brands == null) {
-            brands = getAllBrandsByCategory(productCategory);
+            brands = this.getAllBrandsByCategory(productCategory);
         }
 
         if (productTypes == null) {
-            productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toSet());
+            productTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toCollection(() -> EnumSet.allOf(ProductTypeEnum.class)));
         }
 
         Page<ProductEntity> pages = this.productRepository.findAllByBrandInAndTypeInAndCategoryAndIsDeletedFalseAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(

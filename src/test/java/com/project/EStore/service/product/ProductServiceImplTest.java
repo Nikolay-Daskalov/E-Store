@@ -3,15 +3,9 @@ package com.project.EStore.service.product;
 import com.cloudinary.Cloudinary;
 import com.project.EStore.exception.ProductNotFoundException;
 import com.project.EStore.model.entity.enums.ProductCategoryEnum;
-import com.project.EStore.model.entity.enums.ProductSizeEnum;
 import com.project.EStore.model.entity.enums.ProductTypeEnum;
-import com.project.EStore.model.entity.order.OrderDetailEntity;
-import com.project.EStore.model.entity.order.OrderEntity;
 import com.project.EStore.model.entity.product.ProductEntity;
-import com.project.EStore.model.entity.product.ProductSizeEntity;
-import com.project.EStore.model.entity.product.ProductSupplyEntity;
 import com.project.EStore.model.service.product.ProductServiceModel;
-import com.project.EStore.model.service.product.ProductSupplyServiceModel;
 import com.project.EStore.repository.product.ProductRepository;
 import com.project.EStore.service.product.impl.ProductServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -19,15 +13,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -217,33 +212,398 @@ class ProductServiceImplTest {
         assertDoesNotThrow(() -> {
             List<ProductServiceModel> allProductsByIds = this.productServiceImpl.findAllProductsByIds(productIds);
 
-            if (productEntities.length != allProductsByIds.size()){
+            if (productEntities.length != allProductsByIds.size()) {
                 throw new RuntimeException("Array size must be identical.");
             }
 
-            for (int i = 0; i < allProductsByIds.size(); i++){
-                if (!allProductsByIds.get(i).getBrand().equals(productEntities[i].getBrand())){
+            for (int i = 0; i < allProductsByIds.size(); i++) {
+                if (!allProductsByIds.get(i).getBrand().equals(productEntities[i].getBrand())) {
                     throw new RuntimeException("Brands must be identical.");
                 }
 
-                if (!allProductsByIds.get(i).getModel().equals(productEntities[i].getModel())){
+                if (!allProductsByIds.get(i).getModel().equals(productEntities[i].getModel())) {
                     throw new RuntimeException("Models must be identical.");
                 }
 
-                if (!allProductsByIds.get(i).getImageUrl().equals(productEntities[i].getImageUrl())){
+                if (!allProductsByIds.get(i).getImageUrl().equals(productEntities[i].getImageUrl())) {
                     throw new RuntimeException("Image URLs must be identical.");
                 }
 
-                if (!allProductsByIds.get(i).getCategory().equals(productEntities[i].getCategory())){
+                if (!allProductsByIds.get(i).getCategory().equals(productEntities[i].getCategory())) {
                     throw new RuntimeException("Categories must be identical.");
                 }
 
-                if (!allProductsByIds.get(i).getType().equals(productEntities[i].getType())){
+                if (!allProductsByIds.get(i).getType().equals(productEntities[i].getType())) {
                     throw new RuntimeException("Types must be identical.");
                 }
 
-                if (!allProductsByIds.get(i).getId().equals(productEntities[i].getId())){
+                if (!allProductsByIds.get(i).getId().equals(productEntities[i].getId())) {
                     throw new RuntimeException("Ids must be identical.");
+                }
+            }
+        });
+    }
+
+    @Test
+    void shouldFindAllByTypeAndCategoryAndPriceBetweenWhenBrandsAreNull() {
+        final Collection<String> brandsAreNull = null;
+        final Set<String> allBrands = new HashSet<>(Set.of(
+                "Brand_1",
+                "Brand_2",
+                "Brand_3"
+        ));
+        final Collection<ProductTypeEnum> productTypes = new HashSet<>(Set.of(
+                ProductTypeEnum.TOP,
+                ProductTypeEnum.BOTTOM
+        ));
+        final ProductCategoryEnum productCategory = ProductCategoryEnum.RUNNING;
+        final ProductEntity[] productEntities = new ProductEntity[]{
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_2")
+                        .setModel("Model_2")
+                        .setImageUrl("imgUrl_2")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.BOTTOM)
+                        .setId(2),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_3")
+                        .setModel("Model_5")
+                        .setImageUrl("imgUrl_5")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.TOP)
+                        .setId(5)
+        };
+        final int lowerPrice = 10;
+        final int higherPrice = 20;
+        final int pageNumber = 0;
+        final int pageSize = 2;
+        final int totalElements = 2;
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        when(this.productRepositoryMock.findAllBrandsByProductCategory(eq(productCategory))).thenReturn(allBrands);
+
+        when(this.productRepositoryMock.findAllByBrandInAndTypeInAndCategoryAndIsDeletedFalseAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+                same(allBrands), same(productTypes), same(productCategory), eq(new BigDecimal(lowerPrice)), eq(new BigDecimal(higherPrice)), eq(pageRequest)
+        )).thenReturn(new PageImpl<>(Arrays.asList(productEntities[0], productEntities[1]), pageRequest, totalElements));
+
+        when(this.modelMapperMock.map(any(ProductEntity.class), same(ProductServiceModel.class))).thenAnswer((invocation -> {
+            ProductEntity productEntity = (ProductEntity) invocation.getArguments()[0];
+            ProductServiceModel productServiceModel = new ProductServiceModel();
+            productServiceModel
+                    .setId(productEntity.getId())
+                    .setBrand(productEntity.getBrand())
+                    .setModel(productEntity.getModel())
+                    .setCategory(productEntity.getCategory())
+                    .setType(productEntity.getType())
+                    .setImageUrl(productEntity.getImageUrl());
+
+            return productServiceModel;
+        }));
+
+        Page<ProductServiceModel> result = this.productServiceImpl
+                .findAllByBrandAndTypeAndCategoryAndPriceBetween(brandsAreNull, productTypes, productCategory, lowerPrice, higherPrice, pageNumber, pageSize);
+
+        assertNotNull(result);
+        assertInstanceOf(PageImpl.class, result);
+        assertAll(() -> {
+            List<ProductServiceModel> content = result.getContent();
+
+            for (int i = 0 ; i < content.size(); i++){
+                if (!content.get(i).getId().equals(productEntities[i].getId())){
+                    throw new RuntimeException("Ids should be equal.");
+                }
+                if (!content.get(i).getBrand().equals(productEntities[i].getBrand())){
+                    throw new RuntimeException("Brands should be equal.");
+                }
+                if (!content.get(i).getModel().equals(productEntities[i].getModel())){
+                    throw new RuntimeException("Models should be equal.");
+                }
+                if (!content.get(i).getCategory().equals(productEntities[i].getCategory())){
+                    throw new RuntimeException("Categories should be equal.");
+                }
+                if (!content.get(i).getType().equals(productEntities[i].getType())){
+                    throw new RuntimeException("Types should be equal.");
+                }
+                if (!content.get(i).getImageUrl().equals(productEntities[i].getImageUrl())){
+                    throw new RuntimeException("Image urls should be equal.");
+                }
+            }
+        });
+    }
+
+    @Test
+    void shouldFindAllByBrandAndTypeAndCategoryAndPriceBetween() {
+        final Collection<ProductTypeEnum> productTypes = new HashSet<>(Set.of(
+                ProductTypeEnum.TOP,
+                ProductTypeEnum.BOTTOM
+        ));
+        final ProductCategoryEnum productCategory = ProductCategoryEnum.RUNNING;
+        final ProductEntity[] productEntities = new ProductEntity[]{
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_2")
+                        .setModel("Model_2")
+                        .setImageUrl("imgUrl_2")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.BOTTOM)
+                        .setId(2),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_3")
+                        .setModel("Model_5")
+                        .setImageUrl("imgUrl_5")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.TOP)
+                        .setId(5)
+        };
+        final Set<String> allBrands = new HashSet<>(Set.of(
+                "Brand_2",
+                "Brand_3"
+        ));
+        final int lowerPrice = 10;
+        final int higherPrice = 20;
+        final int pageNumber = 0;
+        final int pageSize = 2;
+        final int totalElements = 2;
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        when(this.productRepositoryMock.findAllByBrandInAndTypeInAndCategoryAndIsDeletedFalseAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+                same(allBrands), same(productTypes), same(productCategory), eq(new BigDecimal(lowerPrice)), eq(new BigDecimal(higherPrice)), eq(pageRequest)
+        )).thenReturn(new PageImpl<>(Arrays.asList(productEntities[0], productEntities[1]), pageRequest, totalElements));
+
+        when(this.modelMapperMock.map(any(ProductEntity.class), same(ProductServiceModel.class))).thenAnswer((invocation -> {
+            ProductEntity productEntity = (ProductEntity) invocation.getArguments()[0];
+            ProductServiceModel productServiceModel = new ProductServiceModel();
+            productServiceModel
+                    .setId(productEntity.getId())
+                    .setBrand(productEntity.getBrand())
+                    .setModel(productEntity.getModel())
+                    .setCategory(productEntity.getCategory())
+                    .setType(productEntity.getType())
+                    .setImageUrl(productEntity.getImageUrl());
+
+            return productServiceModel;
+        }));
+
+        Page<ProductServiceModel> result = this.productServiceImpl
+                .findAllByBrandAndTypeAndCategoryAndPriceBetween(allBrands, productTypes, productCategory, lowerPrice, higherPrice, pageNumber, pageSize);
+
+        assertNotNull(result);
+        assertInstanceOf(PageImpl.class, result);
+        assertAll(() -> {
+            List<ProductServiceModel> content = result.getContent();
+
+            for (int i = 0 ; i < content.size(); i++){
+                if (!content.get(i).getId().equals(productEntities[i].getId())){
+                    throw new RuntimeException("Ids should be equal.");
+                }
+                if (!content.get(i).getBrand().equals(productEntities[i].getBrand())){
+                    throw new RuntimeException("Brands should be equal.");
+                }
+                if (!content.get(i).getModel().equals(productEntities[i].getModel())){
+                    throw new RuntimeException("Models should be equal.");
+                }
+                if (!content.get(i).getCategory().equals(productEntities[i].getCategory())){
+                    throw new RuntimeException("Categories should be equal.");
+                }
+                if (!content.get(i).getType().equals(productEntities[i].getType())){
+                    throw new RuntimeException("Types should be equal.");
+                }
+                if (!content.get(i).getImageUrl().equals(productEntities[i].getImageUrl())){
+                    throw new RuntimeException("Image urls should be equal.");
+                }
+            }
+        });
+    }
+
+    @Test
+    void shouldFindAllByBrandAndCategoryAndPriceBetweenWhenTypesAreNull() {
+        final Collection<ProductTypeEnum> productTypesAreNull = null;
+        final Collection<ProductTypeEnum> allProductTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toCollection(() -> EnumSet.allOf(ProductTypeEnum.class)));
+        final ProductCategoryEnum productCategory = ProductCategoryEnum.RUNNING;
+        final ProductEntity[] productEntities = new ProductEntity[]{
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_2")
+                        .setModel("Model_2")
+                        .setImageUrl("imgUrl_2")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.BOTTOM)
+                        .setId(2),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_1")
+                        .setModel("Model_3")
+                        .setImageUrl("imgUrl_3")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.SHOE)
+                        .setId(3),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_2")
+                        .setModel("Model_4")
+                        .setImageUrl("imgUrl_4")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.ACCESSORIES)
+                        .setId(4),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_3")
+                        .setModel("Model_5")
+                        .setImageUrl("imgUrl_5")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.TOP)
+                        .setId(5)
+        };
+        final Set<String> allBrands = new HashSet<>(Set.of(
+                "Brand_1",
+                "Brand_2",
+                "Brand_3"
+        ));
+        final int lowerPrice = 10;
+        final int higherPrice = 20;
+        final int pageNumber = 0;
+        final int pageSize = 2;
+        final int totalElements = 2;
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        when(this.productRepositoryMock.findAllByBrandInAndTypeInAndCategoryAndIsDeletedFalseAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+                same(allBrands), eq(allProductTypes), same(productCategory), eq(new BigDecimal(lowerPrice)), eq(new BigDecimal(higherPrice)), eq(pageRequest)
+        )).thenReturn(new PageImpl<>(Arrays.asList(productEntities[0], productEntities[1]), pageRequest, totalElements));
+
+        when(this.modelMapperMock.map(any(ProductEntity.class), same(ProductServiceModel.class))).thenAnswer((invocation -> {
+            ProductEntity productEntity = (ProductEntity) invocation.getArguments()[0];
+            ProductServiceModel productServiceModel = new ProductServiceModel();
+            productServiceModel
+                    .setId(productEntity.getId())
+                    .setBrand(productEntity.getBrand())
+                    .setModel(productEntity.getModel())
+                    .setCategory(productEntity.getCategory())
+                    .setType(productEntity.getType())
+                    .setImageUrl(productEntity.getImageUrl());
+
+            return productServiceModel;
+        }));
+
+        Page<ProductServiceModel> result = this.productServiceImpl
+                .findAllByBrandAndTypeAndCategoryAndPriceBetween(allBrands, productTypesAreNull, productCategory, lowerPrice, higherPrice, pageNumber, pageSize);
+
+        assertNotNull(result);
+        assertInstanceOf(PageImpl.class, result);
+        assertAll(() -> {
+            List<ProductServiceModel> content = result.getContent();
+
+            for (int i = 0 ; i < content.size(); i++){
+                if (!content.get(i).getId().equals(productEntities[i].getId())){
+                    throw new RuntimeException("Ids should be equal.");
+                }
+                if (!content.get(i).getBrand().equals(productEntities[i].getBrand())){
+                    throw new RuntimeException("Brands should be equal.");
+                }
+                if (!content.get(i).getModel().equals(productEntities[i].getModel())){
+                    throw new RuntimeException("Models should be equal.");
+                }
+                if (!content.get(i).getCategory().equals(productEntities[i].getCategory())){
+                    throw new RuntimeException("Categories should be equal.");
+                }
+                if (!content.get(i).getType().equals(productEntities[i].getType())){
+                    throw new RuntimeException("Types should be equal.");
+                }
+                if (!content.get(i).getImageUrl().equals(productEntities[i].getImageUrl())){
+                    throw new RuntimeException("Image urls should be equal.");
+                }
+            }
+        });
+    }
+
+    @Test
+    void shouldFindAllByCategoryAndPriceBetweenWhenTypesAndBrandsAreNull() {
+        final Collection<String> brandsAreNull = null;
+        final Set<String> allBrands = new HashSet<>(Set.of(
+                "Brand_1",
+                "Brand_2",
+                "Brand_3"
+        ));
+        final Collection<ProductTypeEnum> productTypesAreNull = null;
+        final Collection<ProductTypeEnum> allProductTypes = Arrays.stream(ProductTypeEnum.values()).collect(Collectors.toCollection(() -> EnumSet.allOf(ProductTypeEnum.class)));
+        final ProductCategoryEnum productCategory = ProductCategoryEnum.RUNNING;
+        final ProductEntity[] productEntities = new ProductEntity[]{
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_2")
+                        .setModel("Model_2")
+                        .setImageUrl("imgUrl_2")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.BOTTOM)
+                        .setId(2),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_1")
+                        .setModel("Model_3")
+                        .setImageUrl("imgUrl_3")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.SHOE)
+                        .setId(3),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_2")
+                        .setModel("Model_4")
+                        .setImageUrl("imgUrl_4")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.ACCESSORIES)
+                        .setId(4),
+                (ProductEntity) new ProductEntity()
+                        .setBrand("Brand_3")
+                        .setModel("Model_5")
+                        .setImageUrl("imgUrl_5")
+                        .setCategory(ProductCategoryEnum.RUNNING)
+                        .setType(ProductTypeEnum.TOP)
+                        .setId(5)
+        };
+        final int lowerPrice = 10;
+        final int higherPrice = 20;
+        final int pageNumber = 0;
+        final int pageSize = 2;
+        final int totalElements = 2;
+        final PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        when(this.productRepositoryMock.findAllBrandsByProductCategory(eq(productCategory))).thenReturn(allBrands);
+
+        when(this.productRepositoryMock.findAllByBrandInAndTypeInAndCategoryAndIsDeletedFalseAndSupply_PriceGreaterThanEqualAndSupply_PriceLessThanEqual(
+                same(allBrands), eq(allProductTypes), same(productCategory), eq(new BigDecimal(lowerPrice)), eq(new BigDecimal(higherPrice)), eq(pageRequest)
+        )).thenReturn(new PageImpl<>(Arrays.asList(productEntities[0], productEntities[1]), pageRequest, totalElements));
+
+        when(this.modelMapperMock.map(any(ProductEntity.class), same(ProductServiceModel.class))).thenAnswer((invocation -> {
+            ProductEntity productEntity = (ProductEntity) invocation.getArguments()[0];
+            ProductServiceModel productServiceModel = new ProductServiceModel();
+            productServiceModel
+                    .setId(productEntity.getId())
+                    .setBrand(productEntity.getBrand())
+                    .setModel(productEntity.getModel())
+                    .setCategory(productEntity.getCategory())
+                    .setType(productEntity.getType())
+                    .setImageUrl(productEntity.getImageUrl());
+
+            return productServiceModel;
+        }));
+
+        Page<ProductServiceModel> result = this.productServiceImpl
+                .findAllByBrandAndTypeAndCategoryAndPriceBetween(brandsAreNull, productTypesAreNull, productCategory, lowerPrice, higherPrice, pageNumber, pageSize);
+
+        assertNotNull(result);
+        assertInstanceOf(PageImpl.class, result);
+        assertAll(() -> {
+            List<ProductServiceModel> content = result.getContent();
+
+            for (int i = 0 ; i < content.size(); i++){
+                if (!content.get(i).getId().equals(productEntities[i].getId())){
+                    throw new RuntimeException("Ids should be equal.");
+                }
+                if (!content.get(i).getBrand().equals(productEntities[i].getBrand())){
+                    throw new RuntimeException("Brands should be equal.");
+                }
+                if (!content.get(i).getModel().equals(productEntities[i].getModel())){
+                    throw new RuntimeException("Models should be equal.");
+                }
+                if (!content.get(i).getCategory().equals(productEntities[i].getCategory())){
+                    throw new RuntimeException("Categories should be equal.");
+                }
+                if (!content.get(i).getType().equals(productEntities[i].getType())){
+                    throw new RuntimeException("Types should be equal.");
+                }
+                if (!content.get(i).getImageUrl().equals(productEntities[i].getImageUrl())){
+                    throw new RuntimeException("Image urls should be equal.");
                 }
             }
         });
